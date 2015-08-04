@@ -7,24 +7,14 @@
 
 import AVFoundation
 
-public class Track {
-    public var streamUrl: NSURL?
+public protocol Track {
+    var streamUrl: NSURL? { get }
 }
 
-public class Playlist: Equatable, Hashable {
-    public var id:           String = ""
-    public var title:        String = ""
-    public var tracks:       [Track] = []
-
-    public var validTracksCount: Int { return tracks.count }
-
-    public var hashValue: Int {
-        return id.hashValue
-    }
-}
-
-public func ==(lhs: Playlist, rhs: Playlist) -> Bool {
-    return lhs.id == rhs.id
+public protocol Playlist {
+    var id:               String { get }
+    var tracks:           [Track] { get }
+    var validTracksCount: Int { get }
 }
 
 public class Observable<T: PlayerObserver>: NSObject {

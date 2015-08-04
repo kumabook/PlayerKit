@@ -454,6 +454,7 @@
 				67C1964C1B6F851500233FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
