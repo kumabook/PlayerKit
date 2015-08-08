@@ -8,7 +8,9 @@
 import AVFoundation
 
 public protocol Track {
-    var streamUrl: NSURL? { get }
+    var title:        String { get }
+    var streamUrl:    NSURL? { get }
+    var thumbnailUrl: NSURL? { get }
 }
 
 public protocol Playlist {

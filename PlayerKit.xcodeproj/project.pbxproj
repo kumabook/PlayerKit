@@ -7,8 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		670505961B6DF675006EAA84 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6705058F1B6DF675006EAA84 /* Info.plist */; };
 		670505971B6DF675006EAA84 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670505901B6DF675006EAA84 /* Player.swift */; };
+		671E9CA81B764C9E003AA8F7 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA11B764C9E003AA8F7 /* MiniPlayerView.swift */; };
+		671E9CA91B764C9E003AA8F7 /* MiniPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671E9CA21B764C9E003AA8F7 /* MiniPlayerView.xib */; };
+		671E9CAA1B764C9E003AA8F7 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */; };
+		671E9CAB1B764C9E003AA8F7 /* MiniPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671E9CA41B764C9E003AA8F7 /* MiniPlayerViewController.xib */; };
+		671E9CAC1B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */; };
+		671E9CAD1B764C9E003AA8F7 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA61B764C9E003AA8F7 /* PlayerView.swift */; };
+		671E9CAE1B764C9E003AA8F7 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */; };
+		671E9CB01B764E75003AA8F7 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671E9CAF1B764E75003AA8F7 /* SnapKit.framework */; };
+		671E9CB51B764F3F003AA8F7 /* DraggableCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CB41B764F3F003AA8F7 /* DraggableCoverViewController.swift */; };
+		671E9CB71B7651C9003AA8F7 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CB61B7651C9003AA8F7 /* TimeHelper.swift */; };
+		671E9CB91B7659A0003AA8F7 /* WebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671E9CB81B7659A0003AA8F7 /* WebImage.framework */; };
+		671E9CBB1B765F74003AA8F7 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671E9CBA1B765F74003AA8F7 /* SnapKit.framework */; };
 		67C196511B6F85C800233FE0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670505901B6DF675006EAA84 /* Player.swift */; };
 		67C196921B6F991E00233FE0 /* PlayerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 67C196901B6F991E00233FE0 /* PlayerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67C196941B6F992700233FE0 /* PlayerKitMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 67C196911B6F991E00233FE0 /* PlayerKitMac.h */; };
@@ -18,6 +29,18 @@
 		670505721B6DF4C9006EAA84 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6705058F1B6DF675006EAA84 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		670505901B6DF675006EAA84 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Player.swift; path = Source/Player.swift; sourceTree = "<group>"; };
+		671E9CA11B764C9E003AA8F7 /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerView.swift; path = Source/MiniPlayerView.swift; sourceTree = "<group>"; };
+		671E9CA21B764C9E003AA8F7 /* MiniPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MiniPlayerView.xib; path = Source/MiniPlayerView.xib; sourceTree = "<group>"; };
+		671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewController.swift; path = Source/MiniPlayerViewController.swift; sourceTree = "<group>"; };
+		671E9CA41B764C9E003AA8F7 /* MiniPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MiniPlayerViewController.xib; path = Source/MiniPlayerViewController.xib; sourceTree = "<group>"; };
+		671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewDelegate.swift; path = Source/MiniPlayerViewDelegate.swift; sourceTree = "<group>"; };
+		671E9CA61B764C9E003AA8F7 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerView.swift; path = Source/PlayerView.swift; sourceTree = "<group>"; };
+		671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = Source/PlayerViewController.swift; sourceTree = "<group>"; };
+		671E9CAF1B764E75003AA8F7 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		671E9CB41B764F3F003AA8F7 /* DraggableCoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DraggableCoverViewController.swift; path = Source/DraggableCoverViewController.swift; sourceTree = "<group>"; };
+		671E9CB61B7651C9003AA8F7 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeHelper.swift; path = Source/TimeHelper.swift; sourceTree = "<group>"; };
+		671E9CB81B7659A0003AA8F7 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
+		671E9CBA1B765F74003AA8F7 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
 		67C196381B6F851500233FE0 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67C196901B6F991E00233FE0 /* PlayerKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerKit.h; path = Source/PlayerKit.h; sourceTree = "<group>"; };
 		67C196911B6F991E00233FE0 /* PlayerKitMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerKitMac.h; path = Source/PlayerKitMac.h; sourceTree = "<group>"; };
@@ -28,6 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				671E9CB91B7659A0003AA8F7 /* WebImage.framework in Frameworks */,
+				671E9CB01B764E75003AA8F7 /* SnapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				671E9CBB1B765F74003AA8F7 /* SnapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +72,7 @@
 			children = (
 				6705058E1B6DF614006EAA84 /* Source */,
 				670505731B6DF4C9006EAA84 /* Products */,
+				671E9CB31B764E87003AA8F7 /* Framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,12 +88,31 @@
 		6705058E1B6DF614006EAA84 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				671E9CB61B7651C9003AA8F7 /* TimeHelper.swift */,
+				671E9CB41B764F3F003AA8F7 /* DraggableCoverViewController.swift */,
+				671E9CA11B764C9E003AA8F7 /* MiniPlayerView.swift */,
+				671E9CA21B764C9E003AA8F7 /* MiniPlayerView.xib */,
+				671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */,
+				671E9CA41B764C9E003AA8F7 /* MiniPlayerViewController.xib */,
+				671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */,
+				671E9CA61B764C9E003AA8F7 /* PlayerView.swift */,
+				671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */,
 				67C196901B6F991E00233FE0 /* PlayerKit.h */,
 				67C196911B6F991E00233FE0 /* PlayerKitMac.h */,
 				6705058F1B6DF675006EAA84 /* Info.plist */,
 				670505901B6DF675006EAA84 /* Player.swift */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		671E9CB31B764E87003AA8F7 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				671E9CBA1B765F74003AA8F7 /* SnapKit.framework */,
+				671E9CB81B7659A0003AA8F7 /* WebImage.framework */,
+				671E9CAF1B764E75003AA8F7 /* SnapKit.framework */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,7 +212,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				670505961B6DF675006EAA84 /* Info.plist in Resources */,
+				671E9CAB1B764C9E003AA8F7 /* MiniPlayerViewController.xib in Resources */,
+				671E9CA91B764C9E003AA8F7 /* MiniPlayerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +231,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				671E9CB51B764F3F003AA8F7 /* DraggableCoverViewController.swift in Sources */,
+				671E9CA81B764C9E003AA8F7 /* MiniPlayerView.swift in Sources */,
+				671E9CB71B7651C9003AA8F7 /* TimeHelper.swift in Sources */,
 				670505971B6DF675006EAA84 /* Player.swift in Sources */,
+				671E9CAA1B764C9E003AA8F7 /* MiniPlayerViewController.swift in Sources */,
+				671E9CAD1B764C9E003AA8F7 /* PlayerView.swift in Sources */,
+				671E9CAC1B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift in Sources */,
+				671E9CAE1B764C9E003AA8F7 /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +293,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -297,6 +355,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -346,6 +408,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -404,6 +470,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
