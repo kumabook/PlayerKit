@@ -1,0 +1,6 @@
+[submodule "Carthage/Checkouts/SDWebImage"]
+	path = Carthage/Checkouts/SDWebImage
+	url = ssh://git@github.com/rs/SDWebImage.git
+[submodule "Carthage/Checkouts/SnapKit"]
+	path = Carthage/Checkouts/SnapKit
+	url = ssh://git@github.com/SnapKit/SnapKit.git
