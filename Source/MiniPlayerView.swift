@@ -39,15 +39,16 @@ public class MiniPlayerView: UIView {
         self.previousButton.addTarget(self, action: "previousButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
         self.nextButton.addTarget(    self, action: "nextButtonTapped",     forControlEvents: UIControlEvents.TouchUpInside)
 
-        playButton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
+        playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.Normal)
         self._state = .Pause
     }
 
     func updatePlayButton() {
+        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
         if state.isPlaying {
-            playButton.setImage(UIImage(named: "pause"),  forState: UIControlState.Normal)
+            playButton.setImage(UIImage(named: "pause", inBundle: bundle, compatibleWithTraitCollection: nil),  forState: UIControlState.Normal)
         } else {
-            playButton.setImage(UIImage(named: "play"), forState: UIControlState.Normal)
+            playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.Normal)
         }
     }
     

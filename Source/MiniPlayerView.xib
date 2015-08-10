@@ -49,7 +49,7 @@
                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     <state key="normal" image="next"/>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="the song is  awesome!!!!" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYt-Ht-l6h" customClass="MarqueeLabel">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="the song is  awesome!!!!" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYt-Ht-l6h">
                     <rect key="frame" x="318" y="8" width="141" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="Q33-Kb-M71"/>
@@ -87,8 +87,8 @@
         </view>
     </objects>
     <resources>
-        <image name="next" width="32" height="32"/>
+        <image name="next" width="64" height="64"/>
         <image name="play" width="32" height="38"/>
-        <image name="previous" width="32" height="32"/>
+        <image name="previous" width="64" height="64"/>
     </resources>
 </document>

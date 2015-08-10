@@ -56,6 +56,10 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
     public var thumbnailView: UIView { get { return playerView }}
 
     public var draggableCoverViewController: DraggableCoverViewController?
+    public var thumbImage: UIImage {
+        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
+        return UIImage(named: "thumb", inBundle: bundle, compatibleWithTraitCollection: nil)!
+    }
 
     public init(player: Player<PlayerObserver>) {
         super.init(nibName: nil, bundle: nil)
@@ -102,13 +106,17 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         previousButton.tintColor = UIColor.whiteColor()
 
         playerView.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        playerView.setImage(UIImage(named: "default_thumb"), forState: UIControlState.allZeros)
+        playerView.setImage(thumbImage, forState: UIControlState.allZeros)
         slider.addTarget(self, action: "previewSeek", forControlEvents: UIControlEvents.ValueChanged)
         slider.addTarget(self, action: "stopSeek", forControlEvents: UIControlEvents.TouchUpInside)
         slider.addTarget(self, action: "cancelSeek", forControlEvents: UIControlEvents.TouchUpOutside)
-        nextButton.setImage(    UIImage(named: "next"),     forState: UIControlState.allZeros)
-        playButton.setImage(    UIImage(named: "play"),     forState: UIControlState.allZeros)
-        previousButton.setImage(UIImage(named: "previous"), forState: UIControlState.allZeros)
+        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
+        let nextImage     = UIImage(named:     "next", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let playImage     = UIImage(named:     "next", inBundle: bundle, compatibleWithTraitCollection: nil)
+        let previousImage = UIImage(named: "previous", inBundle: bundle, compatibleWithTraitCollection: nil)
+        nextButton.setImage(        nextImage, forState: UIControlState.allZeros)
+        playButton.setImage(        playImage, forState: UIControlState.allZeros)
+        previousButton.setImage(previousImage, forState: UIControlState.allZeros)
         nextButton.addTarget(    self, action: "next",         forControlEvents: UIControlEvents.TouchUpInside)
         playButton.addTarget(    self, action: "toggle",       forControlEvents: UIControlEvents.TouchUpInside)
         previousButton.addTarget(self, action: "previous",     forControlEvents: UIControlEvents.TouchUpInside)
@@ -254,12 +262,13 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
     }
 
     func updateViews() {
+        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
         enablePlayerView()
         if let state = player?.currentState {
             if state.isPlaying {
-                playButton.setImage(UIImage(named: "pause"), forState: UIControlState.allZeros)
+                playButton.setImage(UIImage(named: "pause", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.allZeros)
             } else {
-                playButton.setImage(UIImage(named: "play"), forState: UIControlState.allZeros)
+                playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.allZeros)
             }
         }
         if let track = player?.currentTrack {
@@ -267,12 +276,12 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
             if let url = track.thumbnailUrl {
                 playerView.sd_setImageWithURL(url, forState: UIControlState.allZeros)
             } else {
-                playerView.setImage(UIImage(named: "note"), forState: UIControlState.allZeros)
+                playerView.setImage(thumbImage, forState: UIControlState.allZeros)
             }
         } else {
             totalLabel.text   = "00:00"
             currentLabel.text = "00:00"
-            playerView.setImage(UIImage(named: "note"), forState: UIControlState.allZeros)
+            playerView.setImage(thumbImage, forState: UIControlState.allZeros)
         }
         if let (current, total) = player?.secondPair {
             if !slider.tracking { updateViewsOfTime(current: Float(current), total: Float(total)) }
