@@ -176,6 +176,7 @@ public enum PlayerState {
     }
 
     public func trackIndex(itemIndex: Int) -> Int? {
+        if currentPlaylist == nil { return nil }
         var _indexes: [Int:Int] = [:]
         var c = 0
         for i in 0..<currentPlaylist!.tracks.count {
@@ -313,7 +314,7 @@ public enum PlayerState {
         if let i = trackIndex(itemIndex+1) {
             nextTrackIndex    = i
             nextPlaylistIndex = playlistIndex!
-        } else if playlistIndex! + 1 < playlists.count {
+        } else if playlistIndex != nil && playlistIndex! + 1 < playlists.count {
             nextTrackIndex    = 0
             nextPlaylistIndex =  playlistIndex! + 1
         } else {
