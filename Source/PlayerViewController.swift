@@ -12,9 +12,9 @@ import AVFoundation
 import SnapKit
 import WebImage
 
-class PlayerViewController: UIViewController, DraggableCoverViewControllerDelegate, ADBannerViewDelegate {
-    let minThumbnailWidth:  CGFloat = 75.0
-    let minThumbnailHeight: CGFloat = 60.0
+public class PlayerViewController: UIViewController, DraggableCoverViewControllerDelegate, ADBannerViewDelegate {
+    public let minThumbnailWidth:  CGFloat = 75.0
+    public let minThumbnailHeight: CGFloat = 60.0
 
     class ModalPlayerObserver: PlayerObserver {
         let vc: PlayerViewController
@@ -40,25 +40,26 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
     let buttonSize:         CGFloat = 40.0
     let buttonPadding:      CGFloat = 30.0
 
-    var controlPanel:        UIView!
-    var slider:              UISlider!
-    var previousButton:      UIButton!
-    var playButton:          UIButton!
-    var nextButton:          UIButton!
-    var titleLabel:          UILabel!
-    var currentLabel:        UILabel!
-    var totalLabel:          UILabel!
-    var playerView:          PlayerView!
-    var adBannerView:        ADBannerView?
+    public var controlPanel:        UIView!
+    public var slider:              UISlider!
+    public var previousButton:      UIButton!
+    public var playButton:          UIButton!
+    public var nextButton:          UIButton!
+    public var titleLabel:          UILabel!
+    public var currentLabel:        UILabel!
+    public var totalLabel:          UILabel!
+    public var playerView:          PlayerView!
+    public var adBannerView:        ADBannerView?
 
-    var player:              Player<PlayerObserver>?
-    var modalPlayerObserver: ModalPlayerObserver!
-    var thumbnailView:       UIView { get { return playerView }}
+    var modalPlayerObserver:  ModalPlayerObserver!
+    public var player:        Player<PlayerObserver>?
+    public var thumbnailView: UIView { get { return playerView }}
 
-    var draggableCoverViewController: DraggableCoverViewController?
+    public var draggableCoverViewController: DraggableCoverViewController?
 
-    init() {
+    public init(player: Player<PlayerObserver>) {
         super.init(nibName: nil, bundle: nil)
+        self.player         = player
         modalPlayerObserver = ModalPlayerObserver(playerViewController: self)
     }
 
@@ -66,11 +67,11 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",//.localize(),
                                                            style: UIBarButtonItemStyle.Done,
@@ -168,11 +169,11 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
         enablePlayerView()
     }
 
-    func disablePlayerView() {
+    public func disablePlayerView() {
         playerView.player = nil
     }
 
-    func enablePlayerView() {
+    public func enablePlayerView() {
         if let avPlayer = player?.avPlayer {
             if playerView.player != avPlayer {
                 playerView.player = avPlayer
@@ -180,38 +181,38 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
         }
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    func toggle() {
+    public func toggle() {
         player?.toggle()
     }
 
-    func next() {
+    public func next() {
         player?.next()
     }
 
-    func previous() {
+    public func previous() {
         player?.previous()
     }
 
-    func didMinimizedCoverView() {
+    public func didMinimizedCoverView() {
         updateViews()
         removeAdView()
     }
 
-    func didMaximizedCoverView() {
+    public func didMaximizedCoverView() {
         updateViews()
         addAdView()
         showAdView()
     }
 
-    func didResizeCoverView(rate: CGFloat) {
+    public func didResizeCoverView(rate: CGFloat) {
         resizeViews(rate)
     }
 
-    func resizeViews(rate: CGFloat) {
+    public func resizeViews(rate: CGFloat) {
         let  f = view.frame
         var ch = controlPanelHeight * rate
         var  h = f.height - ch
@@ -224,7 +225,7 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
         hideAdView()
     }
 
-    func toggleScreen() {
+    public func toggleScreen() {
         draggableCoverViewController?.toggleScreen()
     }
 
@@ -292,7 +293,7 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
         }
     }
 
-    func close() {
+    public func close() {
         navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -319,16 +320,16 @@ class PlayerViewController: UIViewController, DraggableCoverViewControllerDelega
         }
     }
 
-    func showAdView() { if let adView = adBannerView { adView.hidden = false } }
-    func hideAdView() { if let adView = adBannerView { adView.hidden = true } }
+    public func showAdView() { if let adView = adBannerView { adView.hidden = false } }
+    public func hideAdView() { if let adView = adBannerView { adView.hidden = true } }
 
     // MARK: - ADBannerViewDelegate
 
-    func bannerViewDidLoadAd(banner: ADBannerView!) {
+    public func bannerViewDidLoadAd(banner: ADBannerView!) {
         adBannerView?.alpha = 1.0
     }
 
-    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+    public func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
         removeAdView()
     }
 }

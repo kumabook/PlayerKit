@@ -12,7 +12,7 @@ import MediaPlayer
 import SnapKit
 import WebImage
 
-class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
+public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
     class MiniPlayerObserver: PlayerObserver {
         let vc: MiniPlayerViewController
         init(miniPlayerViewController: MiniPlayerViewController) {
@@ -23,14 +23,16 @@ class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
         override func didPlayToEndTime() { vc.updateViews() }
         override func statusChanged()    { vc.updateViews() }
     }
-    var mainViewController:          UIViewController?
-    var miniPlayerObserver:          MiniPlayerObserver!
-    var player:                      Player<PlayerObserver>?
-    @IBOutlet weak var mainViewContainer: UIView!
-    @IBOutlet weak var miniPlayerView:    MiniPlayerView!
+    public var mainViewController:               UIViewController?
+    var miniPlayerObserver:                      MiniPlayerObserver!
+    public var player:                           Player<PlayerObserver>?
+    @IBOutlet public weak var mainViewContainer: UIView!
+    @IBOutlet public weak var miniPlayerView:    MiniPlayerView!
 
-    init() {
-        super.init(nibName: "MiniPlayerViewController", bundle: NSBundle.mainBundle())
+    public init(player: Player<PlayerObserver>) {
+        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
+        super.init(nibName: "MiniPlayerViewController", bundle: bundle)
+        self.player = player
         miniPlayerObserver = MiniPlayerObserver(miniPlayerViewController: self)
     }
 
@@ -38,11 +40,11 @@ class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         if let vc = mainViewController {
             addChildViewController(vc)
@@ -56,7 +58,7 @@ class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
         }
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
@@ -90,7 +92,9 @@ class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
             miniPlayerView.titleLabel.text    = ""
             miniPlayerView.durationLabel.text = "00:00"
         }
-        miniPlayerView.state = player!.currentState
+        if let state = player?.currentState{
+            miniPlayerView.state = state
+        }
     }
 
     func updateMPNowPlaylingInfoCenter(track: Track, image: UIImage) {
@@ -105,7 +109,7 @@ class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
         }
     }
 
-    func select(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
+    public func select(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
         for i in 0..<playlists.count {
             if playlist.id == playlists[i].id {
                 player?.select(trackIndex: trackIndex, playlistIndex: i, playlists: playlists)
@@ -115,15 +119,15 @@ class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
 
     // MARK: - MiniPlayerViewDelegate -
     
-    func miniPlayerViewPlayButtonTouched() {
+    public func miniPlayerViewPlayButtonTouched() {
         player?.toggle()
     }
     
-    func miniPlayerViewPreviousButtonTouched() {
+    public func miniPlayerViewPreviousButtonTouched() {
         player?.previous()
     }
     
-    func miniPlayerViewNextButtonTouched() {
+    public func miniPlayerViewNextButtonTouched() {
         player?.next()
     }
 }

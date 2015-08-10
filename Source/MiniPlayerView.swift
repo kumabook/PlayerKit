@@ -7,17 +7,16 @@
 //
 
 import UIKit
-import PlayerKit
 
-class MiniPlayerView: UIView {
-    @IBOutlet weak var durationLabel:  UILabel!
-    @IBOutlet weak var titleLabel:     UILabel!
-    @IBOutlet weak var playButton:     UIButton!
-    @IBOutlet weak var previousButton: UIButton!
-    @IBOutlet weak var nextButton:     UIButton!
-    var delegate:       MiniPlayerViewDelegate?
+public class MiniPlayerView: UIView {
+    @IBOutlet public weak var durationLabel:  UILabel!
+    @IBOutlet public weak var titleLabel:     UILabel!
+    @IBOutlet public weak var playButton:     UIButton!
+    @IBOutlet public weak var previousButton: UIButton!
+    @IBOutlet public weak var nextButton:     UIButton!
+    public var delegate:       MiniPlayerViewDelegate?
     private var _state: PlayerState = .Pause
-    var state: PlayerState {
+    public var state: PlayerState {
         get { return _state }
         set(newState) { _state = newState; updatePlayButton() }
     }
@@ -25,13 +24,14 @@ class MiniPlayerView: UIView {
         super.init(frame: frame)
         baseInit()
     }
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         baseInit()
     }
     
     func baseInit() {
-        let view = NSBundle.mainBundle().loadNibNamed("MiniPlayerView", owner:self, options:nil)[0] as! UIView
+        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
+        let view = bundle!.loadNibNamed("MiniPlayerView", owner:self, options:nil)[0] as! UIView
         view.frame = self.bounds;
         view.autoresizingMask = UIViewAutoresizing.FlexibleWidth|UIViewAutoresizing.FlexibleHeight;
         self.addSubview(view)

@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-@objc protocol DraggableCoverViewControllerDelegate {
+@objc public protocol DraggableCoverViewControllerDelegate {
     var view:               UIView! { get }
     var thumbnailView:      UIView  { get }
     var minThumbnailWidth:  CGFloat { get }
@@ -22,20 +22,20 @@ import SnapKit
     func didMaximizedCoverView()
 }
 
-class DraggableCoverViewController: UIViewController {
+public class DraggableCoverViewController: UIViewController {
     let duration = 0.5
-    enum State {
+    public enum State {
         case Maximized
         case Minimized
         case Dragging
         case Maximizing
         case Minimizing
     }
-    var state: State = .Minimized
-    var coverViewController: DraggableCoverViewControllerDelegate!
-    var floorViewController: UIViewController!
+    public var state: State = .Minimized
+    public var coverViewController: DraggableCoverViewControllerDelegate!
+    public var floorViewController: UIViewController!
 
-    init(coverViewController:DraggableCoverViewControllerDelegate, floorViewController: UIViewController) {
+    public init(coverViewController:DraggableCoverViewControllerDelegate, floorViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
         self.coverViewController = coverViewController
         self.floorViewController = floorViewController
@@ -46,11 +46,11 @@ class DraggableCoverViewController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func loadView() {
+    override public func loadView() {
         super.loadView()
         view.addSubview(floorViewController.view)
         view.addSubview(coverViewController.view)
@@ -85,7 +85,7 @@ class DraggableCoverViewController: UIViewController {
         }
     }
 
-    func minimizeCoverView(animated: Bool) {
+    public func minimizeCoverView(animated: Bool) {
         let f = view.frame
         let w = coverViewController.minThumbnailWidth
         let h = coverViewController.minThumbnailHeight
@@ -100,7 +100,7 @@ class DraggableCoverViewController: UIViewController {
         })
     }
 
-    func maximizeCoverView(animated: Bool) {
+    public func maximizeCoverView(animated: Bool) {
         let f = view.frame
         let w = f.width
         let h = f.height
@@ -114,7 +114,7 @@ class DraggableCoverViewController: UIViewController {
         })
     }
 
-    func toggleScreen() {
+    public func toggleScreen() {
         switch state {
         case .Maximized:
             state = .Minimizing
@@ -142,7 +142,7 @@ class DraggableCoverViewController: UIViewController {
         return (width, height, actualRate)
     }
 
-    func resizeCoverView(newWidth: CGFloat) {
+    public func resizeCoverView(newWidth: CGFloat) {
         let f                  = view.frame
         let (w, h, actualRate) = calculateCoverViewActualRate(newWidth)
 
@@ -150,12 +150,12 @@ class DraggableCoverViewController: UIViewController {
         coverViewController.didResizeCoverView(actualRate)
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         minimizeCoverView(false)
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }
