@@ -109,14 +109,6 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
         }
     }
 
-    public func select(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
-        for i in 0..<playlists.count {
-            if playlist.id == playlists[i].id {
-                player?.select(trackIndex: trackIndex, playlistIndex: i, playlists: playlists)
-            }
-        }
-    }
-
     // MARK: - MiniPlayerViewDelegate -
     
     public func miniPlayerViewPlayButtonTouched() {

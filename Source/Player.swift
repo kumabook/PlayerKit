@@ -239,11 +239,32 @@ public enum PlayerState {
         return false
     }
 
+    private func getPlaylistIndex(playlist: Playlist, playlists: [Playlist]) -> Int? {
+        for i in 0..<playlists.count {
+            if playlist.id == playlists[i].id {
+                return i
+            }
+        }
+        return nil
+    }
+
+    public func select(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
+        if let index = getPlaylistIndex(playlist, playlists: playlists) {
+            select(trackIndex: trackIndex, playlistIndex: index, playlists: playlists)
+        }
+    }
+
     public func select(#trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
         if isCurrentPlaying(trackIndex, playlistIndex: playlistIndex, playlists: playlists) {
             toggle()
         } else {
             play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlists: playlists)
+        }
+    }
+
+    public func play(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
+        if let index = getPlaylistIndex(playlist, playlists: playlists) {
+            play(trackIndex: trackIndex, playlistIndex: index, playlists: playlists)
         }
     }
 
