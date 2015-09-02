@@ -146,7 +146,9 @@ public enum PlayerState {
 
     public var currentPlaylist: Playlist?  {
         if let i = playlistIndex {
-            return playlists[i]
+            if i < playlists.count {
+                return playlists[i]
+            }
         }
         return nil
     }
