@@ -70,7 +70,7 @@ public class DraggableCoverViewController: UIViewController {
                 let point = sender.translationInView(targetView)
                 resizeCoverView(coverViewController.view.frame.width + point.x)
                 sender.setTranslation(CGPointZero, inView:targetView)
-                if point.x > 0 && point.y < 0 { state = .Maximizing }
+                if point.x > 0 || point.y < 0 { state = .Maximizing }
                 else                          { state = .Minimizing }
             }
         case .Ended:
