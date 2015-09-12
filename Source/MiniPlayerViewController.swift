@@ -13,6 +13,7 @@ import SnapKit
 import WebImage
 
 public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
+    public let miniPlayerHeight: CGFloat = 60.0
     class MiniPlayerObserver: PlayerObserver {
         let vc: MiniPlayerViewController
         init(miniPlayerViewController: MiniPlayerViewController) {
@@ -23,15 +24,14 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
         override func didPlayToEndTime() { vc.updateViews() }
         override func statusChanged()    { vc.updateViews() }
     }
-    public var mainViewController:               UIViewController?
-    var miniPlayerObserver:                      MiniPlayerObserver!
-    public var player:                           Player<PlayerObserver>?
-    @IBOutlet public weak var mainViewContainer: UIView!
-    @IBOutlet public weak var miniPlayerView:    MiniPlayerView!
+    public var mainViewController: UIViewController?
+    var miniPlayerObserver:        MiniPlayerObserver!
+    public var player:             Player<PlayerObserver>?
+    public var mainViewContainer:  UIView!
+    public var miniPlayerView:     MiniPlayerView!
 
     public init(player: Player<PlayerObserver>) {
-        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
-        super.init(nibName: "MiniPlayerViewController", bundle: bundle)
+        super.init(nibName: nil, bundle: nil)
         self.player = player
         miniPlayerObserver = MiniPlayerObserver(miniPlayerViewController: self)
     }
@@ -46,6 +46,13 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        let w = view.frame.width
+        let h = view.frame.height - miniPlayerHeight
+        mainViewContainer = UIView(frame: CGRectMake(0, 0, w, h))
+        miniPlayerView    = MiniPlayerView(frame: CGRectMake(0, h, w, miniPlayerHeight))
+        view.addSubview(mainViewContainer)
+        view.addSubview(miniPlayerView)
+
         if let vc = mainViewController {
             addChildViewController(vc)
             vc.view.frame = mainViewContainer.bounds
@@ -62,7 +69,7 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
         super.didReceiveMemoryWarning()
     }
     
-    func updateViews() {
+    public func updateViews() {
         if let track = player?.currentTrack {
             let playingInfoCenter: AnyClass? = NSClassFromString("MPNowPlayingInfoCenter")
             if let center: AnyClass = playingInfoCenter {

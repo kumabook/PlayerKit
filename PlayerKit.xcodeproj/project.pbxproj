@@ -10,7 +10,6 @@
 		670505971B6DF675006EAA84 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670505901B6DF675006EAA84 /* Player.swift */; };
 		671E9CA81B764C9E003AA8F7 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA11B764C9E003AA8F7 /* MiniPlayerView.swift */; };
 		671E9CAA1B764C9E003AA8F7 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */; };
-		671E9CAB1B764C9E003AA8F7 /* MiniPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671E9CA41B764C9E003AA8F7 /* MiniPlayerViewController.xib */; };
 		671E9CAC1B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */; };
 		671E9CAD1B764C9E003AA8F7 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA61B764C9E003AA8F7 /* PlayerView.swift */; };
 		671E9CAE1B764C9E003AA8F7 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */; };
@@ -28,7 +27,6 @@
 		670505901B6DF675006EAA84 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Player.swift; path = Source/Player.swift; sourceTree = "<group>"; };
 		671E9CA11B764C9E003AA8F7 /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerView.swift; path = Source/MiniPlayerView.swift; sourceTree = "<group>"; };
 		671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewController.swift; path = Source/MiniPlayerViewController.swift; sourceTree = "<group>"; };
-		671E9CA41B764C9E003AA8F7 /* MiniPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MiniPlayerViewController.xib; path = Source/MiniPlayerViewController.xib; sourceTree = "<group>"; };
 		671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewDelegate.swift; path = Source/MiniPlayerViewDelegate.swift; sourceTree = "<group>"; };
 		671E9CA61B764C9E003AA8F7 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerView.swift; path = Source/PlayerView.swift; sourceTree = "<group>"; };
 		671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = Source/PlayerViewController.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 				671E9CB41B764F3F003AA8F7 /* DraggableCoverViewController.swift */,
 				671E9CA11B764C9E003AA8F7 /* MiniPlayerView.swift */,
 				671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */,
-				671E9CA41B764C9E003AA8F7 /* MiniPlayerViewController.xib */,
 				671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */,
 				671E9CA61B764C9E003AA8F7 /* PlayerView.swift */,
 				671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */,
@@ -176,7 +173,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				67C0BC6F1B7818BA00243AE8 /* Images.xcassets in Resources */,
-				671E9CAB1B764C9E003AA8F7 /* MiniPlayerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
