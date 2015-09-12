@@ -175,6 +175,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         updateViews()
         player?.addObserver(modalPlayerObserver)
         enablePlayerView()
+        controlPanel.addGestureRecognizer(UIPanGestureRecognizer())
     }
 
     public func disablePlayerView() {
