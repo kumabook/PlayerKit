@@ -19,6 +19,7 @@
 		671E9CB91B7659A0003AA8F7 /* WebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671E9CB81B7659A0003AA8F7 /* WebImage.framework */; };
 		67C0BC6F1B7818BA00243AE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67C0BC6E1B7818BA00243AE8 /* Images.xcassets */; };
 		67C196921B6F991E00233FE0 /* PlayerKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 67C196901B6F991E00233FE0 /* PlayerKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		67F8466B1BA4742D0005E78A /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F8466A1BA4742D0005E78A /* ControlPanel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		67C0BC6E1B7818BA00243AE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		67C196901B6F991E00233FE0 /* PlayerKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerKit.h; path = Source/PlayerKit.h; sourceTree = "<group>"; };
 		67C196911B6F991E00233FE0 /* PlayerKitMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerKitMac.h; path = Source/PlayerKitMac.h; sourceTree = "<group>"; };
+		67F8466A1BA4742D0005E78A /* ControlPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ControlPanel.swift; path = Source/ControlPanel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				671E9CA31B764C9E003AA8F7 /* MiniPlayerViewController.swift */,
 				671E9CA51B764C9E003AA8F7 /* MiniPlayerViewDelegate.swift */,
 				671E9CA61B764C9E003AA8F7 /* PlayerView.swift */,
+				67F8466A1BA4742D0005E78A /* ControlPanel.swift */,
 				671E9CA71B764C9E003AA8F7 /* PlayerViewController.swift */,
 				67C196901B6F991E00233FE0 /* PlayerKit.h */,
 				67C196911B6F991E00233FE0 /* PlayerKitMac.h */,
@@ -186,6 +189,7 @@
 				671E9CB51B764F3F003AA8F7 /* DraggableCoverViewController.swift in Sources */,
 				671E9CA81B764C9E003AA8F7 /* MiniPlayerView.swift in Sources */,
 				671E9CB71B7651C9003AA8F7 /* TimeHelper.swift in Sources */,
+				67F8466B1BA4742D0005E78A /* ControlPanel.swift in Sources */,
 				670505971B6DF675006EAA84 /* Player.swift in Sources */,
 				671E9CAA1B764C9E003AA8F7 /* MiniPlayerViewController.swift in Sources */,
 				671E9CAD1B764C9E003AA8F7 /* PlayerView.swift in Sources */,
