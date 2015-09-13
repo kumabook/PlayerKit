@@ -11,6 +11,7 @@ import AVFoundation
     var title:        String? { get }
     var streamUrl:    NSURL?  { get }
     var thumbnailUrl: NSURL?  { get }
+    var isVideo:      Bool    { get }
 }
 
 @objc public protocol Playlist {

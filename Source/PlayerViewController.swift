@@ -193,7 +193,9 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         }
         if let track = player?.currentTrack {
             controlPanel.titleLabel.text = track.title
-            if let url = track.thumbnailUrl {
+            if track.isVideo {
+                playerView.setImage(nil, forState: UIControlState.allZeros)
+            } else if let url = track.thumbnailUrl {
                 playerView.sd_setImageWithURL(url, forState: UIControlState.allZeros)
             } else {
                 playerView.setImage(thumbImage, forState: UIControlState.allZeros)
