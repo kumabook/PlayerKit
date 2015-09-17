@@ -46,7 +46,7 @@ public class DraggableCoverViewController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -79,9 +79,9 @@ public class DraggableCoverViewController: UIViewController {
             case .Maximizing: maximizeCoverView(true)
             default: break
             }
-        case .Cancelled: println("Cancelled")
-        case .Failed:    println("Failed")
-        case .Possible:  println("Possible")
+        case .Cancelled: print("Cancelled")
+        case .Failed:    print("Failed")
+        case .Possible:  print("Possible")
         }
     }
 

@@ -30,7 +30,7 @@ public class MiniPlayerView: UIView {
         initializeSubviews()
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initializeSubviews()
     }
@@ -43,18 +43,18 @@ public class MiniPlayerView: UIView {
     public func createSubviews() {
         durationLabel   = UILabel(frame: CGRectMake( 0, 0,  64, 20))
         titleLabel      = UILabel(frame: CGRectMake( 0, 0, 120, 20))
-        playButton      = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        previousButton  = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        nextButton      = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        playButton      = UIButton(type: UIButtonType.System)
+        previousButton  = UIButton(type: UIButtonType.System)
+        nextButton      = UIButton(type: UIButtonType.System)
     }
 
     public override func updateConstraints() {
         super.updateConstraints()
-        durationLabel.removeConstraints(durationLabel.constraints())
-        titleLabel.removeConstraints(titleLabel.constraints())
-        playButton.removeConstraints(playButton.constraints())
-        previousButton.removeConstraints(previousButton.constraints())
-        nextButton.removeConstraints(nextButton.constraints())
+        durationLabel.removeConstraints(durationLabel.constraints)
+        titleLabel.removeConstraints(titleLabel.constraints)
+        playButton.removeConstraints(playButton.constraints)
+        previousButton.removeConstraints(previousButton.constraints)
+        nextButton.removeConstraints(nextButton.constraints)
 
         durationLabel.snp_makeConstraints { make in
             make.right.equalTo(self.snp_right).offset(-self.paddingSide)
@@ -112,11 +112,11 @@ public class MiniPlayerView: UIView {
         playButton.tintColor   = UIColor.whiteColor()
 
         previousButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        previousButton.setImage(UIImage(named: "previous", inBundle: bundle, compatibleWithTraitCollection: nil), forState: .allZeros)
+        previousButton.setImage(UIImage(named: "previous", inBundle: bundle, compatibleWithTraitCollection: nil), forState: [])
         previousButton.tintColor   = UIColor.whiteColor()
 
         nextButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        nextButton.setImage(UIImage(named: "next", inBundle: bundle, compatibleWithTraitCollection: nil), forState: .allZeros)
+        nextButton.setImage(UIImage(named: "next", inBundle: bundle, compatibleWithTraitCollection: nil), forState: [])
         nextButton.tintColor   = UIColor.whiteColor()
 
         playButton.addTarget(    self, action: "playButtonTapped",     forControlEvents: UIControlEvents.TouchUpInside)

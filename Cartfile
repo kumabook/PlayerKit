@@ -1,2 +1,2 @@
-github "SnapKit/SnapKit" == 0.13.0
+github "SnapKit/SnapKit"
 github "rs/SDWebImage"

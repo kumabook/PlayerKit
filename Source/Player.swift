@@ -29,7 +29,7 @@ public class Observable<T: PlayerObserver>: NSObject {
         observers.append(observer)
     }
     public func removeObserver(observer: T) {
-        if let index = find(observers, observer) {
+        if let index = observers.indexOf(observer) {
             observers.removeAtIndex(index)
         }
     }
@@ -38,7 +38,7 @@ public class Observable<T: PlayerObserver>: NSObject {
 let AVQueuePlayerDidChangeStatusNotification: String = "AVQueuePlayerDidChangeStatus"
 
 class AVQueuePlayerNotificationProxy: NSObject {
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVQueuePlayer {
             let notificationCenter = NSNotificationCenter.defaultCenter()
             if keyPath  == "status" {
@@ -48,7 +48,7 @@ class AVQueuePlayerNotificationProxy: NSObject {
     }
 }
 
-@objc class ObserverProxy {
+class ObserverProxy {
     var closure: (NSNotification) -> ();
     var name: String;
     var object: AnyObject?;
@@ -68,7 +68,7 @@ class AVQueuePlayerNotificationProxy: NSObject {
     func handler(notification: NSNotification) { closure(notification); }
 }
 
-public class PlayerObserver: NSObject, Equatable {
+public class PlayerObserver: NSObject {
     public func timeUpdated() {}
     public func didPlayToEndTime() {}
     public func statusChanged() {}
@@ -94,7 +94,7 @@ public enum PlayerState {
     }
 }
 
-@objc public class Player<T: PlayerObserver>: Observable<T> {
+public class Player<T: PlayerObserver>: Observable<T> {
     private var queuePlayer:   AVQueuePlayer?
     private var playlists:     [Playlist] = []
     private var playlistIndex: Int?
@@ -183,7 +183,7 @@ public enum PlayerState {
         var _indexes: [Int:Int] = [:]
         var c = 0
         for i in 0..<currentPlaylist!.tracks.count {
-            if let url = currentPlaylist!.tracks[i].streamUrl {
+            if let _ = currentPlaylist!.tracks[i].streamUrl {
                 _indexes[c++] = i
             }
         }
@@ -202,7 +202,9 @@ public enum PlayerState {
         let playlist = playlists[playlistIndex]
         if let player = self.queuePlayer {
             player.pause()
-            player.removeTimeObserver(self.timeObserver)
+            if let observer = timeObserver {
+                player.removeTimeObserver(observer)
+            }
             player.removeAllItems()
             player.removeObserver(self.proxy, forKeyPath: "status")
         }
@@ -227,9 +229,9 @@ public enum PlayerState {
         let player = AVQueuePlayer(items: _playerItems)
         self.queuePlayer = player
         player.seekToTime(kCMTimeZero)
-        var time = CMTimeMakeWithSeconds(1.0, 1)
+        let time = CMTimeMakeWithSeconds(1.0, 1)
         self.timeObserver = player.addPeriodicTimeObserverForInterval(time, queue:nil, usingBlock:self.updateTime)
-        player.addObserver(self.proxy, forKeyPath: "status", options: NSKeyValueObservingOptions.allZeros, context: nil)
+        player.addObserver(self.proxy, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil)
         if let i = currentTrackIndex, track = currentTrack {
             trackSelected(track, index: i, playlist: currentPlaylist!)
         }
@@ -257,7 +259,7 @@ public enum PlayerState {
         }
     }
 
-    public func select(#trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
+    public func select(trackIndex trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
         if isCurrentPlaying(trackIndex, playlistIndex: playlistIndex, playlists: playlists) {
             toggle()
         } else {
@@ -271,11 +273,11 @@ public enum PlayerState {
         }
     }
 
-    public func play(#trackIndex: Int, playlistIndex: Int) {
+    public func play(trackIndex trackIndex: Int, playlistIndex: Int) {
         play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlists: playlists)
     }
 
-    public func play(#trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
+    public func play(trackIndex trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
         if !isCurrentPlaying(trackIndex, playlistIndex: playlistIndex, playlists: playlists) {
             self.playlists = playlists
             prepare(trackIndex, playlistIndex: playlistIndex)
@@ -357,7 +359,9 @@ public enum PlayerState {
         if currentPlaylist == nil {
             return
         }
-        queuePlayer!.removeItem(queuePlayer!.currentItem)
+        if let qp = queuePlayer, item = qp.currentItem {
+            qp.removeItem(item)
+        }
         trackUnselected(currentTrack!, index: currentTrackIndex!, playlist: currentPlaylist!)
         itemIndex = (itemIndex + 1) % itemCount
         if itemIndex == 0 {
@@ -395,7 +399,7 @@ public enum PlayerState {
     }
 
     func updateTime(time: CMTime) {
-        if let player = queuePlayer {
+        if let _ = queuePlayer {
             timeUpdated()
         }
     }

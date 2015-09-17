@@ -1,2 +1,2 @@
 github "rs/SDWebImage" "3.7.3"
-github "SnapKit/SnapKit" "0.13.0"
+github "SnapKit/SnapKit" "0.14.0"

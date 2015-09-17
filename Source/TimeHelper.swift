@@ -13,7 +13,7 @@ struct TimeHelper {
         return String(format:"%02d:%02d", Int(floor(sec / 60)), Int(floor(sec % 60)))
     }
 
-    static func trackTimeStr(#currentSec: Float, totalSec: Float) -> String {
+    static func trackTimeStr(currentSec currentSec: Float, totalSec: Float) -> String {
         return "\(timeStr(currentSec))/\(timeStr(totalSec)))"
     }
 }

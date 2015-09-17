@@ -60,7 +60,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         createSubviews()
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         createSubviews()
     }
@@ -79,7 +79,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         view.backgroundColor = UIColor.blackColor()
 
         playerView.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        playerView.setImage(thumbImage, forState: UIControlState.allZeros)
+        playerView.setImage(thumbImage, forState: UIControlState())
         controlPanel.slider.addTarget(self, action: "previewSeek", forControlEvents: UIControlEvents.ValueChanged)
         controlPanel.slider.addTarget(self, action: "stopSeek", forControlEvents: UIControlEvents.TouchUpInside)
         controlPanel.slider.addTarget(self, action: "cancelSeek", forControlEvents: UIControlEvents.TouchUpOutside)
@@ -142,8 +142,8 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
 
     public func resizeViews(rate: CGFloat) {
         let  f = view.frame
-        var ch = controlPanelHeight * rate
-        var  h = f.height - ch
+        let ch = controlPanelHeight * rate
+        let  h = f.height - ch
         if let pf = draggableCoverViewController?.view.frame {
             playerView.frame     = CGRect(x: 0, y: 0, width:  f.width, height: h)
             controlPanel.frame   = CGRect(x: 0, y: h, width: pf.width, height: ch)
@@ -186,31 +186,31 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         enablePlayerView()
         if let state = player?.currentState {
             if state.isPlaying {
-                controlPanel.playButton.setImage(UIImage(named: "pause", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.allZeros)
+                controlPanel.playButton.setImage(UIImage(named: "pause", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState())
             } else {
-                controlPanel.playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.allZeros)
+                controlPanel.playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState())
             }
         }
         if let track = player?.currentTrack {
             controlPanel.titleLabel.text = track.title
             if track.isVideo {
-                playerView.setImage(nil, forState: UIControlState.allZeros)
+                playerView.setImage(nil, forState: UIControlState())
             } else if let url = track.thumbnailUrl {
-                playerView.sd_setImageWithURL(url, forState: UIControlState.allZeros)
+                playerView.sd_setImageWithURL(url, forState: UIControlState())
             } else {
-                playerView.setImage(thumbImage, forState: UIControlState.allZeros)
+                playerView.setImage(thumbImage, forState: UIControlState())
             }
         } else {
             controlPanel.totalLabel.text   = "00:00"
             controlPanel.currentLabel.text = "00:00"
-            playerView.setImage(thumbImage, forState: UIControlState.allZeros)
+            playerView.setImage(thumbImage, forState: UIControlState())
         }
         if let (current, total) = player?.secondPair {
             if !controlPanel.slider.tracking { updateViewsOfTime(current: Float(current), total: Float(total)) }
         }
     }
 
-    func updateViewsOfTime(#current: Float, total: Float) {
+    func updateViewsOfTime(current current: Float, total: Float) {
         if total > 0 {
             controlPanel.currentLabel.text   = TimeHelper.timeStr(current)
             controlPanel.totalLabel.text     = TimeHelper.timeStr(total)

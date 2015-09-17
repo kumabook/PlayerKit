@@ -40,7 +40,7 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
 
@@ -72,13 +72,13 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
     public func updateViews() {
         if let track = player?.currentTrack {
             let playingInfoCenter: AnyClass? = NSClassFromString("MPNowPlayingInfoCenter")
-            if let center: AnyClass = playingInfoCenter {
+            if let _: AnyClass = playingInfoCenter {
                 var info:[String:AnyObject]                           = [:]
                 info[MPMediaItemPropertyTitle]                        = track.title
                 MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = info
             }
             miniPlayerView.titleLabel.text = track.title
-            if let (current, total) = player?.secondPair {
+            if let (current, _) = player?.secondPair {
                 miniPlayerView.durationLabel.text = TimeHelper.timeStr(Float(current))
             } else {
                 miniPlayerView.durationLabel.text = "00:00"
@@ -106,7 +106,7 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
 
     func updateMPNowPlaylingInfoCenter(track: Track, image: UIImage) {
         let playingInfoCenter: AnyClass? = NSClassFromString("MPNowPlayingInfoCenter")
-        if let center: AnyClass = playingInfoCenter {
+        if let _: AnyClass = playingInfoCenter {
             let infoCenter = MPNowPlayingInfoCenter.defaultCenter()
             let albumArt                     = MPMediaItemArtwork(image:image)
             var info:[String:AnyObject]      = [:]

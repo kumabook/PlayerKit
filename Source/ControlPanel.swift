@@ -29,7 +29,7 @@ public class ControlPanel: UIView {
         initializeSubviews()
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initializeSubviews()
     }
@@ -39,9 +39,9 @@ public class ControlPanel: UIView {
         currentLabel   = UILabel()
         totalLabel     = UILabel()
         slider         = UISlider()
-        nextButton     = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        playButton     = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        previousButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        nextButton     = UIButton(type: UIButtonType.System)
+        playButton     = UIButton(type: UIButtonType.System)
+        previousButton = UIButton(type: UIButtonType.System)
     }
 
     public override func updateConstraints() {
@@ -110,9 +110,9 @@ public class ControlPanel: UIView {
         let nextImage     = UIImage(named:     "next", inBundle: bundle, compatibleWithTraitCollection: nil)
         let playImage     = UIImage(named:     "next", inBundle: bundle, compatibleWithTraitCollection: nil)
         let previousImage = UIImage(named: "previous", inBundle: bundle, compatibleWithTraitCollection: nil)
-        nextButton.setImage(        nextImage, forState: UIControlState.allZeros)
-        playButton.setImage(        playImage, forState: UIControlState.allZeros)
-        previousButton.setImage(previousImage, forState: UIControlState.allZeros)
+        nextButton.setImage(        nextImage, forState: UIControlState())
+        playButton.setImage(        playImage, forState: UIControlState())
+        previousButton.setImage(previousImage, forState: UIControlState())
 
         backgroundColor = UIColor.darkGrayColor()
         clipsToBounds = true
