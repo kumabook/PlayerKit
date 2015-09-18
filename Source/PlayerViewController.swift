@@ -176,7 +176,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
     }
 
     func cancelSeek() {
-        if let _player = player {
+        if let _ = player {
             updateViews()
         }
     }
