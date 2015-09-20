@@ -7,14 +7,14 @@
 
 import AVFoundation
 
-@objc public protocol Track {
+public protocol Track {
     var title:        String? { get }
     var streamUrl:    NSURL?  { get }
     var thumbnailUrl: NSURL?  { get }
     var isVideo:      Bool    { get }
 }
 
-@objc public protocol Playlist {
+public protocol Playlist {
     var id:               String { get }
     var tracks:           [Track] { get }
     var validTracksCount: Int { get }
