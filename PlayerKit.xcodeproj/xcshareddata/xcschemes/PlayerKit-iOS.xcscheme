@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "670505711B6DF4C9006EAA84"
+               BlueprintIdentifier = "67916D3C1BAE8A87004419B0"
                BuildableName = "PlayerKit.framework"
                BlueprintName = "PlayerKit-iOS"
                ReferencedContainer = "container:PlayerKit.xcodeproj">
@@ -22,13 +22,13 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "67C196601B6F980600233FE0"
+               BlueprintIdentifier = "67916D461BAE8A87004419B0"
                BuildableName = "PlayerKitTests.xctest"
                BlueprintName = "PlayerKitTests"
                ReferencedContainer = "container:PlayerKit.xcodeproj">
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "67C196601B6F980600233FE0"
+               BlueprintIdentifier = "67916D461BAE8A87004419B0"
                BuildableName = "PlayerKitTests.xctest"
                BlueprintName = "PlayerKitTests"
                ReferencedContainer = "container:PlayerKit.xcodeproj">
@@ -56,7 +56,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "670505711B6DF4C9006EAA84"
+            BlueprintIdentifier = "67916D3C1BAE8A87004419B0"
             BuildableName = "PlayerKit.framework"
             BlueprintName = "PlayerKit-iOS"
             ReferencedContainer = "container:PlayerKit.xcodeproj">
@@ -78,7 +78,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "670505711B6DF4C9006EAA84"
+            BlueprintIdentifier = "67916D3C1BAE8A87004419B0"
             BuildableName = "PlayerKit.framework"
             BlueprintName = "PlayerKit-iOS"
             ReferencedContainer = "container:PlayerKit.xcodeproj">
@@ -96,7 +96,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "670505711B6DF4C9006EAA84"
+            BlueprintIdentifier = "67916D3C1BAE8A87004419B0"
             BuildableName = "PlayerKit.framework"
             BlueprintName = "PlayerKit-iOS"
             ReferencedContainer = "container:PlayerKit.xcodeproj">
