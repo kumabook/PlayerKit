@@ -94,7 +94,7 @@ public enum PlayerState {
     }
 }
 
-public class Player<T: PlayerObserver>: Observable<T> {
+public class Player: Observable<PlayerObserver> {
     private var queuePlayer:   AVQueuePlayer?
     private var playlists:     [Playlist] = []
     private var playlistIndex: Int?

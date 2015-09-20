@@ -26,11 +26,11 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
     }
     public var mainViewController: UIViewController?
     var miniPlayerObserver:        MiniPlayerObserver!
-    public var player:             Player<PlayerObserver>?
+    public var player:             Player?
     public var mainViewContainer:  UIView!
     public var miniPlayerView:     MiniPlayerView!
 
-    public init(player: Player<PlayerObserver>) {
+    public init(player: Player) {
         super.init(nibName: nil, bundle: nil)
         self.player = player
         miniPlayerObserver = MiniPlayerObserver(miniPlayerViewController: self)

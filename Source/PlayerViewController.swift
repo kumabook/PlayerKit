@@ -39,7 +39,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
     public var adBannerView: ADBannerView?
 
     var modalPlayerObserver:  ModalPlayerObserver!
-    public var player:        Player<PlayerObserver>?
+    public var player:        Player?
     public var thumbnailView: UIView { get { return playerView }}
 
     public var draggableCoverViewController: DraggableCoverViewController?
@@ -48,7 +48,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
         return UIImage(named: "thumb", inBundle: bundle, compatibleWithTraitCollection: nil)!
     }
 
-    public init(player: Player<PlayerObserver>) {
+    public init(player: Player) {
         super.init(nibName: nil, bundle: nil)
         self.player         = player
         modalPlayerObserver = ModalPlayerObserver(playerViewController: self)
