@@ -63,9 +63,9 @@ class ObserverProxy {
         self.object = object;
     }
     deinit { stop() }
-    func start() { center.addObserver(self, selector:"handler:", name:name, object: object); }
-    func stop()  { center.removeObserver(self); }
-    func handler(notification: NSNotification) { closure(notification); }
+    func start() { center.addObserver(self, selector:"handler:", name:name, object: object) }
+    func stop()  { center.removeObserver(self) }
+    @objc func handler(notification: NSNotification) { closure(notification); }
 }
 
 public class PlayerObserver: NSObject {
