@@ -23,7 +23,7 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
             vc = playerViewController
             super.init()
         }
-        override func timeUpdated()               { vc.updateViews() }
+        override func timeUpdated()               { vc.updateViewsOfTime() }
         override func didPlayToEndTime()          { vc.updateViews() }
         override func statusChanged()             { vc.updateViews() }
         override func trackSelected(track: Track, index: Int, playlist: Playlist) {
@@ -205,8 +205,12 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
             controlPanel.currentLabel.text = "00:00"
             playerView.setImage(thumbImage, forState: UIControlState())
         }
+        if !controlPanel.slider.tracking { updateViewsOfTime() }
+    }
+
+    func updateViewsOfTime() {
         if let (current, total) = player?.secondPair {
-            if !controlPanel.slider.tracking { updateViewsOfTime(current: Float(current), total: Float(total)) }
+            updateViewsOfTime(current: Float(current), total: Float(total))
         }
     }
 
