@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 
 public class PlayerView: UIButton {
-    public var videoEnabled = false
     public var player: AVPlayer? {
         get {
             let layer: AVPlayerLayer = self.layer as! AVPlayerLayer
@@ -24,10 +23,5 @@ public class PlayerView: UIButton {
 
     override public class func layerClass() -> AnyClass {
         return AVPlayerLayer.self
-    }
-
-    func setVideoFillMode(mode: String) {
-        let layer: AVPlayerLayer = self.layer as! AVPlayerLayer
-        layer.videoGravity = mode
     }
 }
