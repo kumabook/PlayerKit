@@ -300,15 +300,26 @@ public class Player: Observable<PlayerObserver> {
         }
     }
 
+    public func play() {
+        if let _playlistIndex = playlistIndex {
+            play(trackIndex: itemIndex, playlistIndex: _playlistIndex, playlists: playlists)
+        }
+    }
+
+    public func pause() {
+        queuePlayer?.pause()
+        state = .Pause
+    }
+
     public func toggle() {
         if itemIndex == -1 || queuePlayer == nil || currentPlaylist == nil {
             return
         }
         if state.isPlaying {
-            queuePlayer!.pause()
+            queuePlayer?.pause()
             state = .Pause
         } else {
-            play(trackIndex: itemIndex, playlistIndex: playlistIndex!, playlists: playlists)
+            play()
         }
     }
 
