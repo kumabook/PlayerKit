@@ -1,4 +1,4 @@
-github "Quick/Nimble" "v2.0.0-rc.3"
-github "Quick/Quick" "v0.6.0"
+github "Quick/Nimble" "v3.0.0"
+github "Quick/Quick" "v0.8.0"
 github "rs/SDWebImage" "3.7.3"
-github "SnapKit/SnapKit" "0.14.0"
+github "SnapKit/SnapKit" "0.18.0"
