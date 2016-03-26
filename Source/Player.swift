@@ -95,14 +95,14 @@ public enum PlayerState {
 }
 
 public class Player: Observable<PlayerObserver> {
-    private var queuePlayer:   AVQueuePlayer?
-    private var playlists:     [Playlist] = []
-    private var playlistIndex: Int?
-    private var itemIndex:     Int = -1
-    private var currentTime:   CMTime? { get { return queuePlayer?.currentTime() }}
-    private var itemCount:        Int = 0
-    private var timeObserver:  AnyObject?
-    private var state:         PlayerState {
+    public private(set) var playlists:     [Playlist] = []
+           private      var queuePlayer:   AVQueuePlayer?
+           private      var playlistIndex: Int?
+           private      var itemIndex:     Int = -1
+           private      var currentTime:   CMTime? { get { return queuePlayer?.currentTime() }}
+           private      var itemCount:     Int = 0
+           private      var timeObserver:  AnyObject?
+           private      var state:         PlayerState {
         didSet { statusChanged() }
     }
     private var proxy:        AVQueuePlayerNotificationProxy
