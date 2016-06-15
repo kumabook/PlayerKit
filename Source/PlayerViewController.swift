@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import iAd
 import AVFoundation
 import SnapKit
 import WebImage
 
-public class PlayerViewController: UIViewController, DraggableCoverViewControllerDelegate, ADBannerViewDelegate {
+public class PlayerViewController: UIViewController, DraggableCoverViewControllerDelegate {
     public let minThumbnailWidth:  CGFloat = 75.0
     public let minThumbnailHeight: CGFloat = 60.0
     let controlPanelHeight: CGFloat = 130.0
@@ -36,7 +35,6 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
 
     public var controlPanel: ControlPanel!
     public var playerView:   PlayerView!
-    public var adBannerView: ADBannerView?
 
     var modalPlayerObserver:  ModalPlayerObserver!
     public var player:        Player?
@@ -127,13 +125,10 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
 
     public func didMinimizedCoverView() {
         updateViews()
-        removeAdView()
     }
 
     public func didMaximizedCoverView() {
         updateViews()
-        addAdView()
-        showAdView()
     }
 
     public func didResizeCoverView(rate: CGFloat) {
@@ -150,7 +145,6 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
             view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: rate)
             controlPanel.alpha   = rate
         }
-        hideAdView()
     }
 
     public func toggleScreen() {
@@ -230,41 +224,5 @@ public class PlayerViewController: UIViewController, DraggableCoverViewControlle
 
     public func close() {
         navigationController?.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func addAdView() {
-        if adBannerView == nil {
-            let adView = ADBannerView()
-            adView.delegate = self
-            adView.alpha = 0.0
-            view.addSubview(adView)
-            adView.snp_makeConstraints { make in
-                make.left.equalTo(self.view.snp_left)
-                make.right.equalTo(self.view.snp_right)
-                make.top.equalTo(self.view.snp_top)
-            }
-            adBannerView = adView
-        }
-    }
-
-    func removeAdView() {
-        if let adView = adBannerView {
-            adView.delegate = nil
-            adView.removeFromSuperview()
-            adBannerView = nil
-        }
-    }
-
-    public func showAdView() { if let adView = adBannerView { adView.hidden = false } }
-    public func hideAdView() { if let adView = adBannerView { adView.hidden = true } }
-
-    // MARK: - ADBannerViewDelegate
-
-    public func bannerViewDidLoadAd(banner: ADBannerView!) {
-        adBannerView?.alpha = 1.0
-    }
-
-    public func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
-        removeAdView()
     }
 }
