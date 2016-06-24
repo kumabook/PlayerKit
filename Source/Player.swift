@@ -48,7 +48,7 @@ class ObserverProxy {
         self.object = object;
     }
     deinit { stop() }
-    func start() { center.addObserver(self, selector:"handler:", name:name, object: object) }
+    func start() { center.addObserver(self, selector:#selector(ObserverProxy.handler(_:)), name:name, object: object) }
     func stop()  { center.removeObserver(self) }
     @objc func handler(notification: NSNotification) { closure(notification); }
 }
@@ -163,7 +163,8 @@ public class Player: Observable {
         var c = 0
         for i in 0..<currentPlaylist!.tracks.count {
             if let _ = currentPlaylist!.tracks[i].streamUrl {
-                _indexes[c++] = i
+                _indexes[c] = i
+                c += 1
             }
         }
         if 0 <= itemIndex && itemIndex < c {
@@ -193,11 +194,11 @@ public class Player: Observable {
         itemIndex = 0
         for i in 0..<playlist.tracks.count {
             if let url = playlist.tracks[i].streamUrl {
-                itemCount++
+                itemCount += 1
                 if i >= trackIndex {
                     _playerItems.append(AVPlayerItem(URL:url))
                 } else {
-                    itemIndex++
+                    itemIndex += 1
                 }
             }
         }

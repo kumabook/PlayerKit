@@ -119,9 +119,9 @@ public class MiniPlayerView: UIView {
         nextButton.setImage(UIImage(named: "next", inBundle: bundle, compatibleWithTraitCollection: nil), forState: [])
         nextButton.tintColor   = UIColor.whiteColor()
 
-        playButton.addTarget(    self, action: "playButtonTapped",     forControlEvents: UIControlEvents.TouchUpInside)
-        previousButton.addTarget(self, action: "previousButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
-        nextButton.addTarget(    self, action: "nextButtonTapped",     forControlEvents: UIControlEvents.TouchUpInside)
+        playButton.addTarget(    self, action: #selector(MiniPlayerView.playButtonTapped),     forControlEvents: UIControlEvents.TouchUpInside)
+        previousButton.addTarget(self, action: #selector(MiniPlayerView.previousButtonTapped), forControlEvents: UIControlEvents.TouchUpInside)
+        nextButton.addTarget(    self, action: #selector(MiniPlayerView.nextButtonTapped),     forControlEvents: UIControlEvents.TouchUpInside)
 
         playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState.Normal)
         self._state = .Pause

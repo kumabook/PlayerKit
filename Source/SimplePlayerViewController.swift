@@ -36,12 +36,12 @@ public class SimplePlayerViewController: PlayerViewController {
     public var imageEffectView:     UIVisualEffectView!
     public var videoEffectView:     UIVisualEffectView!
     
-    public override class func createPlayerViewController() -> PlayerViewController {
-        return SimplePlayerViewController()
+    public override class func createPlayerViewController(player: Player) -> PlayerViewController {
+        return SimplePlayerViewController(player: player)
     }
     
-    public init() {
-        super.init(nibName: nil, bundle: nil)
+    public override init(player: Player) {
+        super.init(player: player)
         initializeSubviews()
     }
     
@@ -129,14 +129,14 @@ public class SimplePlayerViewController: PlayerViewController {
         view.addSubview(closeButton)
         
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        slider.addTarget(        self, action: "previewSeek",  forControlEvents: UIControlEvents.ValueChanged)
-        slider.addTarget(        self, action: "stopSeek",     forControlEvents: UIControlEvents.TouchUpInside)
-        slider.addTarget(        self, action: "cancelSeek",   forControlEvents: UIControlEvents.TouchUpOutside)
-        nextButton.addTarget(    self, action: "next",         forControlEvents: UIControlEvents.TouchUpInside)
-        playButton.addTarget(    self, action: "toggle",       forControlEvents: UIControlEvents.TouchUpInside)
-        previousButton.addTarget(self, action: "previous",     forControlEvents: UIControlEvents.TouchUpInside)
-        closeButton.addTarget(   self, action: "close",        forControlEvents: UIControlEvents.TouchUpInside)
-        videoView.addTarget(     self, action: "toggle",       forControlEvents: UIControlEvents.TouchUpInside)
+        slider.addTarget(        self, action: #selector(SimplePlayerViewController.previewSeek),  forControlEvents: UIControlEvents.ValueChanged)
+        slider.addTarget(        self, action: #selector(SimplePlayerViewController.stopSeek),     forControlEvents: UIControlEvents.TouchUpInside)
+        slider.addTarget(        self, action: #selector(SimplePlayerViewController.cancelSeek),   forControlEvents: UIControlEvents.TouchUpOutside)
+        nextButton.addTarget(    self, action: #selector(SimplePlayerViewController.next),         forControlEvents: UIControlEvents.TouchUpInside)
+        playButton.addTarget(    self, action: #selector(SimplePlayerViewController.toggle),       forControlEvents: UIControlEvents.TouchUpInside)
+        previousButton.addTarget(self, action: #selector(SimplePlayerViewController.previous),     forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        forControlEvents: UIControlEvents.TouchUpInside)
+        videoView.addTarget(     self, action: #selector(SimplePlayerViewController.toggle),       forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     public func updateConstraints() {
@@ -189,7 +189,7 @@ public class SimplePlayerViewController: PlayerViewController {
         }
     }
     
-    public override func didMoveToParentViewController(_ parent: UIViewController?) {
+    public override func didMoveToParentViewController(parent: UIViewController?) {
         super.didMoveToParentViewController(parent)
         self.updateConstraints()
     }
@@ -200,7 +200,7 @@ public class SimplePlayerViewController: PlayerViewController {
         videoView.player = nil
     }
     
-    public override func updateViewWithTrack(track: Track, player: Player, animated: Bool) {
+    public override func updateViewWithTrack(track: Track, animated: Bool) {
         titleLabel.text = track.title
         guard let currentTrack = player.currentTrack else { return }
         let isCurrentTrack = currentTrack.streamUrl == track.streamUrl
@@ -215,10 +215,10 @@ public class SimplePlayerViewController: PlayerViewController {
             imageView.image = nil
         }
         if !slider.tracking {
-            timeUpdated(player)
+            timeUpdated()
         }
-        var action = {
-            switch player.currentState {
+        let action = {
+            switch self.player.currentState {
             case .Pause:
                 self.videoEffectView.effect = UIBlurEffect(style: .Dark)
                 self.imageEffectView.effect = UIBlurEffect(style: .Dark)
@@ -241,7 +241,7 @@ public class SimplePlayerViewController: PlayerViewController {
         }
     }
     
-    public override func enablePlayerView(player: Player) {
+    public override func enablePlayerView() {
         guard let avPlayer = player.avPlayer else { return }
         if videoView.player != avPlayer {
             videoView.player = avPlayer
@@ -252,7 +252,7 @@ public class SimplePlayerViewController: PlayerViewController {
         videoView.player = nil
     }
     
-    public override func timeUpdated(player: Player) {
+    public override func timeUpdated() {
         if let (current, total) = player.secondPair {
             updateTime(current: Float(current), total: Float(total))
         }
@@ -288,8 +288,7 @@ public class SimplePlayerViewController: PlayerViewController {
         notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), 1)))
     }
     
-    func cancelSeek(player: Player) {
-        timeUpdated(player)
+    func cancelSeek() {
+        timeUpdated()
     }
-    
 }

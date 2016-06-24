@@ -109,7 +109,7 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",//.localize(),
                                                            style: UIBarButtonItemStyle.Done,
                                                           target: self,
-                                                          action: "close")
+                                                          action: #selector(PlayerPageViewController.close))
         view.backgroundColor = UIColor.blackColor()
         let w = view.frame.width
         let h = view.frame.height
@@ -167,12 +167,12 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
         playerViews = []
         let w = scrollView.frame.width
         let h = scrollView.frame.height
-        var tracks = [player?.previousTrack, player?.currentTrack, player?.nextTrack].filter { $0 != nil}.map { $0! }
+        let tracks = [player?.previousTrack, player?.currentTrack, player?.nextTrack].filter { $0 != nil}.map { $0! }
         tracks.enumerate().forEach { i, track in
-            var pvc = PVC.createPlayerViewController()
+            var pvc = PVC.createPlayerViewController(player)
             self.addChildViewController(pvc)
             pvc.view.frame = CGRect(x:  w * CGFloat(i), y: 0, width: w, height: h)
-            pvc.updateViewWithTrack(track, player: player, animated: false)
+            pvc.updateViewWithTrack(track, animated: false)
             pvc.addObserver(self.modalPlayerViewObserver)
             scrollView.addSubview(pvc.view)
             pvc.didMoveToParentViewController(self)
@@ -229,16 +229,11 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
     }
 
     public func resizeViews(rate: CGFloat) {
-        let  f = view.frame
-        let ch = controlPanelHeight * rate
-        let  h = f.height - ch
-        let  w = minThumbnailWidth + (f.width - minThumbnailWidth) * rate
     }
 
     public func timeUpdated() {
         guard let view   = currentPlayerView else { return }
-        guard let player = player else { return }
-        view.timeUpdated(player)
+        view.timeUpdated()
     }
     
     public func updateViews(animated: Bool = false) {
@@ -247,12 +242,12 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
             videoView.player = nil
             return
         }
-        currentPlayerView?.updateViewWithTrack(track, player: player, animated: animated)
+        currentPlayerView?.updateViewWithTrack(track, animated: animated)
         if let previousTrack = player.previousTrack {
-            previousPlayerView?.updateViewWithTrack(previousTrack, player: player, animated: false)
+            previousPlayerView?.updateViewWithTrack(previousTrack, animated: false)
         }
         if let nextTrack = player.nextTrack {
-            nextPlayerView?.updateViewWithTrack(nextTrack, player: player, animated: false)
+            nextPlayerView?.updateViewWithTrack(nextTrack, animated: false)
         }
         if track.isVideo {
             let state = player.currentState
@@ -276,8 +271,7 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
     }
     
     public func enablePlayerView() {
-        guard let player = player else { return }
-        currentPlayerView?.enablePlayerView(player)
+        currentPlayerView?.enablePlayerView()
     }
     public func disablePlayerView() {
         currentPlayerView?.disablePlayerView()

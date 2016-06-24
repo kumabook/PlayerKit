@@ -9,13 +9,13 @@
 import Foundation
 
 public protocol Observer: Equatable {
-    typealias EventType
+    associatedtype EventType
     func listen(event: EventType)
 }
 
 public protocol Observable {
-    typealias ObserverType: Observer
-    typealias EventType
+    associatedtype ObserverType: Observer
+    associatedtype EventType
     var observers: [ObserverType] { get set}
     mutating func addObserver(observer: ObserverType)
     mutating func removeObserver(observer: ObserverType)

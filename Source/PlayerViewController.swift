@@ -28,31 +28,41 @@ public enum PlayerViewEvent {
 }
 
 public protocol PlayerViewControllerType {
-    func updateViewWithTrack(track: Track, player: Player, animated: Bool)
-    func timeUpdated(player: Player)
-    func enablePlayerView(player: Player)
+    func updateViewWithTrack(track: Track, animated: Bool)
+    func timeUpdated()
+    func enablePlayerView()
     func disablePlayerView()
     mutating func addObserver(observer: PlayerViewObserver)
     mutating func removeObserver(observer: PlayerViewObserver)
     var view: UIView! { get }
-    static func createPlayerViewController() -> PlayerViewController
+    static func createPlayerViewController(player: Player) -> PlayerViewController
 }
 
 public class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
     public typealias ObserverType = PlayerViewObserver
     public typealias EventType    = PlayerViewEvent
-    
+    public var player: Player!
+
+    public init(player: Player) {
+        super.init(nibName: nil, bundle: nil)
+        self.player = player
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     private var _observers: [ObserverType] = []
     public  var  observers: [ObserverType] {
         get { return _observers }
         set { _observers = newValue }
     }
     
-    public func updateViewWithTrack(track: Track, player: Player, animated: Bool) {}
-    public func timeUpdated(player: Player) {}
-    public func enablePlayerView(player: Player) {}
+    public func updateViewWithTrack(track: Track, animated: Bool) {}
+    public func timeUpdated() {}
+    public func enablePlayerView() {}
     public func disablePlayerView() {}
-    public class func createPlayerViewController() -> PlayerViewController {
-        return PlayerViewController()
+    public class func createPlayerViewController(player: Player) -> PlayerViewController {
+        return PlayerViewController(player: player)
     }
 }
