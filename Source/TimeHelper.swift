@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct TimeHelper {
-    static func timeStr(sec: Float) -> String {
+public struct TimeHelper {
+    public static func timeStr(sec: Float) -> String {
         return String(format:"%02d:%02d", Int(floor(sec / 60)), Int(floor(sec % 60)))
     }
 
-    static func trackTimeStr(currentSec currentSec: Float, totalSec: Float) -> String {
+    public static func trackTimeStr(currentSec currentSec: Float, totalSec: Float) -> String {
         return "\(timeStr(currentSec))/\(timeStr(totalSec)))"
     }
 }

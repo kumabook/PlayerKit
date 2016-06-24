@@ -20,9 +20,16 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
             vc = miniPlayerViewController
             super.init()
         }
-        override func timeUpdated()      { vc.updateViews() }
-        override func didPlayToEndTime() { vc.updateViews() }
-        override func statusChanged()    { vc.updateViews() }
+        override func listen(event: Event) {
+            switch event {
+            case .TimeUpdated: vc.updateViews()
+            case .DidPlayToEndTime: vc.updateViews()
+            case .StatusChanged: vc.updateViews()
+            case .TrackSelected(_, _, _): vc.updateViews()
+            case .TrackUnselected(_, _, _): vc.updateViews()
+            default: vc.updateViews()
+            }
+        }
     }
     public var mainViewController: UIViewController?
     var miniPlayerObserver:        MiniPlayerObserver!
@@ -47,7 +54,7 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
     override public func viewDidLoad() {
         super.viewDidLoad()
         let w = view.frame.width
-        let h = view.frame.height - miniPlayerHeight
+        let h = view.frame.height// - miniPlayerHeight
         mainViewContainer = UIView(frame: CGRectMake(0, 0, w, h))
         miniPlayerView    = MiniPlayerView(frame: CGRectMake(0, h, w, miniPlayerHeight))
         view.addSubview(mainViewContainer)
@@ -115,6 +122,15 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
             infoCenter.nowPlayingInfo        = info
         }
     }
+
+    public func hideMiniPlayer(animated: Bool) {
+        miniPlayerView.hidden = true
+    }
+    
+    public func showMiniPlayer(animated: Bool) {
+        miniPlayerView.hidden = false
+    }
+
 
     // MARK: - MiniPlayerViewDelegate -
     

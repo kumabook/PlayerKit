@@ -1,228 +1,58 @@
 //
-//  PlayerViewController.swift
-//  MusicFav
+//  PlayerView.swift
+//  PlayerKit
 //
-//  Created by Hiroki Kumamoto on 3/1/15.
+//  Created by Hiroki Kumamoto on 3/2/15.
 //  Copyright (c) 2015 Hiroki Kumamoto. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
-import SnapKit
-import WebImage
 
-public class PlayerViewController: UIViewController, DraggableCoverViewControllerDelegate {
-    public let minThumbnailWidth:  CGFloat = 75.0
-    public let minThumbnailHeight: CGFloat = 60.0
-    let controlPanelHeight: CGFloat = 130.0
-
-    class ModalPlayerObserver: PlayerObserver {
-        let vc: PlayerViewController
-        init(playerViewController: PlayerViewController) {
-            vc = playerViewController
-            super.init()
-        }
-        override func timeUpdated()               { vc.updateViewsOfTime() }
-        override func didPlayToEndTime()          { vc.updateViews() }
-        override func statusChanged()             { vc.updateViews() }
-        override func trackSelected(track: Track, index: Int, playlist: Playlist) {
-            vc.updateViews()
-        }
-        override func trackUnselected(track: Track, index: Int, playlist: Playlist) {
-            vc.updateViews()
-        }
+public class PlayerViewObserver: NSObject, Observer {
+    public typealias Event = PlayerViewEvent
+    public func listen(event: Event) {
     }
+}
 
-    public var controlPanel: ControlPanel!
-    public var playerView:   PlayerView!
+public func ==(lhs: PlayerViewObserver, rhs: PlayerObserver) -> Bool {
+    return lhs.isEqual(rhs)
+}
 
-    var modalPlayerObserver:  ModalPlayerObserver!
-    public var player:        Player?
-    public var thumbnailView: UIView { get { return playerView }}
+public enum PlayerViewEvent {
+    case Previous
+    case Next
+    case Toggle
+    case Close
+    case TimeChanged(CMTime)
+}
 
-    public var draggableCoverViewController: DraggableCoverViewController?
-    public var thumbImage: UIImage {
-        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
-        return UIImage(named: "thumb", inBundle: bundle, compatibleWithTraitCollection: nil)!
+public protocol PlayerViewControllerType {
+    func updateViewWithTrack(track: Track, player: Player, animated: Bool)
+    func timeUpdated(player: Player)
+    func enablePlayerView(player: Player)
+    func disablePlayerView()
+    mutating func addObserver(observer: PlayerViewObserver)
+    mutating func removeObserver(observer: PlayerViewObserver)
+    var view: UIView! { get }
+    static func createPlayerViewController() -> PlayerViewController
+}
+
+public class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
+    public typealias ObserverType = PlayerViewObserver
+    public typealias EventType    = PlayerViewEvent
+    
+    private var _observers: [ObserverType] = []
+    public  var  observers: [ObserverType] {
+        get { return _observers }
+        set { _observers = newValue }
     }
-
-    public init(player: Player) {
-        super.init(nibName: nil, bundle: nil)
-        self.player         = player
-        modalPlayerObserver = ModalPlayerObserver(playerViewController: self)
-        createSubviews()
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        createSubviews()
-    }
-
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        createSubviews()
-    }
-
-    public func createSubviews() {
-        controlPanel = ControlPanel()
-        playerView   = PlayerView()
-    }
-
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",//.localize(),
-                                                           style: UIBarButtonItemStyle.Done,
-                                                          target: self,
-                                                          action: "close")
-        view.backgroundColor = UIColor.blackColor()
-
-        playerView.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        playerView.setImage(thumbImage, forState: UIControlState())
-        controlPanel.slider.addTarget(self, action: "previewSeek", forControlEvents: UIControlEvents.ValueChanged)
-        controlPanel.slider.addTarget(self, action: "stopSeek", forControlEvents: UIControlEvents.TouchUpInside)
-        controlPanel.slider.addTarget(self, action: "cancelSeek", forControlEvents: UIControlEvents.TouchUpOutside)
-        controlPanel.nextButton.addTarget(    self, action: "next",         forControlEvents: UIControlEvents.TouchUpInside)
-        controlPanel.playButton.addTarget(    self, action: "toggle",       forControlEvents: UIControlEvents.TouchUpInside)
-        controlPanel.previousButton.addTarget(self, action: "previous",     forControlEvents: UIControlEvents.TouchUpInside)
-        playerView.addTarget(    self, action: "toggleScreen", forControlEvents: UIControlEvents.TouchUpInside)
-        view.addSubview(playerView)
-        view.addSubview(controlPanel)
-        resizeViews(0.0)
-
-        updateViews()
-        player?.addObserver(modalPlayerObserver)
-        enablePlayerView()
-        controlPanel.addGestureRecognizer(UIPanGestureRecognizer())
-    }
-
-    public func disablePlayerView() {
-        playerView.player = nil
-    }
-
-    public func enablePlayerView() {
-        if let avPlayer = player?.avPlayer {
-            if playerView.player != avPlayer {
-                playerView.player = avPlayer
-            }
-        }
-    }
-
-    override public func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    public func toggle() {
-        player?.toggle()
-    }
-
-    public func next() {
-        player?.next()
-    }
-
-    public func previous() {
-        player?.previous()
-    }
-
-    public func didMinimizedCoverView() {
-        updateViews()
-    }
-
-    public func didMaximizedCoverView() {
-        updateViews()
-    }
-
-    public func didResizeCoverView(rate: CGFloat) {
-        resizeViews(rate)
-    }
-
-    public func resizeViews(rate: CGFloat) {
-        let  f = view.frame
-        let ch = controlPanelHeight * rate
-        let  h = f.height - ch
-        if let pf = draggableCoverViewController?.view.frame {
-            playerView.frame     = CGRect(x: 0, y: 0, width:  f.width, height: h)
-            controlPanel.frame   = CGRect(x: 0, y: h, width: pf.width, height: ch)
-            view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: rate)
-            controlPanel.alpha   = rate
-        }
-    }
-
-    public func toggleScreen() {
-        draggableCoverViewController?.toggleScreen()
-    }
-
-    func previewSeek() {
-        if controlPanel.slider.tracking {
-            CMTimeMakeWithSeconds(Float64(controlPanel.slider.value), 1)
-            updateViewsOfTime(current: controlPanel.slider.value, total: controlPanel.slider.maximumValue)
-        }
-        if let state = player?.currentState {
-            if state == .Pause {
-                player?.seekToTime(CMTimeMakeWithSeconds(Float64(controlPanel.slider.value), 1))
-            }
-        }
-    }
-
-    func stopSeek() {
-        if let _player = player {
-            _player.seekToTime(CMTimeMakeWithSeconds(Float64(controlPanel.slider.value), 1))
-        }
-    }
-
-    func cancelSeek() {
-        if let _ = player {
-            updateViews()
-        }
-    }
-
-    func updateViews() {
-        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
-        enablePlayerView()
-        if let state = player?.currentState {
-            if state.isPlaying {
-                controlPanel.playButton.setImage(UIImage(named: "pause", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState())
-            } else {
-                controlPanel.playButton.setImage(UIImage(named: "play", inBundle: bundle, compatibleWithTraitCollection: nil), forState: UIControlState())
-            }
-        }
-        if let track = player?.currentTrack {
-            controlPanel.titleLabel.text = track.title
-            if track.isVideo {
-                playerView.setImage(nil, forState: UIControlState())
-            } else if let url = track.thumbnailUrl {
-                playerView.sd_setImageWithURL(url, forState: UIControlState())
-            } else {
-                playerView.setImage(thumbImage, forState: UIControlState())
-            }
-        } else {
-            controlPanel.totalLabel.text   = "00:00"
-            controlPanel.currentLabel.text = "00:00"
-            playerView.setImage(thumbImage, forState: UIControlState())
-        }
-        if !controlPanel.slider.tracking { updateViewsOfTime() }
-    }
-
-    func updateViewsOfTime() {
-        if let (current, total) = player?.secondPair {
-            updateViewsOfTime(current: Float(current), total: Float(total))
-        }
-    }
-
-    func updateViewsOfTime(current current: Float, total: Float) {
-        if total > 0 {
-            controlPanel.currentLabel.text   = TimeHelper.timeStr(current)
-            controlPanel.totalLabel.text     = TimeHelper.timeStr(total)
-            controlPanel.slider.value        = Float(current)
-            controlPanel.slider.maximumValue = Float(total)
-        } else {
-            controlPanel.currentLabel.text   = "00:00"
-            controlPanel.totalLabel.text     = "00:00"
-            controlPanel.slider.value        = 0
-            controlPanel.slider.maximumValue = 0
-        }
-    }
-
-    public func close() {
-        navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    
+    public func updateViewWithTrack(track: Track, player: Player, animated: Bool) {}
+    public func timeUpdated(player: Player) {}
+    public func enablePlayerView(player: Player) {}
+    public func disablePlayerView() {}
+    public class func createPlayerViewController() -> PlayerViewController {
+        return PlayerViewController()
     }
 }

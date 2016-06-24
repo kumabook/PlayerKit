@@ -2,8 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "pause.png"
+      "filename" : "pause-circular-button.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

@@ -20,21 +20,6 @@ public protocol Playlist {
     var validTracksCount: Int { get }
 }
 
-public class Observable<T: PlayerObserver>: NSObject {
-    var observers: [PlayerObserver] = []
-    override init() {
-        super.init()
-    }
-    public func addObserver(observer: T) {
-        observers.append(observer)
-    }
-    public func removeObserver(observer: T) {
-        if let index = observers.indexOf(observer) {
-            observers.removeAtIndex(index)
-        }
-    }
-}
-
 let AVQueuePlayerDidChangeStatusNotification: String = "AVQueuePlayerDidChangeStatus"
 
 class AVQueuePlayerNotificationProxy: NSObject {
@@ -68,19 +53,26 @@ class ObserverProxy {
     @objc func handler(notification: NSNotification) { closure(notification); }
 }
 
-public class PlayerObserver: NSObject {
-    public func timeUpdated() {}
-    public func didPlayToEndTime() {}
-    public func statusChanged() {}
-    public func trackSelected(track: Track, index: Int, playlist: Playlist) {}
-    public func trackUnselected(track: Track, index: Int, playlist: Playlist) {}
-    public func previousPlaylistRequested() {}
-    public func nextPlaylistRequested() {}
-    public func errorOccured() {}
+public class PlayerObserver: NSObject, Observer {
+    public typealias Event = PlayerEvent
+    public func listen(event: Event) {
+    }
 }
 
 public func ==(lhs: PlayerObserver, rhs: PlayerObserver) -> Bool {
     return lhs.isEqual(rhs)
+}
+
+public enum PlayerEvent {
+    case TimeUpdated
+    case DidPlayToEndTime
+    case StatusChanged
+    case TrackSelected(Track, Int, Playlist)
+    case TrackUnselected(Track, Int, Playlist)
+    case PreviousPlaylistRequested
+    case NextPlaylistRequested;
+    case ErrorOccured
+    case PlaylistChanged
 }
 
 public enum PlayerState {
@@ -94,24 +86,30 @@ public enum PlayerState {
     }
 }
 
-public class Player: Observable<PlayerObserver> {
-    public private(set) var playlists:     [Playlist] = []
-           private      var queuePlayer:   AVQueuePlayer?
-           private      var playlistIndex: Int?
-           private      var itemIndex:     Int = -1
-           private      var currentTime:   CMTime? { get { return queuePlayer?.currentTime() }}
-           private      var itemCount:     Int = 0
-           private      var timeObserver:  AnyObject?
-           private      var state:         PlayerState {
-        didSet { statusChanged() }
+public class Player: Observable {
+    public typealias ObserverType = PlayerObserver
+    public typealias EventType    = PlayerEvent
+    private var _observers: [ObserverType] = []
+    public  var  observers: [ObserverType] {
+        get { return _observers }
+        set { _observers = newValue }
+    }
+    public private(set) var playlists: [Playlist] = []
+    private var queuePlayer:   AVQueuePlayer?
+    private var playlistIndex: Int?
+    private var itemIndex:     Int = -1
+    private var currentTime:   CMTime? { get { return queuePlayer?.currentTime() }}
+    private var itemCount:     Int = 0
+    private var timeObserver:  AnyObject?
+    private var state:         PlayerState {
+        didSet { notify(.StatusChanged) }
     }
     private var proxy:        AVQueuePlayerNotificationProxy
-    private var statusProxy:  ObserverProxy?;
-    private var endProxy:     ObserverProxy?;
-    public override init() {
+    private var statusProxy:  ObserverProxy?
+    private var endProxy:     ObserverProxy?
+    public init() {
         state = .Init
         proxy = AVQueuePlayerNotificationProxy()
-        super.init()
         statusProxy = ObserverProxy(name: AVQueuePlayerDidChangeStatusNotification, closure: self.playerDidChangeStatus);
         endProxy    = ObserverProxy(name: AVPlayerItemDidPlayToEndTimeNotification, closure: self.playerDidPlayToEndTime);
     }
@@ -122,25 +120,6 @@ public class Player: Observable<PlayerObserver> {
         statusProxy = nil
         endProxy    = nil
     }
-
-    func timeUpdated() {
-        for o in observers { o.timeUpdated() }
-    }
-    func didPlayToEndTime()        { for o in observers { o.didPlayToEndTime() }}
-    func statusChanged()           { for o in observers { o.statusChanged() }}
-    func trackSelected(track: Track, index: Int, playlist: Playlist) {
-        for o in observers {
-            o.trackSelected(track, index: index, playlist: playlist)
-        }
-    }
-    func trackUnselected(track: Track, index: Int, playlist: Playlist) {
-        for o in observers {
-            o.trackUnselected(track, index: index, playlist: playlist)
-        }
-    }
-    func previousPlaylistRequested() { for o in observers { o.previousPlaylistRequested() }}
-    func nextPlaylistRequested()     { for o in observers { o.nextPlaylistRequested() }}
-    func errorOccured()              { for o in observers { o.errorOccured() }}
 
     public var avPlayer:          AVPlayer?  { return queuePlayer }
     public var playerItemsCount:  Int?       { return queuePlayer?.items().count }
@@ -196,7 +175,7 @@ public class Player: Observable<PlayerObserver> {
 
     func prepare(trackIndex: Int, playlistIndex: Int) {
         if let p = currentPlaylist, i = currentTrackIndex {
-            trackUnselected(currentTrack!, index: i, playlist: p)
+            notify(.TrackUnselected(currentTrack!, i, p))
         }
         self.playlistIndex = playlistIndex
         let playlist = playlists[playlistIndex]
@@ -233,7 +212,7 @@ public class Player: Observable<PlayerObserver> {
         self.timeObserver = player.addPeriodicTimeObserverForInterval(time, queue:nil, usingBlock:self.updateTime)
         player.addObserver(self.proxy, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil)
         if let i = currentTrackIndex, track = currentTrack {
-            trackSelected(track, index: i, playlist: currentPlaylist!)
+            notify(.TrackSelected(track, i, currentPlaylist!))
         }
     }
 
@@ -284,7 +263,7 @@ public class Player: Observable<PlayerObserver> {
         }
         if let player = self.queuePlayer {
             if player.items().count == 0 {
-                nextPlaylistRequested()
+                notify(.NextPlaylistRequested)
             } else {
                 player.play()
                 if player.status == AVPlayerStatus.ReadyToPlay { state = .Play }
@@ -323,45 +302,63 @@ public class Player: Observable<PlayerObserver> {
         }
     }
 
-    public func previous() {
-        var previousTrackIndex: Int
-        var previousPlaylistIndex: Int
+    public var previousTrack: Track? {
+        guard let (trackIndex, playlistIndex) = previousTrackIndexes() else {
+            return nil
+        }
+        return self.playlists[playlistIndex].tracks[trackIndex]
+    }
+    
+    private func previousTrackIndexes() -> (Int, Int)? {
         if let i = trackIndex(itemIndex-1) {
-            previousTrackIndex    = i
-            previousPlaylistIndex = playlistIndex!
+            return (i, playlistIndex!)
         } else if playlistIndex > 0 {
-            previousPlaylistIndex = playlistIndex! - 1
-            previousTrackIndex    = playlists[previousPlaylistIndex].validTracksCount - 1
+            let i = playlistIndex! - 1
+            return (playlists[i].validTracksCount - 1, i)
         } else {
-            previousPlaylistRequested()
+            return nil
+        }
+    }
+
+    public func previous() {
+        guard let (trackIndex, playlistIndex) = previousTrackIndexes() else {
+            notify(.PreviousPlaylistRequested)
             return
         }
         if state.isPlaying {
-            play(trackIndex: previousTrackIndex, playlistIndex: previousPlaylistIndex)
+            play(trackIndex: trackIndex, playlistIndex: playlistIndex)
         } else {
-            prepare(previousTrackIndex, playlistIndex: previousPlaylistIndex)
+            prepare(trackIndex, playlistIndex: playlistIndex)
             state = .Pause
         }
+    }
+    
+    public var nextTrack: Track? {
+        guard let (trackIndex, playlistIndex) = nextTrackIndexes() else {
+            return nil
+        }
+        return self.playlists[playlistIndex].tracks[trackIndex]
+    }
 
+    private func nextTrackIndexes() -> (Int, Int)? {
+        if let i = trackIndex(itemIndex+1) {
+            return (i, playlistIndex!)
+        } else if playlistIndex != nil && playlistIndex! + 1 < playlists.count {
+            return (0, playlistIndex! + 1)
+        } else {
+            return nil
+        }
     }
 
     public func next() {
-        var nextTrackIndex: Int
-        var nextPlaylistIndex: Int
-        if let i = trackIndex(itemIndex+1) {
-            nextTrackIndex    = i
-            nextPlaylistIndex = playlistIndex!
-        } else if playlistIndex != nil && playlistIndex! + 1 < playlists.count {
-            nextTrackIndex    = 0
-            nextPlaylistIndex =  playlistIndex! + 1
-        } else {
-            nextPlaylistRequested()
+        guard let (trackIndex, playlistIndex) = nextTrackIndexes() else {
+            notify(.NextPlaylistRequested)
             return
         }
         if state.isPlaying {
-            play(trackIndex: nextTrackIndex, playlistIndex: nextPlaylistIndex)
+            play(trackIndex: trackIndex, playlistIndex: playlistIndex)
         } else {
-            prepare(nextTrackIndex, playlistIndex: nextPlaylistIndex)
+            prepare(trackIndex, playlistIndex: playlistIndex)
             state = .Pause
         }
     }
@@ -373,16 +370,16 @@ public class Player: Observable<PlayerObserver> {
         if let qp = queuePlayer, item = qp.currentItem {
             qp.removeItem(item)
         }
-        trackUnselected(currentTrack!, index: currentTrackIndex!, playlist: currentPlaylist!)
+        notify(.TrackUnselected(currentTrack!, currentTrackIndex!, currentPlaylist!))
         itemIndex = (itemIndex + 1) % itemCount
         if itemIndex == 0 {
             if playlistIndex! + 1 < playlists.count {
                 play(trackIndex: 0, playlistIndex: playlistIndex! + 1)
             } else {
-                nextPlaylistRequested()
+                notify(.NextPlaylistRequested)
             }
         } else {
-            trackSelected(currentTrack!, index: currentTrackIndex!, playlist: currentPlaylist!)
+            notify(.TrackSelected(currentTrack!, currentTrackIndex!, currentPlaylist!))
         }
     }
 
@@ -402,16 +399,16 @@ public class Player: Observable<PlayerObserver> {
                     break
                 }
             case .Failed:
-                errorOccured()
+                notify(.ErrorOccured)
             case .Unknown:
-                errorOccured()
+                notify(.ErrorOccured)
             }
         }
     }
 
     func updateTime(time: CMTime) {
         if let _ = queuePlayer {
-            timeUpdated()
+            notify(.TimeUpdated)
         }
     }
 

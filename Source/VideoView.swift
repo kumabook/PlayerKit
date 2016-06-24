@@ -1,15 +1,15 @@
 //
-//  PlayerView.swift
-//  MusicFav
+//  VideoView.swift
+//  PlayerKit
 //
-//  Created by Hiroki Kumamoto on 3/2/15.
-//  Copyright (c) 2015 Hiroki Kumamoto. All rights reserved.
+//  Created by Hiroki Kumamoto on 6/18/16.
+//  Copyright © 2016 kumabook. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 
-public class PlayerView: UIButton {
+public class VideoView: UIButton {
     public var player: AVPlayer? {
         get {
             let layer: AVPlayerLayer = self.layer as! AVPlayerLayer
@@ -20,7 +20,7 @@ public class PlayerView: UIButton {
             layer.player = newValue
         }
     }
-
+    
     override public class func layerClass() -> AnyClass {
         return AVPlayerLayer.self
     }
