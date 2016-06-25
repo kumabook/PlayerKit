@@ -24,17 +24,20 @@ import SnapKit
 
 public class DraggableCoverViewController: UIViewController {
     let duration = 0.35
+    let maxSpeed: CGFloat = 30
     public enum State {
         case Maximized
         case Minimized
         case Dragging
-        case Maximizing
-        case Minimizing
+        case Animating
     }
     public enum TransitionMode {
         case Slide
         case Zoom
     }
+    private var startPoint: CGPoint = CGPoint(x: 0, y: 0)
+    private var startDate:  NSDate  = NSDate()
+    private var rate:       CGFloat = 0
     public var state: State = .Minimized
     public var coverViewController: DraggableCoverViewControllerDelegate!
     public var floorViewController: UIViewController!
@@ -61,7 +64,6 @@ public class DraggableCoverViewController: UIViewController {
         view.addSubview(coverViewController.view)
         floorViewController.view.frame = view.frame
         coverViewController.view.clipsToBounds   = true
-//        coverViewController.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action:#selector(DraggableCoverViewController.dragged(_:)))
         coverViewController.view.addGestureRecognizer(panGestureRecognizer)
     }
@@ -70,6 +72,10 @@ public class DraggableCoverViewController: UIViewController {
         switch sender.state {
         case .Began:
             state = .Dragging
+            if let targetView = sender.view {
+                startPoint = sender.translationInView(targetView)
+                startDate  = NSDate()
+            }
         case .Changed:
             if let targetView = sender.view {
                 let point = sender.translationInView(targetView)
@@ -78,27 +84,40 @@ public class DraggableCoverViewController: UIViewController {
                 case .Slide:
                     let h = coverViewController.minThumbnailHeight
                     let y = max(frame.minY + point.y, -h)
-                    let rect = CGRect(x: 0, y: y, width: frame.width, height: frame.height + h)
-                    resizeCoverView(rect, actualRate: 1 - abs(rect.minY) / frame.height)
+                    let rect = CGRect(x: 0, y: y, width: frame.width, height: view.frame.height + h)
+                    rate = 1 - abs(rect.minY) / frame.height
+                    resizeCoverView(rect, actualRate: rate)
                     sender.setTranslation(CGPointZero, inView:targetView)
-                    if point.y < 0 { state = .Maximizing }
-                    else           { state = .Minimizing }
+                    if point.y < 0 { state = .Dragging }
+                    else           { state = .Dragging }
                 case .Zoom:
                     let newSize: CGSize = CGSize(width: frame.width + point.x, height: frame.height - point.y)
                     let (w, h, actualRate) = calculateCoverViewActualRate(newSize)
+                    rate = actualRate
                     let f                  = view.frame
-                    resizeCoverView(CGRect(x: 0, y: f.height - h, width: w, height: h), actualRate: actualRate)
+                    resizeCoverView(CGRect(x: 0, y: f.height - h, width: w, height: h), actualRate: rate)
                     sender.setTranslation(CGPointZero, inView:targetView)
-                    if point.x > 0 || point.y < 0 { state = .Maximizing }
-                    else                          { state = .Minimizing }
+                    if point.x > 0 || point.y < 0 { state = .Dragging }
+                    else                          { state = .Dragging }
 
                 }
             }
         case .Ended:
-            switch state {
-            case .Minimizing: minimizeCoverView(true)
-            case .Maximizing: maximizeCoverView(true)
-            default: break
+            if let targetView = sender.view {
+                let point = sender.translationInView(targetView)
+                let t = CGFloat(NSDate().timeIntervalSinceDate(startDate))
+                let d = startPoint.y - point.y
+                print("per time: \(d / t)")
+                if abs(d) / t > maxSpeed {
+                    if d > 0 { minimizeCoverView(true) }
+                    else     { maximizeCoverView(true) }
+                    return
+                }
+                if rate < 0.5 {
+                    minimizeCoverView(true)
+                } else {
+                    maximizeCoverView(true)
+                }
             }
         case .Cancelled: print("Cancelled")
         case .Failed:    print("Failed")
@@ -143,10 +162,10 @@ public class DraggableCoverViewController: UIViewController {
     public func toggleScreen() {
         switch state {
         case .Maximized:
-            state = .Minimizing
+            state = .Animating
             minimizeCoverView(true)
         case .Minimized:
-            state = .Maximizing
+            state = .Animating
             maximizeCoverView(true)
         default:
             break;
