@@ -147,26 +147,26 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         super.didReceiveMemoryWarning()
     }
 
-    var currentPlayerView: PlayerViewControllerType? {
+    public var currentPlayerView: PVC? {
         if let _  = player?.previousTrack {
-            return playerViews[1]
+            return playerViews[1] as! PVC
         } else if playerViews.count > 0 {
-            return playerViews[0]
+            return playerViews[0] as! PVC
         }
         return nil
     }
-    var previousPlayerView: PlayerViewControllerType? {
+    public var previousPlayerView: PVC? {
         if let _  = player?.previousTrack {
-            return playerViews.count > 0 ? playerViews[0] : nil
+            return playerViews.count > 0 ? playerViews[0] as! PVC : nil
         }
         return nil
     }
-    var nextPlayerView: PlayerViewControllerType? {
+    public var nextPlayerView: PVC? {
         if let _  = player?.nextTrack {
             if let _  = player?.previousTrack {
-                return playerViews.count > 2 ? playerViews[2] : nil
+                return playerViews.count > 2 ? playerViews[2] as! PVC : nil
             } else {
-                return playerViews.count > 1 ? playerViews[1] : nil
+                return playerViews.count > 1 ? playerViews[1] as! PVC : nil
             }
         }
         return nil
