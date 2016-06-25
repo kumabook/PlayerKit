@@ -12,35 +12,36 @@ import MediaPlayer
 import SnapKit
 import WebImage
 
-public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate {
-    public let miniPlayerHeight: CGFloat = 60.0
-    class MiniPlayerObserver: PlayerObserver {
-        let vc: MiniPlayerViewController
-        init(miniPlayerViewController: MiniPlayerViewController) {
-            vc = miniPlayerViewController
-            super.init()
-        }
-        override func listen(event: Event) {
-            switch event {
-            case .TimeUpdated: vc.updateViews()
-            case .DidPlayToEndTime: vc.updateViews()
-            case .StatusChanged: vc.updateViews()
-            case .TrackSelected(_, _, _): vc.updateViews()
-            case .TrackUnselected(_, _, _): vc.updateViews()
-            default: vc.updateViews()
-            }
+class MiniPlayerObserver: PlayerObserver {
+    let delegate: MiniPlayerViewDelegate
+    init(miniPlayerViewDelegate: MiniPlayerViewDelegate) {
+        delegate = miniPlayerViewDelegate
+        super.init()
+    }
+    override func listen(event: Event) {
+        switch event {
+        case .TimeUpdated:              delegate.miniPlayerViewUpdate()
+        case .DidPlayToEndTime:         delegate.miniPlayerViewUpdate()
+        case .StatusChanged:            delegate.miniPlayerViewUpdate()
+        case .TrackSelected(_, _, _):   delegate.miniPlayerViewUpdate()
+        case .TrackUnselected(_, _, _): delegate.miniPlayerViewUpdate()
+        default:                        delegate.miniPlayerViewUpdate()
         }
     }
+}
+
+public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniPlayerViewDelegate {
+    public let miniPlayerHeight: CGFloat = 60.0
     public var mainViewController: UIViewController?
     var miniPlayerObserver:        MiniPlayerObserver!
     public var player:             Player?
     public var mainViewContainer:  UIView!
-    public var miniPlayerView:     MiniPlayerView!
+    public var miniPlayerView:     MV!
 
     public init(player: Player) {
         super.init(nibName: nil, bundle: nil)
         self.player = player
-        miniPlayerObserver = MiniPlayerObserver(miniPlayerViewController: self)
+        miniPlayerObserver = MiniPlayerObserver(miniPlayerViewDelegate: self)
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -55,8 +56,8 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
         super.viewDidLoad()
         let w = view.frame.width
         let h = view.frame.height// - miniPlayerHeight
-        mainViewContainer = UIView(frame: CGRectMake(0, 0, w, h))
-        miniPlayerView    = MiniPlayerView(frame: CGRectMake(0, h, w, miniPlayerHeight))
+        mainViewContainer    = UIView(frame: CGRectMake(0, 0, w, h))
+        miniPlayerView       = MV(frame: CGRectMake(0, h, w, miniPlayerHeight))
         view.addSubview(mainViewContainer)
         view.addSubview(miniPlayerView)
 
@@ -84,12 +85,6 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
                 info[MPMediaItemPropertyTitle]                        = track.title
                 MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = info
             }
-            miniPlayerView.titleLabel.text = track.title
-            if let (current, _) = player?.secondPair {
-                miniPlayerView.durationLabel.text = TimeHelper.timeStr(Float(current))
-            } else {
-                miniPlayerView.durationLabel.text = "00:00"
-            }
             let imageManager = SDWebImageManager()
             if let url = track.thumbnailUrl {
                 imageManager.downloadImageWithURL(url,
@@ -103,12 +98,11 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
             }
         } else {
             MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nil
-            miniPlayerView.titleLabel.text    = ""
-            miniPlayerView.durationLabel.text = "00:00"
         }
         if let state = player?.currentState{
             miniPlayerView.state = state
         }
+        miniPlayerView.updateViewWithPlayer(player)
     }
 
     func updateMPNowPlaylingInfoCenter(track: Track, image: UIImage) {
@@ -144,5 +138,9 @@ public class MiniPlayerViewController: UIViewController, MiniPlayerViewDelegate 
     
     public func miniPlayerViewNextButtonTouched() {
         player?.next()
+    }
+
+    public func miniPlayerViewUpdate() {
+        updateViews()
     }
 }

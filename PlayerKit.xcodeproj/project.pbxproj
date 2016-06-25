@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6718E36E1D14EFD700CECC08 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6718E36D1D14EFD700CECC08 /* VideoView.swift */; };
+		6723D8541D1E11DB00D60C3F /* SimplePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */; };
+		6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */; };
 		67916D581BAE8C36004419B0 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D571BAE8C36004419B0 /* PlayerSpec.swift */; };
 		67916D821BAE90A2004419B0 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D591BAE8D1D004419B0 /* Nimble.framework */; };
 		67916D831BAE90A2004419B0 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D5A1BAE8D1D004419B0 /* Quick.framework */; };
@@ -30,7 +32,6 @@
 		67916DA11BAE95D3004419B0 /* PlayerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D3D1BAE8A87004419B0 /* PlayerKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67916DA31BAE9759004419B0 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
 		67916DC11BAEFAEF004419B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67916DC01BAEFAEF004419B0 /* Images.xcassets */; };
-		67A878391D1C3EC200ECE89A /* SimplePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A878381D1C3EC200ECE89A /* SimplePlayerViewController.swift */; };
 		67FDBA941D157C51003F6DFD /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,8 @@
 
 /* Begin PBXFileReference section */
 		6718E36D1D14EFD700CECC08 /* VideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoView.swift; path = Source/VideoView.swift; sourceTree = SOURCE_ROOT; };
+		6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimplePlayerViewController.swift; path = Source/SimplePlayerViewController.swift; sourceTree = SOURCE_ROOT; };
+		6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleMiniPlayerView.swift; path = Source/SimpleMiniPlayerView.swift; sourceTree = SOURCE_ROOT; };
 		67916D3D1BAE8A87004419B0 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67916D421BAE8A87004419B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		67916D471BAE8A87004419B0 /* PlayerKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayerKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,7 +85,6 @@
 		67916D911BAE9308004419B0 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeHelper.swift; path = Source/TimeHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DA21BAE9759004419B0 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecHelper.swift; path = Spec/SpecHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DC01BAEFAEF004419B0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		67A878381D1C3EC200ECE89A /* SimplePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimplePlayerViewController.swift; path = Source/SimplePlayerViewController.swift; sourceTree = SOURCE_ROOT; };
 		67FDBA931D157C51003F6DFD /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Observable.swift; path = Source/Observable.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -137,11 +139,12 @@
 				67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */,
 				67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */,
 				67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */,
+				6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */,
 				67916D8E1BAE9308004419B0 /* Player.swift */,
 				6718E36D1D14EFD700CECC08 /* VideoView.swift */,
 				67916D901BAE9308004419B0 /* PlayerPageViewController.swift */,
 				67916D8F1BAE9308004419B0 /* PlayerViewController.swift */,
-				67A878381D1C3EC200ECE89A /* SimplePlayerViewController.swift */,
+				6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */,
 				67916D911BAE9308004419B0 /* TimeHelper.swift */,
 				67916D421BAE8A87004419B0 /* Info.plist */,
 				67FDBA931D157C51003F6DFD /* Observable.swift */,
@@ -291,13 +294,14 @@
 			files = (
 				67916D941BAE9308004419B0 /* MiniPlayerView.swift in Sources */,
 				67916D991BAE9308004419B0 /* PlayerPageViewController.swift in Sources */,
-				67A878391D1C3EC200ECE89A /* SimplePlayerViewController.swift in Sources */,
 				67916D9A1BAE9308004419B0 /* TimeHelper.swift in Sources */,
 				67916D931BAE9308004419B0 /* DraggableCoverViewController.swift in Sources */,
 				67916D981BAE9308004419B0 /* PlayerViewController.swift in Sources */,
 				67916D961BAE9308004419B0 /* MiniPlayerViewDelegate.swift in Sources */,
 				67FDBA941D157C51003F6DFD /* Observable.swift in Sources */,
 				6718E36E1D14EFD700CECC08 /* VideoView.swift in Sources */,
+				6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */,
+				6723D8541D1E11DB00D60C3F /* SimplePlayerViewController.swift in Sources */,
 				67916D951BAE9308004419B0 /* MiniPlayerViewController.swift in Sources */,
 				67916D971BAE9308004419B0 /* Player.swift in Sources */,
 			);

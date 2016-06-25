@@ -12,4 +12,5 @@ public protocol MiniPlayerViewDelegate {
     func miniPlayerViewPlayButtonTouched()     -> Void
     func miniPlayerViewPreviousButtonTouched() -> Void
     func miniPlayerViewNextButtonTouched()     -> Void
+    func miniPlayerViewUpdate()                 -> Void
 }
