@@ -35,7 +35,7 @@ public protocol PlayerViewControllerType {
     mutating func addObserver(observer: PlayerViewObserver)
     mutating func removeObserver(observer: PlayerViewObserver)
     var view: UIView! { get }
-    static func createPlayerViewController(player: Player) -> PlayerViewController
+    init(player: Player)
 }
 
 public class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
@@ -43,7 +43,7 @@ public class PlayerViewController: UIViewController, Observable, PlayerViewContr
     public typealias EventType    = PlayerViewEvent
     public var player: Player!
 
-    public init(player: Player) {
+    public required init(player: Player) {
         super.init(nibName: nil, bundle: nil)
         self.player = player
     }
@@ -62,7 +62,4 @@ public class PlayerViewController: UIViewController, Observable, PlayerViewContr
     public func timeUpdated() {}
     public func enablePlayerView() {}
     public func disablePlayerView() {}
-    public class func createPlayerViewController(player: Player) -> PlayerViewController {
-        return PlayerViewController(player: player)
-    }
 }

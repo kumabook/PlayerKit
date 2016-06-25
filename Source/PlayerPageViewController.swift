@@ -75,7 +75,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     public var playerViews:        [PlayerViewController] = []
 
     public var scrollView:     UIScrollView!
-    public var miniPlayerView: MiniPlayerView!
+    public var miniPlayerView: MV!
 
     public var imageView:      UIImageView!
     public var videoView:      VideoView!
@@ -182,7 +182,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         let h = scrollView.frame.height
         let tracks = [player?.previousTrack, player?.currentTrack, player?.nextTrack].filter { $0 != nil}.map { $0! }
         tracks.enumerate().forEach { i, track in
-            var pvc = PVC.createPlayerViewController(player)
+            var pvc: PlayerViewController = PVC(player: player)
             self.addChildViewController(pvc)
             pvc.view.frame = CGRect(x:  w * CGFloat(i), y: 0, width: w, height: h)
             pvc.updateViewWithTrack(track, animated: false)

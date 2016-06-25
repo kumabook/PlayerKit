@@ -36,11 +36,7 @@ public class SimplePlayerViewController: PlayerViewController {
     public var imageEffectView:     UIVisualEffectView!
     public var videoEffectView:     UIVisualEffectView!
     
-    public override class func createPlayerViewController(player: Player) -> PlayerViewController {
-        return SimplePlayerViewController(player: player)
-    }
-    
-    public override init(player: Player) {
+    public required init(player: Player) {
         super.init(player: player)
         initializeSubviews()
     }
