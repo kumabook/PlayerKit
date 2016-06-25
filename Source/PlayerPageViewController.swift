@@ -149,24 +149,24 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
 
     public var currentPlayerView: PVC? {
         if let _  = player?.previousTrack {
-            return playerViews[1] as! PVC
+            return playerViews[1] as? PVC
         } else if playerViews.count > 0 {
-            return playerViews[0] as! PVC
+            return playerViews[0] as? PVC
         }
         return nil
     }
     public var previousPlayerView: PVC? {
         if let _  = player?.previousTrack {
-            return playerViews.count > 0 ? playerViews[0] as! PVC : nil
+            return playerViews.count > 0 ? playerViews[0] as? PVC : nil
         }
         return nil
     }
     public var nextPlayerView: PVC? {
         if let _  = player?.nextTrack {
             if let _  = player?.previousTrack {
-                return playerViews.count > 2 ? playerViews[2] as! PVC : nil
+                return playerViews.count > 2 ? playerViews[2] as? PVC : nil
             } else {
-                return playerViews.count > 1 ? playerViews[1] as! PVC : nil
+                return playerViews.count > 1 ? playerViews[1] as? PVC : nil
             }
         }
         return nil
