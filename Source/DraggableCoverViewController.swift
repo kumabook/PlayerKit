@@ -24,7 +24,7 @@ import SnapKit
 
 public class DraggableCoverViewController: UIViewController {
     let duration = 0.35
-    let maxSpeed: CGFloat = 30
+    let maxSpeed: CGFloat = 20
     public static var toggleAnimationDuration: Double = 0.25
     public enum State {
         case Hidden
