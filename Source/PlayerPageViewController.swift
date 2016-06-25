@@ -129,8 +129,8 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         videoView            = VideoView()
         videoView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
         view.addSubview(miniPlayerView)
-        view.addSubview(imageView)
-        view.addSubview(videoView)
+        miniPlayerView.addSubview(imageView)
+        miniPlayerView.addSubview(videoView)
         scrollView = UIScrollView(frame: CGRect(x: 0, y: minThumbnailHeight, width: w, height: h))
         scrollView.pagingEnabled = true
         scrollView.delegate = self
