@@ -55,7 +55,7 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
     override public func viewDidLoad() {
         super.viewDidLoad()
         let w = view.frame.width
-        let h = view.frame.height// - miniPlayerHeight
+        let h = view.frame.height - miniPlayerHeight
         mainViewContainer    = UIView(frame: CGRectMake(0, 0, w, h))
         miniPlayerView       = MV(frame: CGRectMake(0, h, w, miniPlayerHeight))
         view.addSubview(mainViewContainer)
@@ -117,12 +117,35 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
         }
     }
 
-    public func hideMiniPlayer(animated: Bool) {
-        miniPlayerView.hidden = true
+    public func hideMiniPlayer(animated: Bool, completion: (Bool) -> () = {_ in }) {
+        let action = {
+            let w = self.view.frame.width
+            let h = self.view.frame.height
+            self.mainViewContainer.frame = CGRectMake(0, 0, w, h)
+        }
+        if animated {
+            let d = DraggableCoverViewController.toggleAnimationDuration
+            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: completion)
+        } else {
+            action()
+            completion(true)
+        }
     }
     
-    public func showMiniPlayer(animated: Bool) {
-        miniPlayerView.hidden = false
+    public func showMiniPlayer(animated: Bool, completion: (Bool) -> () = {_ in }) {
+        let action = {
+            let w = self.view.frame.width
+            let h = self.view.frame.height - self.miniPlayerHeight
+            self.mainViewContainer.frame = CGRectMake(0, 0, w, h)
+        }
+        self.miniPlayerView.hidden = true
+        if animated {
+            let d = DraggableCoverViewController.toggleAnimationDuration
+            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: completion)
+        } else {
+            action()
+            completion(true)
+        }
     }
 
 

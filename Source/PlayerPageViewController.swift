@@ -118,7 +118,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",//.localize(),
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",
                                                            style: UIBarButtonItemStyle.Done,
                                                           target: self,
                                                           action: #selector(PlayerPageViewController.close))

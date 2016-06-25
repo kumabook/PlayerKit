@@ -25,7 +25,9 @@ import SnapKit
 public class DraggableCoverViewController: UIViewController {
     let duration = 0.35
     let maxSpeed: CGFloat = 30
+    public static var toggleAnimationDuration: Double = 0.25
     public enum State {
+        case Hidden
         case Maximized
         case Minimized
         case Dragging
@@ -99,7 +101,6 @@ public class DraggableCoverViewController: UIViewController {
                     sender.setTranslation(CGPointZero, inView:targetView)
                     if point.x > 0 || point.y < 0 { state = .Dragging }
                     else                          { state = .Dragging }
-
                 }
             }
         case .Ended:
@@ -107,7 +108,6 @@ public class DraggableCoverViewController: UIViewController {
                 let point = sender.translationInView(targetView)
                 let t = CGFloat(NSDate().timeIntervalSinceDate(startDate))
                 let d = startPoint.y - point.y
-                print("per time: \(d / t)")
                 if abs(d) / t > maxSpeed {
                     if d > 0 { minimizeCoverView(true) }
                     else     { maximizeCoverView(true) }
@@ -130,8 +130,7 @@ public class DraggableCoverViewController: UIViewController {
         let w = coverViewController.minThumbnailWidth
         let h = coverViewController.minThumbnailHeight
         let y = f.height - h
-        let d = animated ? duration : 0
-        UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: {
+        let action = {
             switch self.transitionMode {
             case .Slide:
                 self.coverViewController.view.frame = CGRect(x: 0, y: f.height - h, width:  w, height: f.height + h)
@@ -139,10 +138,17 @@ public class DraggableCoverViewController: UIViewController {
                 self.coverViewController.view.frame = CGRect(x: 0, y: y, width:  w, height: h)
             }
             self.coverViewController.didResizeCoverView(0)
-        }, completion: { finished in
+        }
+        if animated {
+            UIView.animateWithDuration(duration, delay: 0, options:.CurveEaseInOut, animations: action, completion: { finished in
+                self.state = .Minimized
+                self.coverViewController.didMinimizedCoverView()
+            })
+        } else {
+            action()
             self.state = .Minimized
             self.coverViewController.didMinimizedCoverView()
-        })
+        }
     }
 
     public func maximizeCoverView(animated: Bool) {
@@ -151,7 +157,12 @@ public class DraggableCoverViewController: UIViewController {
         let h = self.coverViewController.minThumbnailHeight
         let d = animated ? duration : 0
         UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: {
-            self.coverViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: f.height + h)
+            switch self.transitionMode {
+            case .Slide:
+                self.coverViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: f.height + h)
+            case .Zoom:
+                self.coverViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: h)
+            }
             self.coverViewController.didResizeCoverView(1)
         }, completion: { finished in
             self.state = .Maximized
@@ -167,8 +178,8 @@ public class DraggableCoverViewController: UIViewController {
         case .Minimized:
             state = .Animating
             maximizeCoverView(true)
-        default:
-            break;
+        case .Hidden: break
+        case .Animating, .Dragging: break
         }
     }
 
@@ -193,6 +204,62 @@ public class DraggableCoverViewController: UIViewController {
     public func resizeCoverView(newRect: CGRect, actualRate: CGFloat) {
         coverViewController.view.frame = newRect
         coverViewController.didResizeCoverView(actualRate)
+    }
+
+    public func showCoverViewController(animated: Bool, completion: () -> () = {}) {
+        let action = {
+            let frame = self.coverViewController.view.frame
+            let f     = self.view.frame
+            let h     = self.coverViewController.minThumbnailHeight
+            switch self.transitionMode {
+            case .Slide:
+                let rect = CGRect(x: 0, y: f.height - h, width: frame.width, height: f.height + h)
+                self.rate = 1 - abs(rect.minY) / frame.height
+                self.resizeCoverView(rect, actualRate: self.rate)
+                self.coverViewController.view.frame = rect
+            case .Zoom:
+                self.coverViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
+                self.coverViewController.didResizeCoverView(0)
+            }
+        }
+        if animated {
+            let d = DraggableCoverViewController.toggleAnimationDuration
+            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: { _ in
+                self.state = .Minimized
+                completion()
+            })
+        } else {
+            action()
+            self.state = .Minimized
+            completion()
+        }
+    }
+
+    public func hideCoverViewController(animated: Bool, completion: () -> () = {}) {
+        let action = {
+            let frame = self.coverViewController.view.frame
+            let f     = self.view.frame
+            let h     = self.coverViewController.minThumbnailHeight
+            switch self.transitionMode {
+            case .Slide:
+                let rect = CGRect(x: 0, y: f.height + h, width: frame.width, height: f.height + h)
+                self.coverViewController.view.frame = rect
+                self.coverViewController.didResizeCoverView(0)
+            case .Zoom:
+                self.coverViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
+                self.coverViewController.didResizeCoverView(0)
+            }
+        }
+        if animated {
+            let d = DraggableCoverViewController.toggleAnimationDuration
+            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: { _ in })
+            self.state = .Hidden
+            completion()
+        } else {
+            action()
+            self.state = .Hidden
+            completion()
+        }
     }
 
     override public func viewDidLoad() {
