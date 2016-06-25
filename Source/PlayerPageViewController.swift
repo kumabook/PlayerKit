@@ -84,8 +84,16 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
 
     public var draggableCoverViewController: DraggableCoverViewController?
     public var thumbImage: UIImage {
-        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
-        return UIImage(named: "thumb", inBundle: bundle, compatibleWithTraitCollection: nil)!
+        let rect = CGRect(x: 0, y: 0, width: 100, height: 100)
+        let color = UIColor.init(red: 212, green: 212, blue: 212, alpha: 0.2)
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), false, 0.0)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextFillRect(context, rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+        return image
+
     }
 
     public init(player: Player) {
