@@ -102,7 +102,7 @@ public class SimplePlayerViewController: PlayerViewController {
         closeButton.setImage(closeImage, forState: UIControlState())
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), false, 0.0)
         let blank: UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
+        UIGraphicsEndImageContext()
         slider.setThumbImage(blank, forState: UIControlState.Normal)
         slider.setThumbImage(blank, forState: UIControlState.Highlighted)
         
