@@ -256,6 +256,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
             return
         }
         currentPlayerView?.updateViewWithTrack(track, animated: animated)
+        miniPlayerView.updateViewWithPlayer(player)
         if let previousTrack = player.previousTrack {
             previousPlayerView?.updateViewWithTrack(previousTrack, animated: false)
         }
