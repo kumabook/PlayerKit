@@ -34,6 +34,7 @@ public class SimplePlayerViewController: PlayerViewController {
     public var currentLabel:        UILabel!
     public var totalLabel:          UILabel!
     public var imageEffectView:     UIVisualEffectView!
+    public var imageCoverView:      UIView!
     public var videoEffectView:     UIVisualEffectView!
     
     public required init(player: Player) {
@@ -68,6 +69,7 @@ public class SimplePlayerViewController: PlayerViewController {
         imageView  = UIImageView()
         videoView  = VideoView()
         imageEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+        imageCoverView  = UIView()
         videoEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
         
         titleLabel.textColor        = UIColor.whiteColor()
@@ -110,6 +112,7 @@ public class SimplePlayerViewController: PlayerViewController {
         
         view.clipsToBounds = true
         view.addSubview(imageEffectView)
+        view.addSubview(imageCoverView)
         imageEffectView.insertSubview(imageView, atIndex: 0)
         view.addSubview(videoEffectView)
         videoEffectView.insertSubview(videoView, atIndex: 0)
@@ -218,12 +221,14 @@ public class SimplePlayerViewController: PlayerViewController {
             case .Pause:
                 self.videoEffectView.effect = UIBlurEffect(style: .Dark)
                 self.imageEffectView.effect = UIBlurEffect(style: .Dark)
+                self.imageCoverView.backgroundColor = UIColor.clearColor()
                 self.playButton.alpha       = 1.0
                 self.nextButton.alpha       = 1.0
                 self.previousButton.alpha   = 1.0
             default:
                 self.videoEffectView.effect = nil
                 self.imageEffectView.effect = track.isVideo ? UIBlurEffect(style: .Dark) : nil
+                self.imageCoverView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
                 self.playButton.alpha       = 0
                 self.nextButton.alpha       = 0
                 self.previousButton.alpha   = 0
