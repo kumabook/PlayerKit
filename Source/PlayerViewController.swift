@@ -25,6 +25,7 @@ public enum PlayerViewEvent {
     case Toggle
     case Close
     case TimeChanged(CMTime)
+    case Message(String)
 }
 
 public protocol PlayerViewControllerType {

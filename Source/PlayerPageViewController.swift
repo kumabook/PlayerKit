@@ -51,6 +51,7 @@ class PlayerPageViewPlayerViewObserver: PlayerViewObserver {
         case .Previous:              vc?.previous()
         case .Toggle:                vc?.toggle()
         case .TimeChanged(let time): vc?.changeTime(time)
+        case .Message(let message):  vc?.onMessage(message)
         }
     }
 }
@@ -65,6 +66,7 @@ protocol PlayerPageViewControllerType {
     func previous()
     func toggle()
     func changeTime(time: CMTime)
+    func onMessage(message: String)
 }
 
 public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, DraggableCoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
@@ -282,6 +284,9 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
 
     public func changeTime(time: CMTime) {
         player?.seekToTime(time)
+    }
+
+    public func onMessage(message: String) {
     }
     
     public func enablePlayerView() {
