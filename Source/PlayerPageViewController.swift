@@ -67,16 +67,18 @@ protocol PlayerPageViewControllerType {
     func changeTime(time: CMTime)
 }
 
-public class PlayerPageViewController<PVC: PlayerViewController>: UIViewController, DraggableCoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType {
+public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, DraggableCoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
     public var minThumbnailWidth:  CGFloat { return self.view.frame.width }
     public var minThumbnailHeight: CGFloat { return 60.0 }
     public var thumbWidth:         CGFloat = 75.0
     let controlPanelHeight:        CGFloat = 130.0
     public var playerViews:        [PlayerViewController] = []
 
-    public var scrollView: UIScrollView!
-    public var imageView:  UIImageView!
-    public var videoView:  VideoView!
+    public var scrollView:     UIScrollView!
+    public var miniPlayerView: MiniPlayerView!
+
+    public var imageView:      UIImageView!
+    public var videoView:      VideoView!
 
     var modalPlayerObserver:     PlayerPageViewPlayerObserver!
     var modalPlayerViewObserver: PlayerPageViewPlayerViewObserver!
@@ -121,10 +123,12 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
         view.backgroundColor = UIColor.blackColor()
         let w = view.frame.width
         let h = view.frame.height
+        miniPlayerView       = MV(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: minThumbnailHeight))
         imageView            = UIImageView()
         imageView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
         videoView            = VideoView()
         videoView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
+        view.addSubview(miniPlayerView)
         view.addSubview(imageView)
         view.addSubview(videoView)
         scrollView = UIScrollView(frame: CGRect(x: 0, y: minThumbnailHeight, width: w, height: h))
@@ -134,6 +138,7 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
         resizeViews(0.0)
         updateViews()
         player?.addObserver(modalPlayerObserver)
+        miniPlayerView.delegate = self
     }
 
     override public func didReceiveMemoryWarning() {
@@ -246,7 +251,7 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
     
     public func updateViews(animated: Bool = false) {
         guard let track = player?.currentTrack else {
-            imageView.image = nil
+            imageView.image  = self.thumbImage
             videoView.player = nil
             return
         }
@@ -270,7 +275,7 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
             imageView.sd_setImageWithURL(url)
         } else {
             videoView.player = nil
-            imageView.image = nil
+            imageView.image  = thumbImage
         }
     }
 
@@ -303,5 +308,23 @@ public class PlayerPageViewController<PVC: PlayerViewController>: UIViewControll
 
     public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
         didScrollEnd()
+    }
+
+    // MARK: - MiniPlayerViewDelegate -
+
+    public func miniPlayerViewPlayButtonTouched() {
+        player?.toggle()
+    }
+
+    public func miniPlayerViewPreviousButtonTouched() {
+        player?.previous()
+    }
+
+    public func miniPlayerViewNextButtonTouched() {
+        player?.next()
+    }
+
+    public func miniPlayerViewUpdate() {
+        updateViews()
     }
 }
