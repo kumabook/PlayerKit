@@ -87,6 +87,26 @@ public enum PlayerState {
     }
 }
 
+public class PlaylistQueue: NSObject {
+    public private(set) var playlists: [Playlist] = []
+    public init(playlists: [Playlist]) {
+        self.playlists = playlists
+    }
+    public func enqueue(playlist: Playlist) {
+        if playlist.tracks.count > 0 {
+            self.playlists.append(playlist)
+        }
+    }
+    private func indexOf(playlist: Playlist) -> Int? {
+        for i in 0..<playlists.count {
+            if playlist.id == playlists[i].id {
+                return i
+            }
+        }
+        return nil
+    }
+}
+
 public class Player: Observable {
     public typealias ObserverType = PlayerObserver
     public typealias EventType    = PlayerEvent
@@ -95,11 +115,12 @@ public class Player: Observable {
         get { return _observers }
         set { _observers = newValue }
     }
-    public private(set) var playlists: [Playlist] = []
+    public private(set) var playlistQueue: PlaylistQueue
     private var queuePlayer:   AVQueuePlayer?
-    private var playlistIndex: Int?
-    private var itemIndex:     Int = -1
     private var currentTime:   CMTime? { get { return queuePlayer?.currentTime() }}
+    private var itemIndex:     Int = -1
+    private var playlistIndex: Int?
+
     private var itemCount:     Int = 0
     private var timeObserver:  AnyObject?
     private var state:         PlayerState {
@@ -108,27 +129,11 @@ public class Player: Observable {
     private var proxy:        AVQueuePlayerNotificationProxy
     private var statusProxy:  ObserverProxy?
     private var endProxy:     ObserverProxy?
-    public init() {
-        state = .Init
-        proxy = AVQueuePlayerNotificationProxy()
-        statusProxy = ObserverProxy(name: AVQueuePlayerDidChangeStatusNotification, closure: self.playerDidChangeStatus);
-        endProxy    = ObserverProxy(name: AVPlayerItemDidPlayToEndTimeNotification, closure: self.playerDidPlayToEndTime);
-    }
-
-    deinit {
-        statusProxy?.stop()
-        endProxy?.stop()
-        statusProxy = nil
-        endProxy    = nil
-    }
-
-    public var avPlayer:          AVPlayer?  { return queuePlayer }
-    public var playerItemsCount:  Int?       { return queuePlayer?.items().count }
 
     public var currentPlaylist: Playlist?  {
         if let i = playlistIndex {
-            if i < playlists.count {
-                return playlists[i]
+            if i < playlistQueue.playlists.count {
+                return playlistQueue.playlists[i]
             }
         }
         return nil
@@ -137,7 +142,6 @@ public class Player: Observable {
         if currentPlaylist == nil { return nil }
         return trackIndex(itemIndex)
     }
-    public var currentState:     PlayerState { return state }
     public var currentTrack:     Track? {
         if let i = currentTrackIndex, c = currentPlaylist?.tracks.count {
             if i < c {
@@ -146,18 +150,6 @@ public class Player: Observable {
         }
         return nil
     }
-    public var secondPair:       (Float64, Float64)? {
-        get {
-            if let count = playerItemsCount {
-                if count == 0 { return nil }
-                if let item = queuePlayer?.currentItem {
-                    return (CMTimeGetSeconds(item.currentTime()), CMTimeGetSeconds(item.duration))
-                }
-            }
-            return nil
-        }
-    }
-
     public func trackIndex(itemIndex: Int) -> Int? {
         if currentPlaylist == nil { return nil }
         var _indexes: [Int:Int] = [:]
@@ -175,12 +167,54 @@ public class Player: Observable {
         }
     }
 
+    public func isCurrentPlaying(trackIndex: Int, playlistIndex: Int) -> Bool {
+        if let _playlist = currentPlaylist, _index = currentTrackIndex
+            where playlistIndex < playlistQueue.playlists.count {
+            return  _playlist.id == playlistQueue.playlists[playlistIndex].id && _index == trackIndex
+        }
+        return false
+    }
+
+
+    public init() {
+        state         = .Init
+        proxy         = AVQueuePlayerNotificationProxy()
+        playlistQueue = PlaylistQueue(playlists: [])
+        statusProxy   = ObserverProxy(name: AVQueuePlayerDidChangeStatusNotification, closure: self.playerDidChangeStatus);
+        endProxy      = ObserverProxy(name: AVPlayerItemDidPlayToEndTimeNotification, closure: self.playerDidPlayToEndTime);
+    }
+
+    deinit {
+        statusProxy?.stop()
+        endProxy?.stop()
+        statusProxy = nil
+        endProxy    = nil
+    }
+
+    public var avPlayer:          AVPlayer?  { return queuePlayer }
+    public var playerItemsCount:  Int?       { return queuePlayer?.items().count }
+
+    public var currentState:     PlayerState { return state }
+    public var secondPair:       (Float64, Float64)? {
+        get {
+            if let count = playerItemsCount {
+                if count == 0 { return nil }
+                if let item = queuePlayer?.currentItem {
+                    return (CMTimeGetSeconds(item.currentTime()), CMTimeGetSeconds(item.duration))
+                }
+            }
+            return nil
+        }
+    }
+
     func prepare(trackIndex: Int, playlistIndex: Int) {
-        if let p = currentPlaylist, i = currentTrackIndex {
-            notify(.TrackUnselected(currentTrack!, i, p))
+        if let p = currentPlaylist {
+            if let i = currentTrackIndex, t = currentTrack {
+                notify(.TrackUnselected(t, i, p))
+            }
         }
         self.playlistIndex = playlistIndex
-        let playlist = playlists[playlistIndex]
+        let playlist = playlistQueue.playlists[playlistIndex]
         if let player = self.queuePlayer {
             player.pause()
             if let observer = timeObserver {
@@ -218,49 +252,33 @@ public class Player: Observable {
         }
     }
 
-    public func isCurrentPlaying(trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) -> Bool {
-        if let _playlist = currentPlaylist, _index = currentTrackIndex {
-            return  _playlist.id == playlists[playlistIndex].id && _index == trackIndex
-        }
-        return false
-    }
-
-    private func getPlaylistIndex(playlist: Playlist, playlists: [Playlist]) -> Int? {
-        for i in 0..<playlists.count {
-            if playlist.id == playlists[i].id {
-                return i
-            }
-        }
-        return nil
-    }
-
-    public func select(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
-        if let index = getPlaylistIndex(playlist, playlists: playlists) {
-            select(trackIndex: trackIndex, playlistIndex: index, playlists: playlists)
+    public func select(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
+        if let index = playlistQueue.indexOf(playlist) {
+            select(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
         }
     }
 
-    public func select(trackIndex trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
-        if isCurrentPlaying(trackIndex, playlistIndex: playlistIndex, playlists: playlists) {
+    public func select(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        if self.playlistQueue == playlistQueue && isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
             toggle()
         } else {
-            play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlists: playlists)
+            play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
         }
     }
 
-    public func play(trackIndex: Int, playlist: Playlist, playlists: [Playlist]) {
-        if let index = getPlaylistIndex(playlist, playlists: playlists) {
-            play(trackIndex: trackIndex, playlistIndex: index, playlists: playlists)
+    public func play(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
+        if let index = playlistQueue.indexOf(playlist) {
+            play(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
         }
     }
 
     public func play(trackIndex trackIndex: Int, playlistIndex: Int) {
-        play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlists: playlists)
+        play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
     }
 
-    public func play(trackIndex trackIndex: Int, playlistIndex: Int, playlists: [Playlist]) {
-        if !isCurrentPlaying(trackIndex, playlistIndex: playlistIndex, playlists: playlists) {
-            self.playlists = playlists
+    public func play(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        if self.playlistQueue != playlistQueue || !isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
+            self.playlistQueue = playlistQueue
             prepare(trackIndex, playlistIndex: playlistIndex)
         }
         if let player = self.queuePlayer {
@@ -283,7 +301,7 @@ public class Player: Observable {
 
     public func play() {
         if let _playlistIndex = playlistIndex {
-            play(trackIndex: itemIndex, playlistIndex: _playlistIndex, playlists: playlists)
+            play(trackIndex: itemIndex, playlistIndex: _playlistIndex, playlistQueue: playlistQueue)
         }
     }
 
@@ -308,7 +326,7 @@ public class Player: Observable {
         guard let (trackIndex, playlistIndex) = previousTrackIndexes() else {
             return nil
         }
-        return self.playlists[playlistIndex].tracks[trackIndex]
+        return self.playlistQueue.playlists[playlistIndex].tracks[trackIndex]
     }
     
     private func previousTrackIndexes() -> (Int, Int)? {
@@ -316,7 +334,7 @@ public class Player: Observable {
             return (i, playlistIndex!)
         } else if playlistIndex > 0 {
             let i = playlistIndex! - 1
-            return (playlists[i].validTracksCount - 1, i)
+            return (playlistQueue.playlists[i].validTracksCount - 1, i)
         } else {
             return nil
         }
@@ -339,13 +357,13 @@ public class Player: Observable {
         guard let (trackIndex, playlistIndex) = nextTrackIndexes() else {
             return nil
         }
-        return self.playlists[playlistIndex].tracks[trackIndex]
+        return self.playlistQueue.playlists[playlistIndex].tracks[trackIndex]
     }
 
     private func nextTrackIndexes() -> (Int, Int)? {
         if let i = trackIndex(itemIndex+1) {
             return (i, playlistIndex!)
-        } else if playlistIndex != nil && playlistIndex! + 1 < playlists.count {
+        } else if playlistIndex != nil && playlistIndex! + 1 < playlistQueue.playlists.count {
             return (0, playlistIndex! + 1)
         } else {
             return nil
@@ -375,7 +393,7 @@ public class Player: Observable {
         notify(.TrackUnselected(currentTrack!, currentTrackIndex!, currentPlaylist!))
         itemIndex = (itemIndex + 1) % itemCount
         if itemIndex == 0 {
-            if playlistIndex! + 1 < playlists.count {
+            if playlistIndex! + 1 < playlistQueue.playlists.count {
                 play(trackIndex: 0, playlistIndex: playlistIndex! + 1)
             } else {
                 notify(.NextPlaylistRequested)
