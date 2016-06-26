@@ -200,7 +200,8 @@ public class SimplePlayerViewController: PlayerViewController {
     }
     
     public override func updateViewWithTrack(track: Track, animated: Bool) {
-        titleLabel.text = track.title
+        titleLabel.text    = track.title
+        subTitleLabel.text = track.subtitle
         guard let currentTrack = player.currentTrack else { return }
         let isCurrentTrack = currentTrack.streamUrl == track.streamUrl
         if isCurrentTrack && track.isVideo {

@@ -9,6 +9,7 @@ import AVFoundation
 
 public protocol Track {
     var title:        String? { get }
+    var subtitle:     String? { get }
     var streamUrl:    NSURL?  { get }
     var thumbnailUrl: NSURL?  { get }
     var isVideo:      Bool    { get }
