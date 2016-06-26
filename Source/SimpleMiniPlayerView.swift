@@ -18,7 +18,7 @@ public class SimpleMiniPlayerView: MiniPlayerView {
     let buttonSize:    CGFloat = 40.0
     let buttonPadding: CGFloat = 20.0
     
-    public required override init(frame: CGRect) {
+    public required init(frame: CGRect) {
         super.init(frame: frame)
         initializeSubviews()
     }

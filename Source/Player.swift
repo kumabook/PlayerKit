@@ -7,19 +7,6 @@
 
 import AVFoundation
 
-public protocol Track {
-    var title:        String? { get }
-    var subtitle:     String? { get }
-    var streamUrl:    NSURL?  { get }
-    var thumbnailUrl: NSURL?  { get }
-    var isVideo:      Bool    { get }
-}
-
-public protocol Playlist {
-    var id:               String { get }
-    var tracks:           [Track] { get }
-    var validTracksCount: Int { get }
-}
 
 let AVQueuePlayerDidChangeStatusNotification: String = "AVQueuePlayerDidChangeStatus"
 
@@ -84,26 +71,6 @@ public enum PlayerState {
     case Pause
     public var isPlaying: Bool {
         return self == LoadToPlay || self == Play
-    }
-}
-
-public class PlaylistQueue: NSObject {
-    public private(set) var playlists: [Playlist] = []
-    public init(playlists: [Playlist]) {
-        self.playlists = playlists
-    }
-    public func enqueue(playlist: Playlist) {
-        if playlist.tracks.count > 0 {
-            self.playlists.append(playlist)
-        }
-    }
-    private func indexOf(playlist: Playlist) -> Int? {
-        for i in 0..<playlists.count {
-            if playlist.id == playlists[i].id {
-                return i
-            }
-        }
-        return nil
     }
 }
 
