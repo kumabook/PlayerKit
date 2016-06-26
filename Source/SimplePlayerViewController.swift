@@ -12,10 +12,10 @@ import UIKit
 public class SimplePlayerViewController: PlayerViewController {
     
     let paddingSide:           CGFloat = 10.0
-    let paddingBottom:         CGFloat = 45.0
+    let paddingBottom:         CGFloat = 60.0
     let paddingTitleBottom:    CGFloat = 64.0
     let paddingSubTitleBottom: CGFloat = 40.0
-    let paddingBottomTime:     CGFloat = 40.0
+    let paddingBottomTime:     CGFloat = 20.0
     let buttonSize:            CGFloat = 40.0
     let buttonPadding:         CGFloat = 30.0
     var toggleAnimationDuration: Double = 0.25
@@ -98,14 +98,17 @@ public class SimplePlayerViewController: PlayerViewController {
         playButton.setImage(        playImage, forState: UIControlState())
         previousButton.setImage(previousImage, forState: UIControlState())
         closeButton.setImage(closeImage, forState: UIControlState())
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), false, 0.0)
-        let blank: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(2, 16), false, 0.0)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextFillRect(context, CGRect(x: 0, y: 0, width: 2, height: 16))
+        let thumb: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        slider.setThumbImage(blank, forState: UIControlState.Normal)
-        slider.setThumbImage(blank, forState: UIControlState.Highlighted)
+        slider.setThumbImage(thumb, forState: UIControlState.Normal)
+        slider.setThumbImage(thumb, forState: UIControlState.Highlighted)
         
         imageView.frame = view.bounds
-        videoView.frame = CGRect(x: 0, y: 50, width: view.frame.width, height: view.frame.height / 2)
+        videoView.frame = CGRect(x: 0, y: view.frame.height / 6, width: view.frame.width, height: view.frame.height / 2)
         imageEffectView.frame = view.bounds
         videoEffectView.frame = view.bounds
         
@@ -141,11 +144,11 @@ public class SimplePlayerViewController: PlayerViewController {
     public func updateConstraints() {
         currentLabel.snp_makeConstraints { make in
             make.left.equalTo(self.view.snp_left).offset(self.paddingSide).priorityHigh()
-            make.bottom.equalTo(self.slider.snp_top).offset(self.paddingBottomTime)
+            make.bottom.equalTo(self.slider.snp_bottom).offset(-self.paddingBottomTime)
         }
         totalLabel.snp_makeConstraints { make in
             make.right.equalTo(self.view.snp_right).offset(-self.paddingSide).priorityHigh()
-            make.bottom.equalTo(self.slider.snp_top).offset(self.paddingBottomTime)
+            make.bottom.equalTo(self.slider.snp_bottom).offset(-self.paddingBottomTime)
         }
         slider.snp_makeConstraints { make in
             make.left.equalTo(self.view.snp_left).offset(self.paddingSide)
@@ -273,7 +276,7 @@ public class SimplePlayerViewController: PlayerViewController {
             slider.maximumValue = 0
         }
     }
-    
+
     func toggle()   { notify(.Toggle) }
     func previous() { notify(.Previous) }
     func next()     { notify(.Next) }
