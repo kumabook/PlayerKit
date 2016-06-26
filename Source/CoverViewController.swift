@@ -1,5 +1,5 @@
 //
-//  DraggableCoverViewController.swift
+//  CoverViewController.swift
 //  MusicFav
 //
 //  Created by Hiroki Kumamoto on 3/3/15.
@@ -9,20 +9,20 @@
 import UIKit
 import SnapKit
 
-@objc public protocol DraggableCoverViewControllerDelegate {
+@objc public protocol CoverViewControllerDelegate {
     var view:               UIView! { get }
     var thumbnailView:      UIView  { get }
     var minThumbnailWidth:  CGFloat { get }
     var minThumbnailHeight: CGFloat { get }
 
-    var draggableCoverViewController: DraggableCoverViewController? { get set }
+    var coverViewController: CoverViewController? { get set }
 
     func didResizeCoverView(rate: CGFloat)
     func didMinimizedCoverView()
     func didMaximizedCoverView()
 }
 
-public class DraggableCoverViewController: UIViewController {
+public class CoverViewController: UIViewController {
     let duration = 0.35
     let maxSpeed: CGFloat = 20
     public static var toggleAnimationDuration: Double = 0.25
@@ -41,15 +41,15 @@ public class DraggableCoverViewController: UIViewController {
     private var startDate:  NSDate  = NSDate()
     private var rate:       CGFloat = 0
     public var state: State = .Minimized
-    public var coverViewController: DraggableCoverViewControllerDelegate!
+    public var ceilingViewController: CoverViewControllerDelegate!
     public var floorViewController: UIViewController!
     public var transitionMode: TransitionMode = TransitionMode.Slide
 
-    public init(coverViewController:DraggableCoverViewControllerDelegate, floorViewController: UIViewController) {
+    public init(ceilingViewController: CoverViewControllerDelegate, floorViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
-        self.coverViewController = coverViewController
+        self.ceilingViewController = ceilingViewController
         self.floorViewController = floorViewController
-        self.coverViewController.draggableCoverViewController = self
+        self.ceilingViewController.coverViewController = self
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -63,11 +63,11 @@ public class DraggableCoverViewController: UIViewController {
     override public func loadView() {
         super.loadView()
         view.addSubview(floorViewController.view)
-        view.addSubview(coverViewController.view)
+        view.addSubview(ceilingViewController.view)
         floorViewController.view.frame = view.frame
-        coverViewController.view.clipsToBounds   = true
-        let panGestureRecognizer = UIPanGestureRecognizer(target:self, action:#selector(DraggableCoverViewController.dragged(_:)))
-        coverViewController.view.addGestureRecognizer(panGestureRecognizer)
+        ceilingViewController.view.clipsToBounds   = true
+        let panGestureRecognizer = UIPanGestureRecognizer(target:self, action:#selector(CoverViewController.dragged(_:)))
+        ceilingViewController.view.addGestureRecognizer(panGestureRecognizer)
     }
 
     func dragged(sender: UIPanGestureRecognizer) {
@@ -81,10 +81,10 @@ public class DraggableCoverViewController: UIViewController {
         case .Changed:
             if let targetView = sender.view {
                 let point = sender.translationInView(targetView)
-                let frame = coverViewController.view.frame
+                let frame = ceilingViewController.view.frame
                 switch transitionMode {
                 case .Slide:
-                    let h = coverViewController.minThumbnailHeight
+                    let h = ceilingViewController.minThumbnailHeight
                     let y = max(frame.minY + point.y, -h)
                     let rect = CGRect(x: 0, y: y, width: frame.width, height: view.frame.height + h)
                     rate = 1 - abs(rect.minY) / frame.height
@@ -127,46 +127,46 @@ public class DraggableCoverViewController: UIViewController {
 
     public func minimizeCoverView(animated: Bool) {
         let f = view.frame
-        let w = coverViewController.minThumbnailWidth
-        let h = coverViewController.minThumbnailHeight
+        let w = ceilingViewController.minThumbnailWidth
+        let h = ceilingViewController.minThumbnailHeight
         let y = f.height - h
         let action = {
             switch self.transitionMode {
             case .Slide:
-                self.coverViewController.view.frame = CGRect(x: 0, y: f.height - h, width:  w, height: f.height + h)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: f.height - h, width:  w, height: f.height + h)
             case .Zoom:
-                self.coverViewController.view.frame = CGRect(x: 0, y: y, width:  w, height: h)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: y, width:  w, height: h)
             }
-            self.coverViewController.didResizeCoverView(0)
+            self.ceilingViewController.didResizeCoverView(0)
         }
         if animated {
             UIView.animateWithDuration(duration, delay: 0, options:.CurveEaseInOut, animations: action, completion: { finished in
                 self.state = .Minimized
-                self.coverViewController.didMinimizedCoverView()
+                self.ceilingViewController.didMinimizedCoverView()
             })
         } else {
             action()
             self.state = .Minimized
-            self.coverViewController.didMinimizedCoverView()
+            self.ceilingViewController.didMinimizedCoverView()
         }
     }
 
     public func maximizeCoverView(animated: Bool) {
         let f = view.frame
         let w = f.width
-        let h = self.coverViewController.minThumbnailHeight
+        let h = self.ceilingViewController.minThumbnailHeight
         let d = animated ? duration : 0
         UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: {
             switch self.transitionMode {
             case .Slide:
-                self.coverViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: f.height + h)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: f.height + h)
             case .Zoom:
-                self.coverViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: h)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: h)
             }
-            self.coverViewController.didResizeCoverView(1)
+            self.ceilingViewController.didResizeCoverView(1)
         }, completion: { finished in
             self.state = .Maximized
-            self.coverViewController.didMaximizedCoverView()
+            self.ceilingViewController.didMaximizedCoverView()
         })
     }
 
@@ -189,8 +189,8 @@ public class DraggableCoverViewController: UIViewController {
             return (view.frame.width, rate * view.frame.height, rate)
         } else {
             let  rate = newSize.width / view.frame.width
-            let mintw = coverViewController.minThumbnailWidth
-            let minth = coverViewController.minThumbnailHeight
+            let mintw = ceilingViewController.minThumbnailWidth
+            let minth = ceilingViewController.minThumbnailHeight
             let     f = view.frame
             let width      = min(f.width, max(rate*f.width, mintw)) // mintw < width < f.width
                                                                     // width == thumbnail width and cover view width
@@ -202,28 +202,28 @@ public class DraggableCoverViewController: UIViewController {
     }
 
     public func resizeCoverView(newRect: CGRect, actualRate: CGFloat) {
-        coverViewController.view.frame = newRect
-        coverViewController.didResizeCoverView(actualRate)
+        ceilingViewController.view.frame = newRect
+        ceilingViewController.didResizeCoverView(actualRate)
     }
 
     public func showCoverViewController(animated: Bool, completion: () -> () = {}) {
         let action = {
-            let frame = self.coverViewController.view.frame
+            let frame = self.ceilingViewController.view.frame
             let f     = self.view.frame
-            let h     = self.coverViewController.minThumbnailHeight
+            let h     = self.ceilingViewController.minThumbnailHeight
             switch self.transitionMode {
             case .Slide:
                 let rect = CGRect(x: 0, y: f.height - h, width: frame.width, height: f.height + h)
                 self.rate = 1 - abs(rect.minY) / frame.height
                 self.resizeCoverView(rect, actualRate: self.rate)
-                self.coverViewController.view.frame = rect
+                self.ceilingViewController.view.frame = rect
             case .Zoom:
-                self.coverViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
-                self.coverViewController.didResizeCoverView(0)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
+                self.ceilingViewController.didResizeCoverView(0)
             }
         }
         if animated {
-            let d = DraggableCoverViewController.toggleAnimationDuration
+            let d = CoverViewController.toggleAnimationDuration
             UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: { _ in
                 self.state = .Minimized
                 completion()
@@ -237,21 +237,21 @@ public class DraggableCoverViewController: UIViewController {
 
     public func hideCoverViewController(animated: Bool, completion: () -> () = {}) {
         let action = {
-            let frame = self.coverViewController.view.frame
+            let frame = self.ceilingViewController.view.frame
             let f     = self.view.frame
-            let h     = self.coverViewController.minThumbnailHeight
+            let h     = self.ceilingViewController.minThumbnailHeight
             switch self.transitionMode {
             case .Slide:
                 let rect = CGRect(x: 0, y: f.height + h, width: frame.width, height: f.height + h)
-                self.coverViewController.view.frame = rect
-                self.coverViewController.didResizeCoverView(0)
+                self.ceilingViewController.view.frame = rect
+                self.ceilingViewController.didResizeCoverView(0)
             case .Zoom:
-                self.coverViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
-                self.coverViewController.didResizeCoverView(0)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
+                self.ceilingViewController.didResizeCoverView(0)
             }
         }
         if animated {
-            let d = DraggableCoverViewController.toggleAnimationDuration
+            let d = CoverViewController.toggleAnimationDuration
             UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: { _ in })
             self.state = .Hidden
             completion()

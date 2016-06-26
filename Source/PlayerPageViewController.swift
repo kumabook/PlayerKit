@@ -69,7 +69,7 @@ protocol PlayerPageViewControllerType {
     func onMessage(message: String)
 }
 
-public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, DraggableCoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
+public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, CoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
     public var minThumbnailWidth:  CGFloat { return self.view.frame.width }
     public var minThumbnailHeight: CGFloat { return 60.0 }
     public var thumbWidth:         CGFloat = 75.0
@@ -86,7 +86,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     var modalPlayerViewObserver: PlayerPageViewPlayerViewObserver!
     public var player: Player!
 
-    public var draggableCoverViewController: DraggableCoverViewController?
+    public var coverViewController: CoverViewController?
     public var thumbImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         let color = UIColor.init(red: 212, green: 212, blue: 212, alpha: 0.2)
@@ -204,7 +204,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     }
 
     public func close() {
-        draggableCoverViewController?.toggleScreen()
+        coverViewController?.toggleScreen()
     }
 
     public func toggle() {

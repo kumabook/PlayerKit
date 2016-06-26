@@ -18,7 +18,7 @@
 		67916D831BAE90A2004419B0 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D5A1BAE8D1D004419B0 /* Quick.framework */; };
 		67916D871BAE9282004419B0 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D591BAE8D1D004419B0 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67916D881BAE9282004419B0 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D5A1BAE8D1D004419B0 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		67916D931BAE9308004419B0 /* DraggableCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8A1BAE9308004419B0 /* DraggableCoverViewController.swift */; };
+		67916D931BAE9308004419B0 /* CoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8A1BAE9308004419B0 /* CoverViewController.swift */; };
 		67916D941BAE9308004419B0 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */; };
 		67916D951BAE9308004419B0 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */; };
 		67916D961BAE9308004419B0 /* MiniPlayerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */; };
@@ -81,7 +81,7 @@
 		67916D5A1BAE8D1D004419B0 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		67916D601BAE8DF2004419B0 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		67916D611BAE8DF2004419B0 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
-		67916D8A1BAE9308004419B0 /* DraggableCoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DraggableCoverViewController.swift; path = Source/DraggableCoverViewController.swift; sourceTree = SOURCE_ROOT; };
+		67916D8A1BAE9308004419B0 /* CoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoverViewController.swift; path = Source/CoverViewController.swift; sourceTree = SOURCE_ROOT; };
 		67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerView.swift; path = Source/MiniPlayerView.swift; sourceTree = SOURCE_ROOT; };
 		67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewController.swift; path = Source/MiniPlayerViewController.swift; sourceTree = SOURCE_ROOT; };
 		67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewDelegate.swift; path = Source/MiniPlayerViewDelegate.swift; sourceTree = SOURCE_ROOT; };
@@ -145,7 +145,7 @@
 				673672C81D1FC81F006259F9 /* Playlist.swift */,
 				673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */,
 				67916D8E1BAE9308004419B0 /* Player.swift */,
-				67916D8A1BAE9308004419B0 /* DraggableCoverViewController.swift */,
+				67916D8A1BAE9308004419B0 /* CoverViewController.swift */,
 				67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */,
 				67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */,
 				67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */,
@@ -305,7 +305,7 @@
 				673672C91D1FC81F006259F9 /* Playlist.swift in Sources */,
 				67916D991BAE9308004419B0 /* PlayerPageViewController.swift in Sources */,
 				67916D9A1BAE9308004419B0 /* TimeHelper.swift in Sources */,
-				67916D931BAE9308004419B0 /* DraggableCoverViewController.swift in Sources */,
+				67916D931BAE9308004419B0 /* CoverViewController.swift in Sources */,
 				673672CD1D1FC85E006259F9 /* PlaylistQueue.swift in Sources */,
 				67916D981BAE9308004419B0 /* PlayerViewController.swift in Sources */,
 				67916D961BAE9308004419B0 /* MiniPlayerViewDelegate.swift in Sources */,
