@@ -137,7 +137,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         scrollView.pagingEnabled = true
         scrollView.delegate = self
         view.addSubview(scrollView)
-        resizeViews(0.0)
+        updateViewWithRate(0.0)
         updateViews()
         player?.addObserver(modalPlayerObserver)
         miniPlayerView.delegate = self
@@ -240,10 +240,14 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     }
 
     public func didResizeCoverView(rate: CGFloat) {
-        resizeViews(rate)
+        updateViewWithRate(rate)
     }
 
-    public func resizeViews(rate: CGFloat) {
+    public func updateViewWithRate(rate: CGFloat) {
+        miniPlayerView.updateViewWithRate(rate)
+        let alpha = 0.75 * (1 - rate) + 0.25
+        imageView.alpha = alpha
+        videoView.alpha = alpha
     }
 
     public func timeUpdated() {

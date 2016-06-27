@@ -135,6 +135,11 @@ public class SimpleMiniPlayerView: MiniPlayerView {
         state = player.currentState
     }
 
+    public override func updateViewWithRate(rate: CGFloat) {
+        let alpha = 0.75 * (1 - rate) + 0.25
+        [titleLabel, durationLabel, playButton, previousButton, nextButton].forEach { $0.alpha = alpha }
+    }
+
     public override func updatePlayButton() {
         let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
         if state.isPlaying {

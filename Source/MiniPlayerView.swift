@@ -22,6 +22,8 @@ public class MiniPlayerView: UIView {
     }
     public func updateViewWithPlayer(_: Player?) {
     }
+    public func updateViewWithRate(rate: CGFloat) {
+    }
     public func updatePlayButton() {
     }
     public override func updateConstraints() {

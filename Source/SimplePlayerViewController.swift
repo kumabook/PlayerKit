@@ -46,7 +46,7 @@ public class SimplePlayerViewController: PlayerViewController {
         super.init(coder: aDecoder)
         initializeSubviews()
     }
-    
+
     public func initializeSubviews() {
         titleLabel     = UILabel()
         subTitleLabel  = UILabel()
