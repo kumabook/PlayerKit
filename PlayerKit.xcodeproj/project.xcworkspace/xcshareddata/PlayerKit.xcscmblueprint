@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "54427DB514EE4E522C5ADC0C3ABA9B949F497776",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1E10C1D7ABC1ACCE34A44BB2DEF62B1391AF87BB" : 0,
+    "54427DB514EE4E522C5ADC0C3ABA9B949F497776" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "098A16D6-70C4-4A6C-A5AA-CD148F2B3FB6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1E10C1D7ABC1ACCE34A44BB2DEF62B1391AF87BB" : "..\/..",
+    "54427DB514EE4E522C5ADC0C3ABA9B949F497776" : "PlayerKit\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PlayerKit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PlayerKit.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:kumabook\/MusicFav.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1E10C1D7ABC1ACCE34A44BB2DEF62B1391AF87BB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/github.com\/kumabook\/PlayerKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "54427DB514EE4E522C5ADC0C3ABA9B949F497776"
+    }
+  ]
+}

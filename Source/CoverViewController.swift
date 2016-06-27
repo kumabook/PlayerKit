@@ -85,8 +85,9 @@ public class CoverViewController: UIViewController {
                 switch transitionMode {
                 case .Slide:
                     let h = ceilingViewController.minThumbnailHeight
-                    let y = max(frame.minY + point.y, -h)
-                    let rect = CGRect(x: 0, y: y, width: frame.width, height: view.frame.height + h)
+                    let height = view.frame.height
+                    let y = min(max(frame.minY + point.y, -h), height - h)
+                    let rect = CGRect(x: 0, y: y, width: frame.width, height: height + h)
                     rate = 1 - abs(rect.minY) / frame.height
                     resizeCoverView(rect, actualRate: rate)
                     sender.setTranslation(CGPointZero, inView:targetView)
