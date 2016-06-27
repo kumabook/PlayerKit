@@ -82,7 +82,7 @@ public class SimpleMiniPlayerView: MiniPlayerView {
         createSubviews()
         let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
         backgroundColor = UIColor.darkGrayColor()
-        
+
         addSubview(durationLabel)
         addSubview(titleLabel)
         addSubview(playButton)
@@ -132,6 +132,7 @@ public class SimpleMiniPlayerView: MiniPlayerView {
         } else {
             durationLabel.text = "00:00"
         }
+        state = player.currentState
     }
 
     public override func updatePlayButton() {
