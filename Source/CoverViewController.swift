@@ -22,9 +22,40 @@ import SnapKit
     func didMaximizedCoverView()
 }
 
+private class TouchPointQueue {
+    private var points: [(CGPoint, NSDate)] = []
+    private let capacity: Int = 10
+    public func enqueue(point: CGPoint, date: NSDate) {
+        points.insert((point, date), atIndex: 0)
+        if points.count >= capacity {
+            points.removeLast()
+        }
+    }
+    public var length: Int {
+        return points.count
+    }
+    public func clear() {
+        points.removeAll()
+    }
+    private func diff() -> (CGPoint, CGFloat) {
+        guard let f = points.first, l = points.last else { return (CGPoint(x: 0, y: 0), 0) }
+        let dx = l.0.x - f.0.x
+        let dy = l.0.y - f.0.y
+        let t = CGFloat(l.1.timeIntervalSinceDate(f.1))
+        return (CGPoint(x: dx, y: dy), t)
+    }
+    public func distance() -> CGPoint {
+        return diff().0
+    }
+    public func speed() -> CGPoint {
+        let d = diff()
+        return CGPoint(x: d.0.x / d.1, y: d.0.y / d.1)
+    }
+}
+
 public class CoverViewController: UIViewController {
     let duration = 0.35
-    let maxSpeed: CGFloat = 20
+    let maxSpeed: CGFloat = 500
     public static var toggleAnimationDuration: Double = 0.25
     public enum State {
         case Hidden
@@ -37,8 +68,7 @@ public class CoverViewController: UIViewController {
         case Slide
         case Zoom
     }
-    private var startPoint: CGPoint = CGPoint(x: 0, y: 0)
-    private var startDate:  NSDate  = NSDate()
+    private var touchPointQueue: TouchPointQueue = TouchPointQueue()
     private var rate:       CGFloat = 0
     public var state: State = .Minimized
     public var ceilingViewController: CoverViewControllerDelegate!
@@ -75,8 +105,7 @@ public class CoverViewController: UIViewController {
         case .Began:
             state = .Dragging
             if let targetView = sender.view {
-                startPoint = sender.translationInView(targetView)
-                startDate  = NSDate()
+                touchPointQueue.clear()
             }
         case .Changed:
             if let targetView = sender.view {
@@ -84,6 +113,7 @@ public class CoverViewController: UIViewController {
                 let frame = ceilingViewController.view.frame
                 switch transitionMode {
                 case .Slide:
+                    touchPointQueue.enqueue(sender.locationInView(view), date: NSDate())
                     let h = ceilingViewController.minThumbnailHeight
                     let height = view.frame.height
                     let y = min(max(frame.minY + point.y, -h), height - h)
@@ -106,23 +136,20 @@ public class CoverViewController: UIViewController {
             }
         case .Ended:
             if let targetView = sender.view {
-                let point = sender.translationInView(targetView)
-                let t = CGFloat(NSDate().timeIntervalSinceDate(startDate))
-                let d = startPoint.y - point.y
-                if abs(d) / t > maxSpeed {
-                    if d > 0 { minimizeCoverView(true) }
-                    else     { maximizeCoverView(true) }
-                    return
-                }
-                if rate < 0.5 {
+                let speed = touchPointQueue.speed()
+                if speed.y > maxSpeed {
+                    minimizeCoverView(true)
+                } else if speed.y < -maxSpeed{
+                    maximizeCoverView(true)
+                } else if rate < 0.5 {
                     minimizeCoverView(true)
                 } else {
                     maximizeCoverView(true)
                 }
             }
-        case .Cancelled: print("Cancelled")
-        case .Failed:    print("Failed")
-        case .Possible:  print("Possible")
+        case .Cancelled: break
+        case .Failed:    break
+        case .Possible:  break
         }
     }
 
