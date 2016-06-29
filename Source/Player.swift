@@ -384,6 +384,7 @@ public class Player: Observable {
                     state = .Pause
                 case .LoadToPlay:
                     state = .Play
+                    notify(.TimeUpdated)
                 default:
                     break
                 }
