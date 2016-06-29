@@ -15,10 +15,6 @@ public class PlayerViewObserver: NSObject, Observer {
     }
 }
 
-public func ==(lhs: PlayerViewObserver, rhs: PlayerObserver) -> Bool {
-    return lhs.isEqual(rhs)
-}
-
 public enum PlayerViewEvent {
     case Previous
     case Next
