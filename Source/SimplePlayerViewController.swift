@@ -223,12 +223,14 @@ public class SimplePlayerViewController: PlayerViewController {
         let action = {
             switch self.player.currentState {
             case .Pause:
-                self.videoEffectView.effect = UIBlurEffect(style: .Dark)
-                self.imageEffectView.effect = UIBlurEffect(style: .Dark)
+                self.videoEffectView.effect         = UIBlurEffect(style: .Dark)
+                self.imageEffectView.effect         = UIBlurEffect(style: .Dark)
                 self.imageCoverView.backgroundColor = UIColor.clearColor()
-                self.playButton.alpha       = 1.0
-                self.nextButton.alpha       = 1.0
-                self.previousButton.alpha   = 1.0
+                self.playButton.alpha               = 1.0
+                self.nextButton.alpha               = 1.0
+                self.nextButton.enabled             = self.player.nextTrack != nil
+                self.previousButton.alpha           = 1.0
+                self.previousButton.enabled         = self.player.previousTrack != nil
             default:
                 self.videoEffectView.effect = nil
                 self.imageEffectView.effect = track.isVideo ? UIBlurEffect(style: .Dark) : nil
