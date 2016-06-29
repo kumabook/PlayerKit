@@ -297,11 +297,13 @@ public class Player: Observable {
     }
     
     private func previousTrackIndexes() -> (Int, Int)? {
+        guard let playlistIndex = playlistIndex else { return nil }
         if let i = trackIndex(itemIndex-1) {
-            return (i, playlistIndex!)
+            return (i, playlistIndex)
         } else if playlistIndex > 0 {
-            let i = playlistIndex! - 1
-            return (playlistQueue.playlists[i].validTracksCount - 1, i)
+            let i = playlistIndex - 1
+            let validTracksCount = playlistQueue.playlists[i].validTracksCount
+            return validTracksCount > 0 ? (validTracksCount - 1, i) : nil
         } else {
             return nil
         }
