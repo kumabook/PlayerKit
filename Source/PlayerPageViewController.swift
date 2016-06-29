@@ -253,6 +253,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     public func timeUpdated() {
         guard let view   = currentPlayerView else { return }
         view.timeUpdated()
+        miniPlayerView.updateViewWithPlayer(player)
     }
     
     public func updateViews(animated: Bool = false) {
