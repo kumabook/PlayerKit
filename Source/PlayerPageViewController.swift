@@ -295,9 +295,14 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     
     public func enablePlayerView() {
         currentPlayerView?.enablePlayerView()
+        guard let avPlayer = player.avPlayer else { return }
+        if videoView.player != avPlayer {
+            videoView.player = avPlayer
+        }
     }
     public func disablePlayerView() {
         currentPlayerView?.disablePlayerView()
+        videoView.player = nil
     }
 
     private func didScrollEnd() {
