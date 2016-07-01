@@ -228,48 +228,53 @@ public class Player: Observable {
         }
     }
 
-    public func select(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
+    public func select(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) -> Bool {
         if let index = playlistQueue.indexOf(playlist) {
-            select(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
+            return select(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
         }
+        return false
     }
 
-    public func select(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+    public func select(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) -> Bool {
         if self.playlistQueue == playlistQueue && isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
-            return
+            return true
         }
-        if !(getPlaylist(playlistIndex)?.tracks[trackIndex].isValid ?? false) {
-            return
+        if !(getPlaylist(playlistIndex, playlistQueue: playlistQueue)?.tracks[trackIndex].isValid ?? true) {
+            return false
         }
         self.playlistQueue = playlistQueue
         prepare(trackIndex, playlistIndex: playlistIndex)
+        return true
     }
 
-    public func toggle(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
+    public func toggle(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) -> Bool {
         if let index = playlistQueue.indexOf(playlist) {
-            toggle(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
+            return toggle(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
         }
+        return false
     }
 
-    public func toggle(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+    public func toggle(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) -> Bool {
         if self.playlistQueue == playlistQueue && isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
             toggle()
+            return true
         } else {
-            play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
+            return play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
         }
     }
 
-    public func play(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
+    public func play(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) -> Bool {
         if let index = playlistQueue.indexOf(playlist) {
-            play(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
+            return play(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
         }
+        return false
     }
 
-    public func play(trackIndex trackIndex: Int, playlistIndex: Int) {
-        play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
+    public func play(trackIndex trackIndex: Int, playlistIndex: Int) -> Bool {
+        return play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
     }
 
-    public func play(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+    public func play(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) -> Bool {
         if self.playlistQueue != playlistQueue || !isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
             self.playlistQueue = playlistQueue
             prepare(trackIndex, playlistIndex: playlistIndex)
@@ -281,8 +286,10 @@ public class Player: Observable {
                 player.play()
                 if player.status == AVPlayerStatus.ReadyToPlay { state = .Play }
                 else                                           { state = .LoadToPlay }
+                return true
             }
         }
+        return false
     }
 
     public func keepPlaying() {
@@ -292,10 +299,11 @@ public class Player: Observable {
         }
     }
 
-    public func play() {
+    public func play() -> Bool {
         if let _playlistIndex = playlistIndex {
-            play(trackIndex: itemIndex, playlistIndex: _playlistIndex, playlistQueue: playlistQueue)
+            return play(trackIndex: itemIndex, playlistIndex: _playlistIndex, playlistQueue: playlistQueue)
         }
+        return false
     }
 
     public func pause() {
