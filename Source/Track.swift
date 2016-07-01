@@ -14,4 +14,9 @@ public protocol Track {
     var streamUrl:    NSURL?  { get }
     var thumbnailUrl: NSURL?  { get }
     var isVideo:      Bool    { get }
+    var isValid:      Bool    { get }
+}
+
+extension Track {
+    public var isValid: Bool { return streamUrl != nil }
 }

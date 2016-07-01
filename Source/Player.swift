@@ -97,13 +97,22 @@ public class Player: Observable {
     private var statusProxy:  ObserverProxy?
     private var endProxy:     ObserverProxy?
 
-    public var currentPlaylist: Playlist?  {
-        if let i = playlistIndex {
-            if i < playlistQueue.playlists.count {
-                return playlistQueue.playlists[i]
-            }
+    private func getPlaylist(index: Int, playlistQueue: PlaylistQueue) -> Playlist? {
+        if index < playlistQueue.playlists.count {
+            return playlistQueue.playlists[index]
         }
         return nil
+    }
+    private func getTrack(index: Int, playlist: Playlist) -> Track? {
+        if index < playlist.tracks.count {
+            return playlist.tracks[index]
+        }
+        return nil
+    }
+
+    public var currentPlaylist: Playlist?  {
+        guard let i = playlistIndex else { return nil }
+        return getPlaylist(i, playlistQueue: playlistQueue)
     }
     public var currentTrackIndex: Int? {
         if currentPlaylist == nil { return nil }
@@ -122,7 +131,7 @@ public class Player: Observable {
         var _indexes: [Int:Int] = [:]
         var c = 0
         for i in 0..<currentPlaylist!.tracks.count {
-            if let _ = currentPlaylist!.tracks[i].streamUrl {
+            if currentPlaylist!.tracks[i].isValid {
                 _indexes[c] = i
                 c += 1
             }
@@ -226,6 +235,23 @@ public class Player: Observable {
     }
 
     public func select(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        if self.playlistQueue == playlistQueue && isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
+            return
+        }
+        if !(getPlaylist(playlistIndex)?.tracks[trackIndex].isValid ?? false) {
+            return
+        }
+        self.playlistQueue = playlistQueue
+        prepare(trackIndex, playlistIndex: playlistIndex)
+    }
+
+    public func toggle(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
+        if let index = playlistQueue.indexOf(playlist) {
+            toggle(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
+        }
+    }
+
+    public func toggle(trackIndex trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
         if self.playlistQueue == playlistQueue && isCurrentPlaying(trackIndex, playlistIndex: playlistIndex) {
             toggle()
         } else {
