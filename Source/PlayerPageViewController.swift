@@ -87,7 +87,8 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     public var player: Player!
 
     public var coverViewController: CoverViewController?
-    public var thumbImage: UIImage {
+
+    public var videoBackgroundImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         let color = UIColor.init(red: 212, green: 212, blue: 212, alpha: 0.2)
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), false, 0.0)
@@ -97,7 +98,10 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext();
         return image
+    }
 
+    public var defaultThumbImage: UIImage {
+        return videoBackgroundImage
     }
 
     public init(player: Player) {
@@ -258,7 +262,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     
     public func updateViews(animated: Bool = false) {
         guard let track = player?.currentTrack else {
-            imageView.image  = self.thumbImage
+            imageView.image  = self.defaultThumbImage
             videoView.player = nil
             return
         }
@@ -274,7 +278,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
             let state = player.currentState
             if state == .Play || state == .Pause {
                 videoView.player = player.avPlayer
-                imageView.image = nil
+                imageView.image = videoBackgroundImage
                 return
             }
         }
@@ -283,7 +287,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
             imageView.sd_setImageWithURL(url)
         } else {
             videoView.player = nil
-            imageView.image  = thumbImage
+            imageView.image  = defaultThumbImage
         }
     }
 
