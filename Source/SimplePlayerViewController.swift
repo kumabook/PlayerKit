@@ -10,15 +10,25 @@ import AVFoundation
 import UIKit
 
 public class SimplePlayerViewController: PlayerViewController {
-    
-    let paddingSide:           CGFloat = 10.0
-    let paddingBottom:         CGFloat = 60.0
+    enum State {
+        case Normal
+        case Dragging(CGPoint, Float)
+        case Changing(CMTime)
+    }
+    let preferredTimeScale: Int32 = 1000
+
+    let paddingSide:           CGFloat = 16.0
+    let paddingBottom:         CGFloat = 90.0
     let paddingTitleBottom:    CGFloat = 64.0
     let paddingSubTitleBottom: CGFloat = 40.0
-    let paddingBottomTime:     CGFloat = 20.0
+    let paddingBottomTime:     CGFloat = 28.0
     let buttonSize:            CGFloat = 40.0
     let buttonPadding:         CGFloat = 30.0
+    let sliderWidth:           CGFloat = 2.0
+    let sliderHeight:          CGFloat = 32.0
+
     var toggleAnimationDuration: Double = 0.25
+    var state: State = .Normal
     
     public var videoView:           VideoView!
     public var imageView:           UIImageView!
@@ -36,6 +46,14 @@ public class SimplePlayerViewController: PlayerViewController {
     public var imageEffectView:     UIVisualEffectView!
     public var imageCoverView:      UIView!
     public var videoEffectView:     UIVisualEffectView!
+
+    public var sliderThumbImage: UIImage {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(sliderWidth, sliderHeight), false, 0.0)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextFillRect(context, CGRect(x: 0, y: sliderHeight/4, width: sliderWidth, height: sliderHeight/2))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
     
     public required init(player: Player) {
         super.init(player: player)
@@ -97,22 +115,15 @@ public class SimplePlayerViewController: PlayerViewController {
         nextButton.setImage(        nextImage, forState: UIControlState())
         playButton.setImage(        playImage, forState: UIControlState())
         previousButton.setImage(previousImage, forState: UIControlState())
-        closeButton.setImage(closeImage, forState: UIControlState())
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(2, 16), false, 0.0)
-        let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, CGRect(x: 0, y: 0, width: 2, height: 16))
-        let thumb: UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        slider.setThumbImage(thumb, forState: UIControlState.Normal)
-        slider.setThumbImage(thumb, forState: UIControlState.Highlighted)
+        closeButton.setImage(      closeImage, forState: UIControlState())
+        slider.setThumbImage(sliderThumbImage, forState: UIControlState.Normal)
+        slider.setThumbImage(sliderThumbImage, forState: UIControlState.Highlighted)
         
         imageView.frame = view.bounds
         videoView.frame = CGRect(x: 0, y: view.frame.height / 6, width: view.frame.width, height: view.frame.height / 2)
         imageEffectView.frame = view.bounds
         videoEffectView.frame = view.bounds
-        
-        
+
         view.clipsToBounds = true
         view.addSubview(imageEffectView)
         view.addSubview(imageCoverView)
@@ -139,6 +150,8 @@ public class SimplePlayerViewController: PlayerViewController {
         previousButton.addTarget(self, action: #selector(SimplePlayerViewController.previous),     forControlEvents: UIControlEvents.TouchUpInside)
         closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        forControlEvents: UIControlEvents.TouchUpInside)
         videoView.addTarget(     self, action: #selector(SimplePlayerViewController.toggle),       forControlEvents: UIControlEvents.TouchUpInside)
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(SimplePlayerViewController.sliderDragged(_:)))
+        slider.addGestureRecognizer(panGesture)
     }
     
     public func updateConstraints() {
@@ -188,6 +201,38 @@ public class SimplePlayerViewController: PlayerViewController {
             make.left.equalTo(self.slider.snp_left)
             make.bottom.equalTo(self.slider.snp_top).offset(-self.paddingSubTitleBottom)
             make.width.equalTo(self.view.snp_width).offset(-paddingSide*2)
+        }
+    }
+
+    func sliderDragged(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .Began:
+            if let targetView = sender.view {
+                let point = sender.translationInView(targetView)
+                state = .Dragging(point, slider.value)
+            }
+        case .Changed:
+            if let targetView = sender.view {
+                let point = sender.translationInView(targetView)
+                switch state {
+                case .Normal: break
+                case .Dragging(let startPoint, let startValue):
+                    let dx  = point.x - startPoint.x
+                    let v   = startValue + Float(dx / slider.frame.width) * slider.maximumValue
+                    let val = min(slider.maximumValue, max(0, v))
+                    updateTime(current: val, total: slider.maximumValue);
+                case .Changing: break
+                }
+            }
+        case .Ended:
+            if let targetView = sender.view {
+                let value = CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
+                notify(.TimeChanged(value))
+                state = .Changing(value)
+            }
+        case .Cancelled: break
+        case .Failed:    break
+        case .Possible:  break
         }
     }
     
@@ -260,8 +305,17 @@ public class SimplePlayerViewController: PlayerViewController {
     }
     
     public override func timeUpdated() {
-        if let (current, total) = player.secondPair {
-            updateTime(current: Float(current), total: Float(total))
+        switch state {
+        case .Dragging: break
+        case .Normal:
+            if let (current, total) = player.secondPair {
+                updateTime(current: Float(current), total: Float(total))
+            }
+        case .Changing(let time):
+            guard let currentTime = player.avPlayer?.currentTime() else { return }
+            if CMTimeGetSeconds(time) - CMTimeGetSeconds(currentTime) < 1.0 {
+                state = .Normal
+            }
         }
     }
     
@@ -285,14 +339,14 @@ public class SimplePlayerViewController: PlayerViewController {
     func close()    { notify(.Close) }
     func previewSeek() {
         if slider.tracking {
-            CMTimeMakeWithSeconds(Float64(slider.value), 1)
+            CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
             updateTime(current: slider.value, total: slider.maximumValue)
         }
-        notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), 1)))
+        notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
     }
     
     func stopSeek() {
-        notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), 1)))
+        notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
     }
     
     func cancelSeek() {
