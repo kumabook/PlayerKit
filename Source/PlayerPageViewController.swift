@@ -33,6 +33,7 @@ class PlayerPageViewPlayerObserver: PlayerObserver {
         case .ErrorOccured:              vc?.updateViews(false)
         case .NextPlaylistRequested:     vc?.updateViews(false)
         case .PreviousPlaylistRequested: vc?.updateViews(false)
+        case .NextTrackAdded:            vc?.updatePlayerViews(); vc?.updateViews(true);
         case .PlaylistChanged: break
         }
     }

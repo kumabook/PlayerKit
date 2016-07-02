@@ -61,6 +61,7 @@ public enum PlayerEvent {
     case NextPlaylistRequested;
     case ErrorOccured
     case PlaylistChanged
+    case NextTrackAdded
 }
 
 public enum PlayerState {
@@ -82,7 +83,12 @@ public class Player: Observable {
         get { return _observers }
         set { _observers = newValue }
     }
-    public private(set) var playlistQueue: PlaylistQueue
+    public private(set) var playlistQueue: PlaylistQueue {
+        didSet {
+            oldValue.player      = nil
+            playlistQueue.player = self
+        }
+    }
     private var queuePlayer:   AVQueuePlayer?
     private var currentTime:   CMTime? { get { return queuePlayer?.currentTime() }}
     private var itemIndex:     Int = -1
@@ -334,13 +340,13 @@ public class Player: Observable {
         guard let playlistIndex = playlistIndex else { return nil }
         if let i = trackIndex(itemIndex-1) {
             return (i, playlistIndex)
-        } else if playlistIndex > 0 {
-            let i = playlistIndex - 1
-            let validTracksCount = playlistQueue.playlists[i].validTracksCount
-            return validTracksCount > 0 ? (validTracksCount - 1, i) : nil
-        } else {
-            return nil
         }
+        for i in (0..<playlistIndex).reverse() {
+            if let playlist = getPlaylist(i, playlistQueue: playlistQueue) where playlist.validTracksCount > 0 {
+                return (0, i)
+            }
+        }
+        return nil
     }
 
     public func previous() {
@@ -442,5 +448,9 @@ public class Player: Observable {
 
     public func seekToTime(time: CMTime) {
         queuePlayer?.seekToTime(time)
+    }
+
+    public func nextTrackAdded() {
+        notify(.NextTrackAdded)
     }
 }

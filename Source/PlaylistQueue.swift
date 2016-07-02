@@ -9,6 +9,7 @@
 import Foundation
 
 public class PlaylistQueue: NSObject {
+    public internal(set) var player: Player?
     public private(set) var playlists: [Playlist] = []
     public init(playlists: [Playlist]) {
         self.playlists = playlists
@@ -25,5 +26,11 @@ public class PlaylistQueue: NSObject {
             }
         }
         return nil
+    }
+    public func trackUpdated(track: Track) {
+        guard let nextTrack = player?.nextTrack else { return }
+        if nextTrack.streamUrl == track.streamUrl {
+            player?.nextTrackAdded()
+        }
     }
 }
