@@ -371,7 +371,7 @@ public class Player: Observable {
 
     private func nextTrackIndexes() -> (Int, Int)? {
         guard let playlistIndex = playlistIndex else { return nil }
-        guard let currentPlaylist = currentPlaylist else { return nil }
+        guard let _ = currentPlaylist else { return nil }
         if let i = trackIndex(itemIndex+1) {
             return (i, playlistIndex)
         }

@@ -225,7 +225,7 @@ public class SimplePlayerViewController: PlayerViewController {
                 }
             }
         case .Ended:
-            if let targetView = sender.view {
+            if let _ = sender.view {
                 let value = CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
                 notify(.TimeChanged(value))
                 state = .Changing(value)

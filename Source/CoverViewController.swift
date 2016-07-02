@@ -25,16 +25,16 @@ import SnapKit
 private class TouchPointQueue {
     private var points: [(CGPoint, NSDate)] = []
     private let capacity: Int = 10
-    public func enqueue(point: CGPoint, date: NSDate) {
+    private func enqueue(point: CGPoint, date: NSDate) {
         points.insert((point, date), atIndex: 0)
         if points.count >= capacity {
             points.removeLast()
         }
     }
-    public var length: Int {
+    private var length: Int {
         return points.count
     }
-    public func clear() {
+    private func clear() {
         points.removeAll()
     }
     private func diff() -> (CGPoint, CGFloat) {
@@ -44,10 +44,10 @@ private class TouchPointQueue {
         let t = CGFloat(l.1.timeIntervalSinceDate(f.1))
         return (CGPoint(x: dx, y: dy), t)
     }
-    public func distance() -> CGPoint {
+    private func distance() -> CGPoint {
         return diff().0
     }
-    public func speed() -> CGPoint {
+    private func speed() -> CGPoint {
         let d = diff()
         return CGPoint(x: d.0.x / d.1, y: d.0.y / d.1)
     }
@@ -104,7 +104,7 @@ public class CoverViewController: UIViewController {
         switch sender.state {
         case .Began:
             state = .Dragging
-            if let targetView = sender.view {
+            if let _ = sender.view {
                 touchPointQueue.clear()
             }
         case .Changed:
@@ -135,7 +135,7 @@ public class CoverViewController: UIViewController {
                 }
             }
         case .Ended:
-            if let targetView = sender.view {
+            if let _ = sender.view {
                 let speed = touchPointQueue.speed()
                 if speed.y > maxSpeed {
                     minimizeCoverView(true)
