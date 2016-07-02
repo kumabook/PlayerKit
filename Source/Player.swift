@@ -448,6 +448,7 @@ public class Player: Observable {
 
     public func seekToTime(time: CMTime) {
         queuePlayer?.seekToTime(time)
+        notify(.TimeUpdated)
     }
 
     public func nextTrackAdded() {
