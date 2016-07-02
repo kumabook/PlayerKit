@@ -82,8 +82,8 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     public var imageView:      UIImageView!
     public var videoView:      VideoView!
 
-    var modalPlayerObserver:     PlayerPageViewPlayerObserver!
-    var modalPlayerViewObserver: PlayerPageViewPlayerViewObserver!
+    var playerObserver:     PlayerPageViewPlayerObserver!
+    var playerViewObserver: PlayerPageViewPlayerViewObserver!
     public var player: Player!
 
     public var coverViewController: CoverViewController?
@@ -108,8 +108,8 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         super.init(nibName: nil, bundle: nil)
         self.player             = player
         self.playerViews        = []
-        modalPlayerObserver     = PlayerPageViewPlayerObserver(playerViewController: self)
-        modalPlayerViewObserver = PlayerPageViewPlayerViewObserver(playerViewController: self)
+        playerObserver     = PlayerPageViewPlayerObserver(playerViewController: self)
+        playerViewObserver = PlayerPageViewPlayerViewObserver(playerViewController: self)
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -143,7 +143,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         view.addSubview(scrollView)
         updateViewWithRate(0.0)
         updateViews()
-        player?.addObserver(modalPlayerObserver)
+        player?.addObserver(playerObserver)
         miniPlayerView.delegate = self
     }
 
@@ -178,7 +178,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     
     public func updatePlayerViews() {
         for i in 0..<playerViews.count {
-            playerViews[i].removeObserver(self.modalPlayerViewObserver)
+            playerViews[i].removeObserver(self.playerViewObserver)
             playerViews[i].willMoveToParentViewController(nil)
             playerViews[i].view.removeFromSuperview()
             playerViews[i].removeFromParentViewController()
@@ -192,7 +192,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
             self.addChildViewController(pvc)
             pvc.view.frame = CGRect(x:  w * CGFloat(i), y: 0, width: w, height: h)
             pvc.updateViewWithTrack(track, animated: false)
-            pvc.addObserver(self.modalPlayerViewObserver)
+            pvc.addObserver(self.playerViewObserver)
             scrollView.addSubview(pvc.view)
             pvc.didMoveToParentViewController(self)
             playerViews.append(pvc)
