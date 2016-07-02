@@ -136,8 +136,12 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         videoView            = VideoView()
         videoView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
         view.addSubview(miniPlayerView)
+        videoView.userInteractionEnabled = false
+        imageView.userInteractionEnabled = false
         miniPlayerView.addSubview(imageView)
         miniPlayerView.addSubview(videoView)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PlayerPageViewController.close))
+        miniPlayerView.addGestureRecognizer(tapRecognizer)
         scrollView = UIScrollView(frame: CGRect(x: 0, y: minThumbnailHeight, width: w, height: h))
         scrollView.pagingEnabled = true
         scrollView.delegate = self
@@ -206,6 +210,10 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         } else {
             scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: w, height: h), animated: false)
         }
+    }
+
+    public func open() {
+        coverViewController?.toggleScreen()
     }
 
     public func close() {
