@@ -122,6 +122,7 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
             let w = self.view.frame.width
             let h = self.view.frame.height
             self.mainViewContainer.frame = CGRectMake(0, 0, w, h)
+            self.miniPlayerView.frame = CGRectMake(0, h, w, self.miniPlayerHeight)
         }
         if animated {
             let d = CoverViewController.toggleAnimationDuration
@@ -137,8 +138,8 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
             let w = self.view.frame.width
             let h = self.view.frame.height - self.miniPlayerHeight
             self.mainViewContainer.frame = CGRectMake(0, 0, w, h)
+            self.miniPlayerView.frame = CGRectMake(0, h, w, self.miniPlayerHeight)
         }
-        self.miniPlayerView.hidden = true
         if animated {
             let d = CoverViewController.toggleAnimationDuration
             UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: completion)
