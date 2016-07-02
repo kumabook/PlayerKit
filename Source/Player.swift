@@ -127,11 +127,11 @@ public class Player: Observable {
         return nil
     }
     public func trackIndex(itemIndex: Int) -> Int? {
-        if currentPlaylist == nil { return nil }
+        guard let currentPlaylist = currentPlaylist else { return nil }
         var _indexes: [Int:Int] = [:]
         var c = 0
-        for i in 0..<currentPlaylist!.tracks.count {
-            if currentPlaylist!.tracks[i].isValid {
+        for i in 0..<currentPlaylist.tracks.count {
+            if currentPlaylist.tracks[i].isValid {
                 _indexes[c] = i
                 c += 1
             }
@@ -364,13 +364,17 @@ public class Player: Observable {
     }
 
     private func nextTrackIndexes() -> (Int, Int)? {
+        guard let playlistIndex = playlistIndex else { return nil }
+        guard let currentPlaylist = currentPlaylist else { return nil }
         if let i = trackIndex(itemIndex+1) {
-            return (i, playlistIndex!)
-        } else if playlistIndex != nil && playlistIndex! + 1 < playlistQueue.playlists.count {
-            return (0, playlistIndex! + 1)
-        } else {
-            return nil
+            return (i, playlistIndex)
         }
+        for i in playlistIndex+1..<playlistQueue.playlists.count {
+            if let playlist = getPlaylist(i, playlistQueue: playlistQueue) where playlist.validTracksCount > 0 {
+                return (0, i)
+            }
+        }
+        return nil
     }
 
     public func next() {
