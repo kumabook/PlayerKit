@@ -13,6 +13,7 @@ public protocol Track {
     var subtitle:     String? { get }
     var streamUrl:    NSURL?  { get }
     var thumbnailUrl: NSURL?  { get }
+    var artworkUrl:   NSURL?  { get }
     var isVideo:      Bool    { get }
     var isValid:      Bool    { get }
 }
