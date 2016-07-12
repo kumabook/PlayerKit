@@ -28,12 +28,12 @@ class PlayerPageViewPlayerObserver: PlayerObserver {
         case .TimeUpdated:               vc?.timeUpdated()
         case .DidPlayToEndTime:          vc?.updateViews(false)
         case .StatusChanged:             vc?.updateViews(true)
-        case .TrackSelected(_, _, _):    vc?.updatePlayerViews(); vc?.updateViews(true);
+        case .TrackSelected(_, _, _):    vc?.updatePlayerViews(); vc?.updateViews(false)
         case .TrackUnselected(_, _, _):  vc?.updateViews(false)
         case .ErrorOccured:              vc?.updateViews(false)
         case .NextPlaylistRequested:     vc?.updateViews(false)
         case .PreviousPlaylistRequested: vc?.updateViews(false)
-        case .NextTrackAdded:            vc?.updatePlayerViews(); vc?.updateViews(true);
+        case .NextTrackAdded:            vc?.updatePlayerViews(); vc?.updateViews(false)
         case .PlaylistChanged: break
         }
     }
