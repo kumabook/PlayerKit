@@ -28,6 +28,7 @@ public class PlaylistQueue: NSObject {
         return nil
     }
     public func trackUpdated(track: Track) {
+        guard let playlistQueue = player?.playlistQueue where playlistQueue == self else { return }
         guard let nextTrack = player?.nextTrack else { return }
         if nextTrack.streamUrl == track.streamUrl {
             player?.nextTrackAdded()
