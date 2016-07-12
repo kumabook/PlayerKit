@@ -12,11 +12,11 @@ import AVFoundation
 public class VideoView: UIButton {
     public var player: AVPlayer? {
         get {
-            let layer: AVPlayerLayer = self.layer as! AVPlayerLayer
+            guard let layer = self.layer as? AVPlayerLayer else { return nil }
             return layer.player
         }
         set(newValue) {
-            let layer: AVPlayerLayer = self.layer as! AVPlayerLayer
+            guard let layer = self.layer as? AVPlayerLayer else { return }
             layer.player = newValue
         }
     }
