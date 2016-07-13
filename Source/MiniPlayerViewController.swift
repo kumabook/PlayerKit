@@ -78,43 +78,9 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
     }
     
     public func updateViews() {
-        if let track = player?.currentTrack {
-            let playingInfoCenter: AnyClass? = NSClassFromString("MPNowPlayingInfoCenter")
-            if let _: AnyClass = playingInfoCenter {
-                var info:[String:AnyObject]                           = [:]
-                info[MPMediaItemPropertyTitle]                        = track.title
-                MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = info
-            }
-            let imageManager = SDWebImageManager()
-            if let url = track.thumbnailUrl {
-                imageManager.downloadImageWithURL(url,
-                    options: SDWebImageOptions.HighPriority,
-                   progress: {receivedSize, expectedSize in },
-                  completed: { (image, error, cacheType, finished, url) -> Void in
-                    self.updateMPNowPlaylingInfoCenter(track, image: image)
-                })
-            } else {
-                self.updateMPNowPlaylingInfoCenter(track, image: UIImage(named: "default_thumb")!)
-            }
-        } else {
-            MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nil
-        }
-        if let state = player?.currentState{
-            miniPlayerView.state = state
-        }
+        guard let player = player else { return }
+        miniPlayerView.state = player.currentState
         miniPlayerView.updateViewWithPlayer(player)
-    }
-
-    func updateMPNowPlaylingInfoCenter(track: Track, image: UIImage) {
-        let playingInfoCenter: AnyClass? = NSClassFromString("MPNowPlayingInfoCenter")
-        if let _: AnyClass = playingInfoCenter {
-            let infoCenter = MPNowPlayingInfoCenter.defaultCenter()
-            let albumArt                     = MPMediaItemArtwork(image:image)
-            var info:[String:AnyObject]      = [:]
-            info[MPMediaItemPropertyTitle]   = track.title
-            info[MPMediaItemPropertyArtwork] = albumArt
-            infoCenter.nowPlayingInfo        = info
-        }
     }
 
     public func hideMiniPlayer(animated: Bool, completion: (Bool) -> () = {_ in }) {

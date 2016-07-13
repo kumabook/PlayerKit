@@ -35,6 +35,7 @@
 		67916DA11BAE95D3004419B0 /* PlayerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D3D1BAE8A87004419B0 /* PlayerKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67916DA31BAE9759004419B0 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
 		67916DC11BAEFAEF004419B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67916DC01BAEFAEF004419B0 /* Images.xcassets */; };
+		67BC7F041D355FBE00606D8A /* NowPlayingInfoCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BC7F031D355FBE00606D8A /* NowPlayingInfoCenter.swift */; };
 		67FDBA941D157C51003F6DFD /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +92,7 @@
 		67916D911BAE9308004419B0 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeHelper.swift; path = Source/TimeHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DA21BAE9759004419B0 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecHelper.swift; path = Spec/SpecHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DC01BAEFAEF004419B0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		67BC7F031D355FBE00606D8A /* NowPlayingInfoCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingInfoCenter.swift; path = Source/NowPlayingInfoCenter.swift; sourceTree = SOURCE_ROOT; };
 		67FDBA931D157C51003F6DFD /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Observable.swift; path = Source/Observable.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 				67916D911BAE9308004419B0 /* TimeHelper.swift */,
 				67916D421BAE8A87004419B0 /* Info.plist */,
 				67FDBA931D157C51003F6DFD /* Observable.swift */,
+				67BC7F031D355FBE00606D8A /* NowPlayingInfoCenter.swift */,
 			);
 			name = Source;
 			path = PlayerKit;
@@ -311,6 +314,7 @@
 				67916D961BAE9308004419B0 /* MiniPlayerViewDelegate.swift in Sources */,
 				67FDBA941D157C51003F6DFD /* Observable.swift in Sources */,
 				6718E36E1D14EFD700CECC08 /* VideoView.swift in Sources */,
+				67BC7F041D355FBE00606D8A /* NowPlayingInfoCenter.swift in Sources */,
 				6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */,
 				6723D8541D1E11DB00D60C3F /* SimplePlayerViewController.swift in Sources */,
 				67916D951BAE9308004419B0 /* MiniPlayerViewController.swift in Sources */,
