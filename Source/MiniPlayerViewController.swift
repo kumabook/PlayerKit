@@ -31,7 +31,7 @@ class MiniPlayerObserver: PlayerObserver {
 }
 
 public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniPlayerViewDelegate {
-    public let miniPlayerHeight: CGFloat = 60.0
+    public var miniPlayerHeight: CGFloat { return 60.0 }
     public var mainViewController: UIViewController?
     var miniPlayerObserver:        MiniPlayerObserver!
     public var player:             Player?
