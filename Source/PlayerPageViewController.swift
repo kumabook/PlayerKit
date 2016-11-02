@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import SnapKit
-import WebImage
+import SDWebImage
 
 extension UIScrollView {
     var currentPage: Int {

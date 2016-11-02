@@ -7,7 +7,7 @@
 //
 
 import MediaPlayer
-import WebImage
+import SDWebImage
 
 open class NowPlayingInfoCenter: PlayerObserver {
     var player: Player
@@ -45,10 +45,10 @@ open class NowPlayingInfoCenter: PlayerObserver {
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = CMTimeGetSeconds(elapsedTime) as AnyObject?
         if let url = track.artworkUrl {
             let imageManager = SDWebImageManager()
-            imageManager.downloadImage(
+            let _ = imageManager.imageDownloader?.downloadImage(
                 with: url as URL!,
-                options: SDWebImageOptions.highPriority,
-                progress: {receivedSize, expectedSize in }) { (image, error, cacheType, finished, url) -> Void in
+                options: SDWebImageDownloaderOptions.highPriority,
+                progress: {receivedSize, expectedSize, url in }) { (image, data, error, finished) -> Void in
                     let albumArt                     = MPMediaItemArtwork(image: image!)
                     info[MPMediaItemPropertyArtwork] = albumArt
                     infoCenter.nowPlayingInfo        = info

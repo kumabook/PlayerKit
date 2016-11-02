@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import SnapKit
-import WebImage
+import SDWebImage
 
 class MiniPlayerObserver: PlayerObserver {
     let delegate: MiniPlayerViewDelegate
