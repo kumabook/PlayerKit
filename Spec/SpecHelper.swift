@@ -13,10 +13,12 @@ class SpecHelper {
 }
 
 class TestTrack: PlayerKit.Track {
-    var title:        String? { return "test track" }
-    var streamUrl:    NSURL?  { return NSURL(string: "http://logical-oscillator.github.io/trial_tracks/1.mp3") }
-    var thumbnailUrl: NSURL?  { return nil }
-    var isVideo:      Bool    { return false }
+    public var title:        String? { return "test track" }
+    public var subtitle:     String?
+    public var artworkUrl:   URL?
+    public var streamUrl:    URL?  { return URL(string: "http://logical-oscillator.github.io/trial_tracks/1.mp3") }
+    public var thumbnailUrl: URL?  { return nil }
+    public var isVideo:      Bool    { return false }
 }
 
 class TestPlaylist: PlayerKit.Playlist {
@@ -34,29 +36,31 @@ class TestObserver: PlayerKit.PlayerObserver {
     var previousPlaylistRequestedCount: Int = 0
     var nextPlaylistRequestedCount:     Int = 0
     var errorOccuredCount:              Int = 0
+    var playlistChangedCount:           Int = 0
+    var nextTrackAddedCount:                 Int = 0
 
-    override func timeUpdated() {
-        timeUpdatedCount++
-    }
-    override func didPlayToEndTime() {
-        didPlayToEndTimeCount++
-    }
-    override func statusChanged() {
-        statusChangedCount++
-    }
-    override func trackSelected(track: Track, index: Int, playlist: Playlist) {
-        trackSelectedCount++
-    }
-    override func trackUnselected(track: Track, index: Int, playlist: Playlist) {
-        trackUnselectedCount++
-    }
-    override func previousPlaylistRequested() {
-        previousPlaylistRequestedCount++
-    }
-    override func nextPlaylistRequested() {
-        nextPlaylistRequestedCount++
-    }
-    override func errorOccured() {
-        errorOccuredCount++
+    open override func listen(_ event: Event) {
+        switch event {
+        case .timeUpdated:
+            timeUpdatedCount += 1
+        case .didPlayToEndTime:
+            didPlayToEndTimeCount += 1
+        case .statusChanged:
+            statusChangedCount += 1
+        case .trackSelected(_, _, _):
+            trackSelectedCount += 1
+        case .trackUnselected(_, _, _):
+            trackUnselectedCount += 1
+        case .previousPlaylistRequested:
+            previousPlaylistRequestedCount += 1
+        case .nextPlaylistRequested:
+            nextPlaylistRequestedCount += 1
+        case .errorOccured:
+            errorOccuredCount += 1
+        case .playlistChanged:
+            playlistChangedCount += 1
+        case .nextTrackAdded:
+            nextTrackAddedCount += 1
+        }
     }
 }

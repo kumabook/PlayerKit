@@ -22,7 +22,7 @@ class PlayerSpec: QuickSpec {
         }
         func start() {
             let playlist = TestPlaylist()
-            player.play(trackIndex: 0, playlistIndex: 0, playlists: [playlist])
+            let _ = player.play(trackIndex: 0, playlistIndex: 0, playlistQueue: PlaylistQueue(playlists: [playlist]))
         }
         func toggle() {
             player.toggle()
@@ -30,13 +30,13 @@ class PlayerSpec: QuickSpec {
         describe("Player") {
             it("should construct") {
                 expect(player).notTo(beNil())
-                expect(player.currentState).to(equal(PlayerState.Init))
+                expect(player.currentState).to(equal(PlayerState.init))
             }
 
             it("should play a track") {
                 start()
                 expect(observer.statusChangedCount).toEventually(beGreaterThan(1))
-                expect(player.currentState).to(equal(PlayerState.Play))
+                expect(player.currentState).to(equal(PlayerState.play))
             }
 
             it("should stop a track") {
@@ -44,7 +44,7 @@ class PlayerSpec: QuickSpec {
                 expect(observer.statusChangedCount).toEventually(beGreaterThan(1))
                 toggle()
                 expect(observer.statusChangedCount).toEventually(beGreaterThan(2))
-                expect(player.currentState).to(equal(PlayerState.Pause))
+                expect(player.currentState).to(equal(PlayerState.pause))
             }
         }
     }

@@ -17,63 +17,63 @@ import SnapKit
 
     var coverViewController: CoverViewController? { get set }
 
-    func didResizeCoverView(rate: CGFloat)
+    func didResizeCoverView(_ rate: CGFloat)
     func didMinimizedCoverView()
     func didMaximizedCoverView()
 }
 
 private class TouchPointQueue {
-    private var points: [(CGPoint, NSDate)] = []
-    private let capacity: Int = 10
-    private func enqueue(point: CGPoint, date: NSDate) {
-        points.insert((point, date), atIndex: 0)
+    fileprivate var points: [(CGPoint, Date)] = []
+    fileprivate let capacity: Int = 10
+    fileprivate func enqueue(_ point: CGPoint, date: Date) {
+        points.insert((point, date), at: 0)
         if points.count >= capacity {
             points.removeLast()
         }
     }
-    private var length: Int {
+    fileprivate var length: Int {
         return points.count
     }
-    private func clear() {
+    fileprivate func clear() {
         points.removeAll()
     }
-    private func diff() -> (CGPoint, CGFloat) {
-        guard let f = points.first, l = points.last else { return (CGPoint(x: 0, y: 0), 0) }
+    fileprivate func diff() -> (CGPoint, CGFloat) {
+        guard let f = points.first, let l = points.last else { return (CGPoint(x: 0, y: 0), 0) }
         let dx = l.0.x - f.0.x
         let dy = l.0.y - f.0.y
-        let t = CGFloat(l.1.timeIntervalSinceDate(f.1))
+        let t = CGFloat(l.1.timeIntervalSince(f.1))
         return (CGPoint(x: dx, y: dy), t)
     }
-    private func distance() -> CGPoint {
+    fileprivate func distance() -> CGPoint {
         return diff().0
     }
-    private func speed() -> CGPoint {
+    fileprivate func speed() -> CGPoint {
         let d = diff()
         return CGPoint(x: d.0.x / d.1, y: d.0.y / d.1)
     }
 }
 
-public class CoverViewController: UIViewController {
+open class CoverViewController: UIViewController {
     let duration = 0.35
     let maxSpeed: CGFloat = 500
-    public static var toggleAnimationDuration: Double = 0.25
+    open static var toggleAnimationDuration: Double = 0.25
     public enum State {
-        case Hidden
-        case Maximized
-        case Minimized
-        case Dragging
-        case Animating
+        case hidden
+        case maximized
+        case minimized
+        case dragging
+        case animating
     }
     public enum TransitionMode {
-        case Slide
-        case Zoom
+        case slide
+        case zoom
     }
-    private var touchPointQueue: TouchPointQueue = TouchPointQueue()
-    private var rate:       CGFloat = 0
-    public var state: State = .Minimized
-    public var ceilingViewController: CoverViewControllerDelegate!
-    public var floorViewController: UIViewController!
-    public var transitionMode: TransitionMode = TransitionMode.Slide
+    fileprivate var touchPointQueue: TouchPointQueue = TouchPointQueue()
+    fileprivate var rate:       CGFloat = 0
+    open var state: State = .minimized
+    open var ceilingViewController: CoverViewControllerDelegate!
+    open var floorViewController: UIViewController!
+    open var transitionMode: TransitionMode = TransitionMode.slide
 
     public init(ceilingViewController: CoverViewControllerDelegate, floorViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
@@ -82,7 +82,7 @@ public class CoverViewController: UIViewController {
         self.ceilingViewController.coverViewController = self
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -90,7 +90,7 @@ public class CoverViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    override public func loadView() {
+    override open func loadView() {
         super.loadView()
         view.addSubview(floorViewController.view)
         view.addSubview(ceilingViewController.view)
@@ -100,41 +100,41 @@ public class CoverViewController: UIViewController {
         ceilingViewController.view.addGestureRecognizer(panGestureRecognizer)
     }
 
-    func dragged(sender: UIPanGestureRecognizer) {
+    func dragged(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
-        case .Began:
-            state = .Dragging
+        case .began:
+            state = .dragging
             if let _ = sender.view {
                 touchPointQueue.clear()
             }
-        case .Changed:
+        case .changed:
             if let targetView = sender.view {
-                let point = sender.translationInView(targetView)
+                let point = sender.translation(in: targetView)
                 let frame = ceilingViewController.view.frame
                 switch transitionMode {
-                case .Slide:
-                    touchPointQueue.enqueue(sender.locationInView(view), date: NSDate())
+                case .slide:
+                    touchPointQueue.enqueue(sender.location(in: view), date: Date())
                     let h = ceilingViewController.minThumbnailHeight
                     let height = view.frame.height
                     let y = min(max(frame.minY + point.y, -h), height - h)
                     let rect = CGRect(x: 0, y: y, width: frame.width, height: height + h)
                     rate = 1 - abs(rect.minY) / frame.height
                     resizeCoverView(rect, actualRate: rate)
-                    sender.setTranslation(CGPointZero, inView:targetView)
-                    if point.y < 0 { state = .Dragging }
-                    else           { state = .Dragging }
-                case .Zoom:
+                    sender.setTranslation(CGPoint.zero, in:targetView)
+                    if point.y < 0 { state = .dragging }
+                    else           { state = .dragging }
+                case .zoom:
                     let newSize: CGSize = CGSize(width: frame.width + point.x, height: frame.height - point.y)
                     let (w, h, actualRate) = calculateCoverViewActualRate(newSize)
                     rate = actualRate
                     let f                  = view.frame
                     resizeCoverView(CGRect(x: 0, y: f.height - h, width: w, height: h), actualRate: rate)
-                    sender.setTranslation(CGPointZero, inView:targetView)
-                    if point.x > 0 || point.y < 0 { state = .Dragging }
-                    else                          { state = .Dragging }
+                    sender.setTranslation(CGPoint.zero, in:targetView)
+                    if point.x > 0 || point.y < 0 { state = .dragging }
+                    else                          { state = .dragging }
                 }
             }
-        case .Ended:
+        case .ended:
             if let _ = sender.view {
                 let speed = touchPointQueue.speed()
                 if speed.y > maxSpeed {
@@ -147,72 +147,72 @@ public class CoverViewController: UIViewController {
                     maximizeCoverView(true)
                 }
             }
-        case .Cancelled: break
-        case .Failed:    break
-        case .Possible:  break
+        case .cancelled: break
+        case .failed:    break
+        case .possible:  break
         }
     }
 
-    public func minimizeCoverView(animated: Bool) {
+    open func minimizeCoverView(_ animated: Bool) {
         let f = view.frame
         let w = ceilingViewController.minThumbnailWidth
         let h = ceilingViewController.minThumbnailHeight
         let y = f.height - h
         let action = {
             switch self.transitionMode {
-            case .Slide:
+            case .slide:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: f.height - h, width:  w, height: f.height + h)
-            case .Zoom:
+            case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: y, width:  w, height: h)
             }
             self.ceilingViewController.didResizeCoverView(0)
         }
         if animated {
-            UIView.animateWithDuration(duration, delay: 0, options:.CurveEaseInOut, animations: action, completion: { finished in
-                self.state = .Minimized
+            UIView.animate(withDuration: duration, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { finished in
+                self.state = .minimized
                 self.ceilingViewController.didMinimizedCoverView()
             })
         } else {
             action()
-            self.state = .Minimized
+            self.state = .minimized
             self.ceilingViewController.didMinimizedCoverView()
         }
     }
 
-    public func maximizeCoverView(animated: Bool) {
+    open func maximizeCoverView(_ animated: Bool) {
         let f = view.frame
         let w = f.width
         let h = self.ceilingViewController.minThumbnailHeight
         let d = animated ? duration : 0
-        UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: {
+        UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: {
             switch self.transitionMode {
-            case .Slide:
+            case .slide:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: f.height + h)
-            case .Zoom:
+            case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: h)
             }
             self.ceilingViewController.didResizeCoverView(1)
         }, completion: { finished in
-            self.state = .Maximized
+            self.state = .maximized
             self.ceilingViewController.didMaximizedCoverView()
         })
     }
 
-    public func toggleScreen() {
+    open func toggleScreen() {
         switch state {
-        case .Maximized:
-            state = .Animating
+        case .maximized:
+            state = .animating
             minimizeCoverView(true)
-        case .Minimized:
-            state = .Animating
+        case .minimized:
+            state = .animating
             maximizeCoverView(true)
-        case .Hidden: break
-        case .Animating, .Dragging: break
+        case .hidden: break
+        case .animating, .dragging: break
         }
     }
 
-    func calculateCoverViewActualRate(newSize: CGSize) -> (CGFloat, CGFloat, CGFloat) {
-        if  transitionMode == TransitionMode.Slide {
+    func calculateCoverViewActualRate(_ newSize: CGSize) -> (CGFloat, CGFloat, CGFloat) {
+        if  transitionMode == TransitionMode.slide {
             let  rate = newSize.height / view.frame.height
             return (view.frame.width, rate * view.frame.height, rate)
         } else {
@@ -229,73 +229,73 @@ public class CoverViewController: UIViewController {
         }
     }
 
-    public func resizeCoverView(newRect: CGRect, actualRate: CGFloat) {
+    open func resizeCoverView(_ newRect: CGRect, actualRate: CGFloat) {
         ceilingViewController.view.frame = newRect
         ceilingViewController.didResizeCoverView(actualRate)
     }
 
-    public func showCoverViewController(animated: Bool, completion: () -> () = {}) {
+    open func showCoverViewController(_ animated: Bool, completion: @escaping () -> () = {}) {
         let action = {
             let frame = self.ceilingViewController.view.frame
             let f     = self.view.frame
             let h     = self.ceilingViewController.minThumbnailHeight
             switch self.transitionMode {
-            case .Slide:
+            case .slide:
                 let rect = CGRect(x: 0, y: f.height - h, width: frame.width, height: f.height + h)
                 self.rate = 1 - abs(rect.minY) / frame.height
                 self.resizeCoverView(rect, actualRate: self.rate)
                 self.ceilingViewController.view.frame = rect
-            case .Zoom:
+            case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
                 self.ceilingViewController.didResizeCoverView(0)
             }
         }
         if animated {
             let d = CoverViewController.toggleAnimationDuration
-            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: { _ in
-                self.state = .Minimized
+            UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { _ in
+                self.state = .minimized
                 completion()
             })
         } else {
             action()
-            self.state = .Minimized
+            self.state = .minimized
             completion()
         }
     }
 
-    public func hideCoverViewController(animated: Bool, completion: () -> () = {}) {
+    open func hideCoverViewController(_ animated: Bool, completion: () -> () = {}) {
         let action = {
             let frame = self.ceilingViewController.view.frame
             let f     = self.view.frame
             let h     = self.ceilingViewController.minThumbnailHeight
             switch self.transitionMode {
-            case .Slide:
+            case .slide:
                 let rect = CGRect(x: 0, y: f.height + h, width: frame.width, height: f.height + h)
                 self.ceilingViewController.view.frame = rect
                 self.ceilingViewController.didResizeCoverView(0)
-            case .Zoom:
+            case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
                 self.ceilingViewController.didResizeCoverView(0)
             }
         }
         if animated {
             let d = CoverViewController.toggleAnimationDuration
-            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: { _ in })
-            self.state = .Hidden
+            UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { _ in })
+            self.state = .hidden
             completion()
         } else {
             action()
-            self.state = .Hidden
+            self.state = .hidden
             completion()
         }
     }
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         minimizeCoverView(false)
     }
 
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }

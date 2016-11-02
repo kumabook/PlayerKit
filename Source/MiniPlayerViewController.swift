@@ -18,25 +18,25 @@ class MiniPlayerObserver: PlayerObserver {
         delegate = miniPlayerViewDelegate
         super.init()
     }
-    override func listen(event: Event) {
+    override func listen(_ event: Event) {
         switch event {
-        case .TimeUpdated:              delegate.miniPlayerViewUpdate()
-        case .DidPlayToEndTime:         delegate.miniPlayerViewUpdate()
-        case .StatusChanged:            delegate.miniPlayerViewUpdate()
-        case .TrackSelected(_, _, _):   delegate.miniPlayerViewUpdate()
-        case .TrackUnselected(_, _, _): delegate.miniPlayerViewUpdate()
+        case .timeUpdated:              delegate.miniPlayerViewUpdate()
+        case .didPlayToEndTime:         delegate.miniPlayerViewUpdate()
+        case .statusChanged:            delegate.miniPlayerViewUpdate()
+        case .trackSelected(_, _, _):   delegate.miniPlayerViewUpdate()
+        case .trackUnselected(_, _, _): delegate.miniPlayerViewUpdate()
         default:                        delegate.miniPlayerViewUpdate()
         }
     }
 }
 
-public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniPlayerViewDelegate {
-    public var miniPlayerHeight: CGFloat { return 60.0 }
-    public var mainViewController: UIViewController?
+open class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniPlayerViewDelegate {
+    open var miniPlayerHeight: CGFloat { return 60.0 }
+    open var mainViewController: UIViewController?
     var miniPlayerObserver:        MiniPlayerObserver!
-    public var player:             Player?
-    public var mainViewContainer:  UIView!
-    public var miniPlayerView:     MV!
+    open var player:             Player?
+    open var mainViewContainer:  UIView!
+    open var miniPlayerView:     MV!
 
     public init(player: Player) {
         super.init(nibName: nil, bundle: nil)
@@ -44,7 +44,7 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
         miniPlayerObserver = MiniPlayerObserver(miniPlayerViewDelegate: self)
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -52,63 +52,63 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
         super.init(coder:aDecoder)
     }
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         let w = view.frame.width
         let h = view.frame.height - miniPlayerHeight
-        mainViewContainer    = UIView(frame: CGRectMake(0, 0, w, h))
-        miniPlayerView       = MV(frame: CGRectMake(0, h, w, miniPlayerHeight))
+        mainViewContainer    = UIView(frame: CGRect(x: 0, y: 0, width: w, height: h))
+        miniPlayerView       = MV(frame: CGRect(x: 0, y: h, width: w, height: miniPlayerHeight))
         view.addSubview(mainViewContainer)
         view.addSubview(miniPlayerView)
 
         if let vc = mainViewController {
             addChildViewController(vc)
             vc.view.frame = mainViewContainer.bounds
-            vc.didMoveToParentViewController(self)
+            vc.didMove(toParentViewController: self)
             miniPlayerView.delegate = self
             mainViewContainer.addSubview(vc.view)
-            view.bringSubviewToFront(miniPlayerView)
+            view.bringSubview(toFront: miniPlayerView)
             updateViews()
             player?.addObserver(miniPlayerObserver)
         }
     }
 
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    public func updateViews() {
+    open func updateViews() {
         guard let player = player else { return }
         miniPlayerView.state = player.currentState
         miniPlayerView.updateViewWithPlayer(player)
     }
 
-    public func hideMiniPlayer(animated: Bool, completion: (Bool) -> () = {_ in }) {
+    open func hideMiniPlayer(_ animated: Bool, completion: @escaping (Bool) -> () = {_ in }) {
         let action = {
             let w = self.view.frame.width
             let h = self.view.frame.height
-            self.mainViewContainer.frame = CGRectMake(0, 0, w, h)
-            self.miniPlayerView.frame = CGRectMake(0, h, w, self.miniPlayerHeight)
+            self.mainViewContainer.frame = CGRect(x: 0, y: 0, width: w, height: h)
+            self.miniPlayerView.frame = CGRect(x: 0, y: h, width: w, height: self.miniPlayerHeight)
         }
         if animated {
             let d = CoverViewController.toggleAnimationDuration
-            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: completion)
+            UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: completion)
         } else {
             action()
             completion(true)
         }
     }
     
-    public func showMiniPlayer(animated: Bool, completion: (Bool) -> () = {_ in }) {
+    open func showMiniPlayer(_ animated: Bool, completion: @escaping (Bool) -> () = {_ in }) {
         let action = {
             let w = self.view.frame.width
             let h = self.view.frame.height - self.miniPlayerHeight
-            self.mainViewContainer.frame = CGRectMake(0, 0, w, h)
-            self.miniPlayerView.frame = CGRectMake(0, h, w, self.miniPlayerHeight)
+            self.mainViewContainer.frame = CGRect(x: 0, y: 0, width: w, height: h)
+            self.miniPlayerView.frame = CGRect(x: 0, y: h, width: w, height: self.miniPlayerHeight)
         }
         if animated {
             let d = CoverViewController.toggleAnimationDuration
-            UIView.animateWithDuration(d, delay: 0, options:.CurveEaseInOut, animations: action, completion: completion)
+            UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: completion)
         } else {
             action()
             completion(true)
@@ -118,19 +118,19 @@ public class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, Min
 
     // MARK: - MiniPlayerViewDelegate -
     
-    public func miniPlayerViewPlayButtonTouched() {
+    open func miniPlayerViewPlayButtonTouched() {
         player?.toggle()
     }
     
-    public func miniPlayerViewPreviousButtonTouched() {
+    open func miniPlayerViewPreviousButtonTouched() {
         player?.previous()
     }
     
-    public func miniPlayerViewNextButtonTouched() {
+    open func miniPlayerViewNextButtonTouched() {
         player?.next()
     }
 
-    public func miniPlayerViewUpdate() {
+    open func miniPlayerViewUpdate() {
         updateViews()
     }
 }

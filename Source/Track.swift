@@ -11,9 +11,9 @@ import Foundation
 public protocol Track {
     var title:        String? { get }
     var subtitle:     String? { get }
-    var streamUrl:    NSURL?  { get }
-    var thumbnailUrl: NSURL?  { get }
-    var artworkUrl:   NSURL?  { get }
+    var streamUrl:    URL?  { get }
+    var thumbnailUrl: URL?  { get }
+    var artworkUrl:   URL?  { get }
     var isVideo:      Bool    { get }
     var isValid:      Bool    { get }
 }

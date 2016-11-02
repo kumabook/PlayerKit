@@ -9,8 +9,8 @@
 import UIKit
 import AVFoundation
 
-public class VideoView: UIButton {
-    public var player: AVPlayer? {
+open class VideoView: UIButton {
+    open var player: AVPlayer? {
         get {
             guard let layer = self.layer as? AVPlayerLayer else { return nil }
             return layer.player
@@ -21,7 +21,7 @@ public class VideoView: UIButton {
         }
     }
     
-    override public class func layerClass() -> AnyClass {
+    override open class var layerClass : AnyClass {
         return AVPlayerLayer.self
     }
 }

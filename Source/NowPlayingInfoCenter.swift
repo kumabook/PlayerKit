@@ -9,10 +9,10 @@
 import MediaPlayer
 import WebImage
 
-public class NowPlayingInfoCenter: PlayerObserver {
+open class NowPlayingInfoCenter: PlayerObserver {
     var player: Player
 
-    public var defaultThumbImage: UIImage? {
+    open var defaultThumbImage: UIImage? {
         return UIImage(named: "default_thumb")
     }
 
@@ -20,36 +20,36 @@ public class NowPlayingInfoCenter: PlayerObserver {
         self.player = player
     }
 
-    override public func listen(event: Event) {
+    override open func listen(_ event: Event) {
         switch event {
-        case .TimeUpdated:              updateMPNowPlaylingInfoCenter(player)
-        case .DidPlayToEndTime:         updateMPNowPlaylingInfoCenter(player)
-        case .StatusChanged:            updateMPNowPlaylingInfoCenter(player)
-        case .TrackSelected(_, _, _):   updateMPNowPlaylingInfoCenter(player)
-        case .TrackUnselected(_, _, _): updateMPNowPlaylingInfoCenter(player)
+        case .timeUpdated:              updateMPNowPlaylingInfoCenter(player)
+        case .didPlayToEndTime:         updateMPNowPlaylingInfoCenter(player)
+        case .statusChanged:            updateMPNowPlaylingInfoCenter(player)
+        case .trackSelected(_, _, _):   updateMPNowPlaylingInfoCenter(player)
+        case .trackUnselected(_, _, _): updateMPNowPlaylingInfoCenter(player)
         default:                        break
         }
     }
 
-    func updateMPNowPlaylingInfoCenter(player: Player) {
+    func updateMPNowPlaylingInfoCenter(_ player: Player) {
         guard let track = player.currentTrack else {
-            MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nil
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
             return
         }
         guard let duration = player.avPlayer?.currentItem?.duration else { return }
         guard let elapsedTime = player.avPlayer?.currentTime() else { return }
-        let infoCenter = MPNowPlayingInfoCenter.defaultCenter()
+        let infoCenter = MPNowPlayingInfoCenter.default()
         var info: [String:AnyObject]                      = [:]
-        info[MPMediaItemPropertyTitle]                    = track.title
-        info[MPMediaItemPropertyPlaybackDuration]         = CMTimeGetSeconds(duration)
-        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = CMTimeGetSeconds(elapsedTime)
+        info[MPMediaItemPropertyTitle]                    = track.title as AnyObject?
+        info[MPMediaItemPropertyPlaybackDuration]         = CMTimeGetSeconds(duration) as AnyObject?
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = CMTimeGetSeconds(elapsedTime) as AnyObject?
         if let url = track.artworkUrl {
             let imageManager = SDWebImageManager()
-            imageManager.downloadImageWithURL(
-                url,
-                options: SDWebImageOptions.HighPriority,
+            imageManager.downloadImage(
+                with: url as URL!,
+                options: SDWebImageOptions.highPriority,
                 progress: {receivedSize, expectedSize in }) { (image, error, cacheType, finished, url) -> Void in
-                    let albumArt                     = MPMediaItemArtwork(image: image)
+                    let albumArt                     = MPMediaItemArtwork(image: image!)
                     info[MPMediaItemPropertyArtwork] = albumArt
                     infoCenter.nowPlayingInfo        = info
             }

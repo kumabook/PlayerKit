@@ -9,13 +9,15 @@
 import AVFoundation
 import UIKit
 
-public class SimplePlayerViewController: PlayerViewController {
+open class SimplePlayerViewController: PlayerViewController {
     enum State {
-        case Normal
-        case Dragging(CGPoint, Float)
-        case Changing(CMTime)
+        case normal
+        case dragging(CGPoint, Float)
+        case changing(CMTime)
     }
     let preferredTimeScale: Int32 = 1000
+    
+    let priorityHigh                   = 750
 
     let paddingSide:           CGFloat = 16.0
     let paddingBottom:         CGFloat = 90.0
@@ -28,31 +30,31 @@ public class SimplePlayerViewController: PlayerViewController {
     let sliderHeight:          CGFloat = 32.0
 
     var toggleAnimationDuration: Double = 0.25
-    var state: State = .Normal
+    var state: State = .normal
     
-    public var videoView:           VideoView!
-    public var imageView:           UIImageView!
+    open var videoView:           VideoView!
+    open var imageView:           UIImageView!
     
-    public var slider:              UISlider!
-    public var previousButton:      UIButton!
-    public var playButton:          UIButton!
-    public var nextButton:          UIButton!
-    public var closeButton:         UIButton!
-    public var iconImage:           UIImage!
-    public var titleLabel:          UILabel!
-    public var subTitleLabel:       UILabel!
-    public var currentLabel:        UILabel!
-    public var totalLabel:          UILabel!
-    public var imageEffectView:     UIVisualEffectView!
-    public var imageCoverView:      UIView!
-    public var videoEffectView:     UIVisualEffectView!
+    open var slider:              UISlider!
+    open var previousButton:      UIButton!
+    open var playButton:          UIButton!
+    open var nextButton:          UIButton!
+    open var closeButton:         UIButton!
+    open var iconImage:           UIImage!
+    open var titleLabel:          UILabel!
+    open var subTitleLabel:       UILabel!
+    open var currentLabel:        UILabel!
+    open var totalLabel:          UILabel!
+    open var imageEffectView:     UIVisualEffectView!
+    open var imageCoverView:      UIView!
+    open var videoEffectView:     UIVisualEffectView!
 
-    public var sliderThumbImage: UIImage {
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(sliderWidth, sliderHeight), false, 0.0)
+    open var sliderThumbImage: UIImage {
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: sliderWidth, height: sliderHeight), false, 0.0)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, CGRect(x: 0, y: sliderHeight/4, width: sliderWidth, height: sliderHeight/2))
-        return UIGraphicsGetImageFromCurrentImageContext()
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(CGRect(x: 0, y: sliderHeight/4, width: sliderWidth, height: sliderHeight/2))
+        return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
     public required init(player: Player) {
@@ -65,59 +67,59 @@ public class SimplePlayerViewController: PlayerViewController {
         initializeSubviews()
     }
 
-    public func initializeSubviews() {
+    open func initializeSubviews() {
         titleLabel     = UILabel()
         subTitleLabel  = UILabel()
         currentLabel   = UILabel()
         totalLabel     = UILabel()
         slider         = UISlider()
-        nextButton     = UIButton(type: UIButtonType.System)
-        playButton     = UIButton(type: UIButtonType.System)
-        previousButton = UIButton(type: UIButtonType.System)
+        nextButton     = UIButton(type: UIButtonType.system)
+        playButton     = UIButton(type: UIButtonType.system)
+        previousButton = UIButton(type: UIButtonType.system)
         
-        closeButton    = UIButton(type: UIButtonType.System)
+        closeButton    = UIButton(type: UIButtonType.system)
         
         titleLabel.text             = "title title"
-        titleLabel.textAlignment    = NSTextAlignment.Left
+        titleLabel.textAlignment    = NSTextAlignment.left
         subTitleLabel.text          = "subtitle subtitle"
-        subTitleLabel.textAlignment = NSTextAlignment.Left
+        subTitleLabel.textAlignment = NSTextAlignment.left
         currentLabel.text           = "00:00"
         totalLabel.text             = "00:00"
         
         imageView  = UIImageView()
         videoView  = VideoView()
-        imageEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+        imageEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         imageCoverView  = UIView()
-        videoEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+        videoEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         
-        titleLabel.textColor        = UIColor.whiteColor()
-        titleLabel.font             = UIFont.boldSystemFontOfSize(16)
-        titleLabel.textColor        = UIColor.whiteColor()
-        titleLabel.textAlignment    = NSTextAlignment.Left
-        subTitleLabel.textColor     = UIColor.whiteColor()
-        subTitleLabel.textAlignment = NSTextAlignment.Left
-        currentLabel.textColor      = UIColor.whiteColor()
-        currentLabel.font           = UIFont.boldSystemFontOfSize(15)
-        totalLabel.textColor        = UIColor.whiteColor()
-        totalLabel.font             = UIFont.boldSystemFontOfSize(15)
+        titleLabel.textColor        = UIColor.white
+        titleLabel.font             = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.textColor        = UIColor.white
+        titleLabel.textAlignment    = NSTextAlignment.left
+        subTitleLabel.textColor     = UIColor.white
+        subTitleLabel.textAlignment = NSTextAlignment.left
+        currentLabel.textColor      = UIColor.white
+        currentLabel.font           = UIFont.boldSystemFont(ofSize: 15)
+        totalLabel.textColor        = UIColor.white
+        totalLabel.font             = UIFont.boldSystemFont(ofSize: 15)
         
-        nextButton.tintColor        = UIColor.whiteColor()
-        playButton.tintColor        = UIColor.whiteColor()
-        previousButton.tintColor    = UIColor.whiteColor()
+        nextButton.tintColor        = UIColor.white
+        playButton.tintColor        = UIColor.white
+        previousButton.tintColor    = UIColor.white
         
-        closeButton.tintColor       = UIColor.whiteColor()
+        closeButton.tintColor       = UIColor.white
         
-        let bundle = NSBundle(identifier: "io.kumabook.PlayerKit")
-        let nextImage     = UIImage(named:     "next", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let playImage     = UIImage(named:     "play", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let previousImage = UIImage(named: "previous", inBundle: bundle, compatibleWithTraitCollection: nil)
-        let closeImage    = UIImage(named:    "close", inBundle: bundle, compatibleWithTraitCollection: nil)
-        nextButton.setImage(        nextImage, forState: UIControlState())
-        playButton.setImage(        playImage, forState: UIControlState())
-        previousButton.setImage(previousImage, forState: UIControlState())
-        closeButton.setImage(      closeImage, forState: UIControlState())
-        slider.setThumbImage(sliderThumbImage, forState: UIControlState.Normal)
-        slider.setThumbImage(sliderThumbImage, forState: UIControlState.Highlighted)
+        let bundle = Bundle(identifier: "io.kumabook.PlayerKit")
+        let nextImage     = UIImage(named:     "next", in: bundle, compatibleWith: nil)
+        let playImage     = UIImage(named:     "play", in: bundle, compatibleWith: nil)
+        let previousImage = UIImage(named: "previous", in: bundle, compatibleWith: nil)
+        let closeImage    = UIImage(named:    "close", in: bundle, compatibleWith: nil)
+        nextButton.setImage(        nextImage, for: UIControlState())
+        playButton.setImage(        playImage, for: UIControlState())
+        previousButton.setImage(previousImage, for: UIControlState())
+        closeButton.setImage(      closeImage, for: UIControlState())
+        slider.setThumbImage(sliderThumbImage, for: UIControlState())
+        slider.setThumbImage(sliderThumbImage, for: UIControlState.highlighted)
         
         imageView.frame = view.bounds
         videoView.frame = CGRect(x: 0, y: view.frame.height / 6, width: view.frame.width, height: view.frame.height / 2)
@@ -127,9 +129,9 @@ public class SimplePlayerViewController: PlayerViewController {
         view.clipsToBounds = true
         view.addSubview(imageEffectView)
         view.addSubview(imageCoverView)
-        imageEffectView.insertSubview(imageView, atIndex: 0)
+        imageEffectView.insertSubview(imageView, at: 0)
         view.addSubview(videoEffectView)
-        videoEffectView.insertSubview(videoView, atIndex: 0)
+        videoEffectView.insertSubview(videoView, at: 0)
         
         view.addSubview(titleLabel)
         view.addSubview(subTitleLabel)
@@ -141,141 +143,141 @@ public class SimplePlayerViewController: PlayerViewController {
         view.addSubview(previousButton)
         view.addSubview(closeButton)
         
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        slider.addTarget(        self, action: #selector(SimplePlayerViewController.previewSeek),  forControlEvents: UIControlEvents.ValueChanged)
-        slider.addTarget(        self, action: #selector(SimplePlayerViewController.stopSeek),     forControlEvents: UIControlEvents.TouchUpInside)
-        slider.addTarget(        self, action: #selector(SimplePlayerViewController.cancelSeek),   forControlEvents: UIControlEvents.TouchUpOutside)
-        nextButton.addTarget(    self, action: #selector(SimplePlayerViewController.next),         forControlEvents: UIControlEvents.TouchUpInside)
-        playButton.addTarget(    self, action: #selector(SimplePlayerViewController.toggle),       forControlEvents: UIControlEvents.TouchUpInside)
-        previousButton.addTarget(self, action: #selector(SimplePlayerViewController.previous),     forControlEvents: UIControlEvents.TouchUpInside)
-        closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        forControlEvents: UIControlEvents.TouchUpInside)
-        videoView.addTarget(     self, action: #selector(SimplePlayerViewController.toggle),       forControlEvents: UIControlEvents.TouchUpInside)
+        imageView.contentMode = UIViewContentMode.scaleAspectFill
+        slider.addTarget(        self, action: #selector(SimplePlayerViewController.previewSeek),  for: UIControlEvents.valueChanged)
+        slider.addTarget(        self, action: #selector(SimplePlayerViewController.stopSeek),     for: UIControlEvents.touchUpInside)
+        slider.addTarget(        self, action: #selector(SimplePlayerViewController.cancelSeek),   for: UIControlEvents.touchUpOutside)
+        nextButton.addTarget(    self, action: #selector(getter: SimplePlayerViewController.next),         for: UIControlEvents.touchUpInside)
+        playButton.addTarget(    self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
+        previousButton.addTarget(self, action: #selector(SimplePlayerViewController.previous),     for: UIControlEvents.touchUpInside)
+        closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        for: UIControlEvents.touchUpInside)
+        videoView.addTarget(     self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(SimplePlayerViewController.sliderDragged(_:)))
         slider.addGestureRecognizer(panGesture)
     }
     
-    public func updateConstraints() {
-        currentLabel.snp_makeConstraints { make in
-            make.left.equalTo(self.view.snp_left).offset(self.paddingSide).priorityHigh()
-            make.bottom.equalTo(self.slider.snp_bottom).offset(-self.paddingBottomTime)
+    open func updateConstraints() {
+        currentLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.view.snp.left).offset(self.paddingSide).priority(priorityHigh)
+            make.bottom.equalTo(self.slider.snp.bottom).offset(-self.paddingBottomTime)
         }
-        totalLabel.snp_makeConstraints { make in
-            make.right.equalTo(self.view.snp_right).offset(-self.paddingSide).priorityHigh()
-            make.bottom.equalTo(self.slider.snp_bottom).offset(-self.paddingBottomTime)
+        totalLabel.snp.makeConstraints { make in
+            make.right.equalTo(self.view.snp.right).offset(-self.paddingSide).priority(priorityHigh)
+            make.bottom.equalTo(self.slider.snp.bottom).offset(-self.paddingBottomTime)
         }
-        slider.snp_makeConstraints { make in
-            make.left.equalTo(self.view.snp_left).offset(self.paddingSide)
-            make.right.equalTo(self.view.snp_right).offset(-self.paddingSide)
-            make.bottom.equalTo(self.view.snp_bottom).offset(-self.paddingBottom)
+        slider.snp.makeConstraints { make in
+            make.left.equalTo(self.view.snp.left).offset(self.paddingSide)
+            make.right.equalTo(self.view.snp.right).offset(-self.paddingSide)
+            make.bottom.equalTo(self.view.snp.bottom).offset(-self.paddingBottom)
         }
-        previousButton.snp_makeConstraints { make in
-            make.left.equalTo(self.view.snp_left).offset(self.paddingSide)
-            make.centerY.equalTo(self.view.snp_centerY).offset(-self.buttonSize)
+        previousButton.snp.makeConstraints { make in
+            make.left.equalTo(self.view.snp.left).offset(self.paddingSide)
+            make.centerY.equalTo(self.view.snp.centerY).offset(-self.buttonSize)
             make.width.equalTo(self.buttonSize)
             make.height.equalTo(self.buttonSize)
         }
-        playButton.snp_makeConstraints { (make) -> () in
-            make.centerX.equalTo(self.view.snp_centerX)
-            make.centerY.equalTo(self.view.snp_centerY).offset(-self.buttonSize)
+        playButton.snp.makeConstraints { (make) -> () in
+            make.centerX.equalTo(self.view.snp.centerX)
+            make.centerY.equalTo(self.view.snp.centerY).offset(-self.buttonSize)
             make.width.equalTo(self.buttonSize * 2)
             make.height.equalTo(self.buttonSize * 2)
         }
-        nextButton.snp_makeConstraints { make in
-            make.right.equalTo(self.view.snp_right).offset(-self.paddingSide)
-            make.centerY.equalTo(self.view.snp_centerY).offset(-self.buttonSize)
+        nextButton.snp.makeConstraints { make in
+            make.right.equalTo(self.view.snp.right).offset(-self.paddingSide)
+            make.centerY.equalTo(self.view.snp.centerY).offset(-self.buttonSize)
             make.width.equalTo(self.buttonSize)
             make.height.equalTo(self.buttonSize)
         }
-        closeButton.snp_makeConstraints { make in
-            make.left.equalTo(self.view.snp_left).offset(self.paddingSide)
-            make.top.equalTo(self.view.snp_top).offset(self.paddingSide)
+        closeButton.snp.makeConstraints { make in
+            make.left.equalTo(self.view.snp.left).offset(self.paddingSide)
+            make.top.equalTo(self.view.snp.top).offset(self.paddingSide)
             make.width.equalTo(self.buttonSize)
             make.height.equalTo(self.buttonSize)
         }
-        titleLabel.snp_makeConstraints { make in
-            make.left.equalTo(self.slider.snp_left)
-            make.bottom.equalTo(self.slider.snp_top).offset(-self.paddingTitleBottom)
-            make.width.equalTo(self.view.snp_width).offset(-paddingSide*2)
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.slider.snp.left)
+            make.bottom.equalTo(self.slider.snp.top).offset(-self.paddingTitleBottom)
+            make.width.equalTo(self.view.snp.width).offset(-paddingSide*2)
         }
-        subTitleLabel.snp_makeConstraints { make in
-            make.left.equalTo(self.slider.snp_left)
-            make.bottom.equalTo(self.slider.snp_top).offset(-self.paddingSubTitleBottom)
-            make.width.equalTo(self.view.snp_width).offset(-paddingSide*2)
+        subTitleLabel.snp.makeConstraints { make in
+            make.left.equalTo(self.slider.snp.left)
+            make.bottom.equalTo(self.slider.snp.top).offset(-self.paddingSubTitleBottom)
+            make.width.equalTo(self.view.snp.width).offset(-paddingSide*2)
         }
     }
 
-    func sliderDragged(sender: UIPanGestureRecognizer) {
+    func sliderDragged(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
-        case .Began:
+        case .began:
             if let targetView = sender.view {
-                let point = sender.translationInView(targetView)
-                state = .Dragging(point, slider.value)
+                let point = sender.translation(in: targetView)
+                state = .dragging(point, slider.value)
             }
-        case .Changed:
+        case .changed:
             if let targetView = sender.view {
-                let point = sender.translationInView(targetView)
+                let point = sender.translation(in: targetView)
                 switch state {
-                case .Normal: break
-                case .Dragging(let startPoint, let startValue):
+                case .normal: break
+                case .dragging(let startPoint, let startValue):
                     let dx  = point.x - startPoint.x
                     let v   = startValue + Float(dx / slider.frame.width) * slider.maximumValue
                     let val = min(slider.maximumValue, max(0, v))
                     updateTime(current: val, total: slider.maximumValue);
-                case .Changing: break
+                case .changing: break
                 }
             }
-        case .Ended:
+        case .ended:
             if let _ = sender.view {
                 let value = CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
-                notify(.TimeChanged(value))
-                state = .Changing(value)
+                notify(.timeChanged(value))
+                state = .changing(value)
             }
-        case .Cancelled: break
-        case .Failed:    break
-        case .Possible:  break
+        case .cancelled: break
+        case .failed:    break
+        case .possible:  break
         }
     }
     
-    public override func didMoveToParentViewController(parent: UIViewController?) {
-        super.didMoveToParentViewController(parent)
+    open override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
         self.updateConstraints()
     }
     
-    public override func removeFromParentViewController() {
+    open override func removeFromParentViewController() {
         super.removeFromParentViewController()
         observers = []
         videoView.player = nil
     }
     
-    public override func updateViewWithTrack(track: Track, animated: Bool) {
+    open override func updateViewWithTrack(_ track: Track, animated: Bool) {
         titleLabel.text    = track.title
         subTitleLabel.text = track.subtitle
         guard let currentTrack = player.currentTrack else { return }
         let isCurrentTrack = currentTrack.streamUrl == track.streamUrl
         if isCurrentTrack && track.isVideo {
             videoView.player = player.avPlayer
-            imageView.sd_setImageWithURL(track.artworkUrl ?? track.thumbnailUrl)
+            imageView.sd_setImage(with: track.artworkUrl as URL?? ?? track.thumbnailUrl as URL!)
         } else {
             videoView.player = nil
-            imageView.sd_setImageWithURL(track.artworkUrl ?? track.thumbnailUrl)
+            imageView.sd_setImage(with: track.artworkUrl as URL?? ?? track.thumbnailUrl as URL!)
         }
-        if !slider.tracking {
+        if !slider.isTracking {
             timeUpdated()
         }
         let action = {
             switch self.player.currentState {
-            case .Pause:
-                self.videoEffectView.effect         = UIBlurEffect(style: .Dark)
-                self.imageEffectView.effect         = UIBlurEffect(style: .Dark)
-                self.imageCoverView.backgroundColor = UIColor.clearColor()
+            case .pause:
+                self.videoEffectView.effect         = UIBlurEffect(style: .dark)
+                self.imageEffectView.effect         = UIBlurEffect(style: .dark)
+                self.imageCoverView.backgroundColor = UIColor.clear
                 self.playButton.alpha               = 1.0
                 self.nextButton.alpha               = 1.0
-                self.nextButton.enabled             = self.player.nextTrack != nil
+                self.nextButton.isEnabled             = self.player.nextTrack != nil
                 self.previousButton.alpha           = 1.0
-                self.previousButton.enabled         = self.player.previousTrack != nil
+                self.previousButton.isEnabled         = self.player.previousTrack != nil
             default:
                 self.videoEffectView.effect = nil
-                self.imageEffectView.effect = track.isVideo ? UIBlurEffect(style: .Dark) : nil
+                self.imageEffectView.effect = track.isVideo ? UIBlurEffect(style: .dark) : nil
                 self.imageCoverView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
                 self.playButton.alpha       = 0
                 self.nextButton.alpha       = 0
@@ -283,40 +285,40 @@ public class SimplePlayerViewController: PlayerViewController {
             }
         }
         if animated {
-            UIView.animateWithDuration(toggleAnimationDuration, delay: 0, options:.CurveEaseInOut, animations: action, completion: { finished in
+            UIView.animate(withDuration: toggleAnimationDuration, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { finished in
             })
         } else {
             action()
         }
     }
     
-    public override func enablePlayerView() {
+    open override func enablePlayerView() {
         guard let avPlayer = player.avPlayer else { return }
         if videoView.player != avPlayer {
             videoView.player = avPlayer
         }
     }
     
-    public override func disablePlayerView() {
+    open override func disablePlayerView() {
         videoView.player = nil
     }
     
-    public override func timeUpdated() {
+    open override func timeUpdated() {
         switch state {
-        case .Dragging: break
-        case .Normal:
+        case .dragging: break
+        case .normal:
             if let (current, total) = player.secondPair {
                 updateTime(current: Float(current), total: Float(total))
             }
-        case .Changing(let time):
+        case .changing(let time):
             guard let currentTime = player.avPlayer?.currentTime() else { return }
             if CMTimeGetSeconds(time) - CMTimeGetSeconds(currentTime) < 1.0 {
-                state = .Normal
+                state = .normal
             }
         }
     }
     
-    func updateTime(current current: Float, total: Float) {
+    func updateTime(current: Float, total: Float) {
         if total > 0 {
             currentLabel.text   = TimeHelper.timeStr(current)
             totalLabel.text     = TimeHelper.timeStr(total)
@@ -330,20 +332,20 @@ public class SimplePlayerViewController: PlayerViewController {
         }
     }
 
-    func toggle()   { notify(.Toggle) }
-    func previous() { notify(.Previous) }
-    func next()     { notify(.Next) }
-    func close()    { notify(.Close) }
+    func toggle()   { notify(.toggle) }
+    func previous() { notify(.previous) }
+    func next()     { notify(.next) }
+    func close()    { notify(.close) }
     func previewSeek() {
-        if slider.tracking {
+        if slider.isTracking {
             CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
             updateTime(current: slider.value, total: slider.maximumValue)
         }
-        notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
+        notify(.timeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
     }
     
     func stopSeek() {
-        notify(.TimeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
+        notify(.timeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
     }
     
     func cancelSeek() {

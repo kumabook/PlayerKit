@@ -10,29 +10,29 @@ import Foundation
 
 public protocol Observer: Equatable {
     associatedtype EventType
-    func listen(event: EventType)
+    func listen(_ event: EventType)
 }
 
 public protocol Observable {
     associatedtype ObserverType: Observer
     associatedtype EventType
     var observers: [ObserverType] { get set}
-    mutating func addObserver(observer: ObserverType)
-    mutating func removeObserver(observer: ObserverType)
-    func notify(event: EventType)
+    mutating func addObserver(_ observer: ObserverType)
+    mutating func removeObserver(_ observer: ObserverType)
+    func notify(_ event: EventType)
 }
 
 extension Observable where EventType == ObserverType.EventType {
-    mutating public func addObserver(observer: ObserverType) {
+    mutating public func addObserver(_ observer: ObserverType) {
         var os = observers
         os.append(observer)
         observers = os
     }
-    mutating public func removeObserver(observer: ObserverType) {
-        guard let i = observers.indexOf(observer) else { return }
-        observers.removeAtIndex(i)
+    mutating public func removeObserver(_ observer: ObserverType) {
+        guard let i = observers.index(of: observer) else { return }
+        observers.remove(at: i)
     }
-    public func notify(event: EventType) {
+    public func notify(_ event: EventType) {
         for o in observers {
             o.listen(event)
         }

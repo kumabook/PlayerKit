@@ -8,18 +8,18 @@
 
 import Foundation
 
-public class PlaylistQueue: NSObject {
-    public internal(set) var player: Player?
-    public private(set) var playlists: [Playlist] = []
+open class PlaylistQueue: NSObject {
+    open internal(set) var player: Player?
+    open fileprivate(set) var playlists: [Playlist] = []
     public init(playlists: [Playlist]) {
         self.playlists = playlists
     }
-    public func enqueue(playlist: Playlist) {
+    open func enqueue(_ playlist: Playlist) {
         if playlist.tracks.count > 0 {
             self.playlists.append(playlist)
         }
     }
-    public func indexOf(playlist: Playlist) -> Int? {
+    open func indexOf(_ playlist: Playlist) -> Int? {
         for i in 0..<playlists.count {
             if playlist.id == playlists[i].id {
                 return i
@@ -27,8 +27,8 @@ public class PlaylistQueue: NSObject {
         }
         return nil
     }
-    public func trackUpdated(track: Track) {
-        guard let playlistQueue = player?.playlistQueue where playlistQueue == self else { return }
+    open func trackUpdated(_ track: Track) {
+        guard let playlistQueue = player?.playlistQueue, playlistQueue == self else { return }
         guard let nextTrack = player?.nextTrack else { return }
         if nextTrack.streamUrl == track.streamUrl {
             player?.nextTrackAdded()

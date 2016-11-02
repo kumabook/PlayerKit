@@ -8,9 +8,9 @@
 
 import UIKit
 
-public class MiniPlayerView: UIView {
-    public var delegate: MiniPlayerViewDelegate?
-    public var state: PlayerState = .Pause {
+open class MiniPlayerView: UIView {
+    open var delegate: MiniPlayerViewDelegate?
+    open var state: PlayerState = .pause {
         didSet { updatePlayButton() }
     }
 
@@ -20,13 +20,13 @@ public class MiniPlayerView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    public func updateViewWithPlayer(_: Player?) {
+    open func updateViewWithPlayer(_: Player?) {
     }
-    public func updateViewWithRate(rate: CGFloat) {
+    open func updateViewWithRate(_ rate: CGFloat) {
     }
-    public func updatePlayButton() {
+    open func updatePlayButton() {
     }
-    public override func updateConstraints() {
+    open override func updateConstraints() {
         super.updateConstraints()
     }
 }

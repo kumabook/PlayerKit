@@ -9,36 +9,36 @@
 import UIKit
 import AVFoundation
 
-public class PlayerViewObserver: NSObject, Observer {
+open class PlayerViewObserver: NSObject, Observer {
     public typealias Event = PlayerViewEvent
-    public func listen(event: Event) {
+    open func listen(_ event: Event) {
     }
 }
 
 public enum PlayerViewEvent {
-    case Previous
-    case Next
-    case Toggle
-    case Close
-    case TimeChanged(CMTime)
-    case Message(String)
+    case previous
+    case next
+    case toggle
+    case close
+    case timeChanged(CMTime)
+    case message(String)
 }
 
 public protocol PlayerViewControllerType {
-    func updateViewWithTrack(track: Track, animated: Bool)
+    func updateViewWithTrack(_ track: Track, animated: Bool)
     func timeUpdated()
     func enablePlayerView()
     func disablePlayerView()
-    mutating func addObserver(observer: PlayerViewObserver)
-    mutating func removeObserver(observer: PlayerViewObserver)
+    mutating func addObserver(_ observer: PlayerViewObserver)
+    mutating func removeObserver(_ observer: PlayerViewObserver)
     var view: UIView! { get }
     init(player: Player)
 }
 
-public class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
+open class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
     public typealias ObserverType = PlayerViewObserver
     public typealias EventType    = PlayerViewEvent
-    public var player: Player!
+    open var player: Player!
 
     public required init(player: Player) {
         super.init(nibName: nil, bundle: nil)
@@ -49,14 +49,14 @@ public class PlayerViewController: UIViewController, Observable, PlayerViewContr
         super.init(coder: aDecoder)
     }
 
-    private var _observers: [ObserverType] = []
-    public  var  observers: [ObserverType] {
+    fileprivate var _observers: [ObserverType] = []
+    open  var  observers: [ObserverType] {
         get { return _observers }
         set { _observers = newValue }
     }
     
-    public func updateViewWithTrack(track: Track, animated: Bool) {}
-    public func timeUpdated() {}
-    public func enablePlayerView() {}
-    public func disablePlayerView() {}
+    open func updateViewWithTrack(_ track: Track, animated: Bool) {}
+    open func timeUpdated() {}
+    open func enablePlayerView() {}
+    open func disablePlayerView() {}
 }

@@ -23,18 +23,18 @@ class PlayerPageViewPlayerObserver: PlayerObserver {
         vc = playerViewController
         super.init()
     }
-    override func listen(event: Event) {
+    override func listen(_ event: Event) {
         switch event {
-        case .TimeUpdated:               vc?.timeUpdated()
-        case .DidPlayToEndTime:          vc?.updateViews(false)
-        case .StatusChanged:             vc?.updateViews(true)
-        case .TrackSelected(_, _, _):    vc?.updatePlayerViews(); vc?.updateViews(false)
-        case .TrackUnselected(_, _, _):  vc?.updateViews(false)
-        case .ErrorOccured:              vc?.updateViews(false)
-        case .NextPlaylistRequested:     vc?.updateViews(false)
-        case .PreviousPlaylistRequested: vc?.updateViews(false)
-        case .NextTrackAdded:            vc?.updatePlayerViews(); vc?.updateViews(false)
-        case .PlaylistChanged: break
+        case .timeUpdated:               vc?.timeUpdated()
+        case .didPlayToEndTime:          vc?.updateViews(false)
+        case .statusChanged:             vc?.updateViews(true)
+        case .trackSelected(_, _, _):    vc?.updatePlayerViews(); vc?.updateViews(false)
+        case .trackUnselected(_, _, _):  vc?.updateViews(false)
+        case .errorOccured:              vc?.updateViews(false)
+        case .nextPlaylistRequested:     vc?.updateViews(false)
+        case .previousPlaylistRequested: vc?.updateViews(false)
+        case .nextTrackAdded:            vc?.updatePlayerViews(); vc?.updateViews(false)
+        case .playlistChanged: break
         }
     }
 }
@@ -45,63 +45,63 @@ class PlayerPageViewPlayerViewObserver: PlayerViewObserver {
         vc = playerViewController
         super.init()
     }
-    override func listen(event: Event) {
+    override func listen(_ event: Event) {
         switch event {
-        case .Close:                 vc?.close()
-        case .Next:                  vc?.next()
-        case .Previous:              vc?.previous()
-        case .Toggle:                vc?.toggle()
-        case .TimeChanged(let time): vc?.changeTime(time)
-        case .Message(let message):  vc?.onMessage(message)
+        case .close:                 vc?.close()
+        case .next:                  vc?.next()
+        case .previous:              vc?.previous()
+        case .toggle:                vc?.toggle()
+        case .timeChanged(let time): vc?.changeTime(time)
+        case .message(let message):  vc?.onMessage(message)
         }
     }
 }
 
 protocol PlayerPageViewControllerType {
     func timeUpdated()
-    func updateViews(animated: Bool)
+    func updateViews(_ animated: Bool)
     func updatePlayerViews()
 
     func close()
     func next()
     func previous()
     func toggle()
-    func changeTime(time: CMTime)
-    func onMessage(message: String)
+    func changeTime(_ time: CMTime)
+    func onMessage(_ message: String)
 }
 
-public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, CoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
-    public var minThumbnailWidth:  CGFloat { return self.view.frame.width }
-    public var minThumbnailHeight: CGFloat { return 60.0 }
-    public var thumbWidth:         CGFloat = 75.0
+open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, CoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
+    open var minThumbnailWidth:  CGFloat { return self.view.frame.width }
+    open var minThumbnailHeight: CGFloat { return 60.0 }
+    open var thumbWidth:         CGFloat = 75.0
     let controlPanelHeight:        CGFloat = 130.0
-    public var playerViews:        [PlayerViewController] = []
+    open var playerViews:        [PlayerViewController] = []
 
-    public var scrollView:     UIScrollView!
-    public var miniPlayerView: MV!
+    open var scrollView:     UIScrollView!
+    open var miniPlayerView: MV!
 
-    public var imageView:      UIImageView!
-    public var videoView:      VideoView!
+    open var imageView:      UIImageView!
+    open var videoView:      VideoView!
 
     var playerObserver:     PlayerPageViewPlayerObserver!
     var playerViewObserver: PlayerPageViewPlayerViewObserver!
-    public var player: Player!
+    open var player: Player!
 
-    public var coverViewController: CoverViewController?
+    open var coverViewController: CoverViewController?
 
-    public var videoBackgroundImage: UIImage {
+    open var videoBackgroundImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 100, height: 100)
         let color = UIColor.init(red: 212, green: 212, blue: 212, alpha: 0.2)
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(100, 100), false, 0.0)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 100, height: 100), false, 0.0)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext();
-        return image
+        return image!
     }
 
-    public var defaultThumbImage: UIImage {
+    open var defaultThumbImage: UIImage {
         return videoBackgroundImage
     }
 
@@ -113,7 +113,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         playerViewObserver = PlayerPageViewPlayerViewObserver(playerViewController: self)
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -121,13 +121,13 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         super.init(coder: aDecoder)
     }
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close",
-                                                           style: UIBarButtonItemStyle.Done,
+                                                           style: UIBarButtonItemStyle.done,
                                                           target: self,
                                                           action: #selector(PlayerPageViewController.close))
-        view.backgroundColor = UIColor.blackColor()
+        view.backgroundColor = UIColor.black
         let w = view.frame.width
         let h = view.frame.height
         miniPlayerView       = MV(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: minThumbnailHeight))
@@ -136,14 +136,14 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         videoView            = VideoView()
         videoView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
         view.addSubview(miniPlayerView)
-        videoView.userInteractionEnabled = false
-        imageView.userInteractionEnabled = false
+        videoView.isUserInteractionEnabled = false
+        imageView.isUserInteractionEnabled = false
         miniPlayerView.addSubview(imageView)
         miniPlayerView.addSubview(videoView)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PlayerPageViewController.close))
         miniPlayerView.addGestureRecognizer(tapRecognizer)
         scrollView = UIScrollView(frame: CGRect(x: 0, y: minThumbnailHeight, width: w, height: h))
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
         scrollView.delegate = self
         view.addSubview(scrollView)
         updateViewWithRate(0.0)
@@ -152,11 +152,11 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         miniPlayerView.delegate = self
     }
 
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    public var currentPlayerView: PVC? {
+    open var currentPlayerView: PVC? {
         if let _  = player?.previousTrack {
             return playerViews[1] as? PVC
         } else if playerViews.count > 0 {
@@ -164,13 +164,13 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         }
         return nil
     }
-    public var previousPlayerView: PVC? {
+    open var previousPlayerView: PVC? {
         if let _  = player?.previousTrack {
             return playerViews.count > 0 ? playerViews[0] as? PVC : nil
         }
         return nil
     }
-    public var nextPlayerView: PVC? {
+    open var nextPlayerView: PVC? {
         if let _  = player?.nextTrack {
             if let _  = player?.previousTrack {
                 return playerViews.count > 2 ? playerViews[2] as? PVC : nil
@@ -181,10 +181,10 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         return nil
     }
     
-    public func updatePlayerViews() {
+    open func updatePlayerViews() {
         for i in 0..<playerViews.count {
             playerViews[i].removeObserver(self.playerViewObserver)
-            playerViews[i].willMoveToParentViewController(nil)
+            playerViews[i].willMove(toParentViewController: nil)
             playerViews[i].view.removeFromSuperview()
             playerViews[i].removeFromParentViewController()
         }
@@ -192,14 +192,14 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         let w = scrollView.frame.width
         let h = scrollView.frame.height
         let tracks = [player?.previousTrack, player?.currentTrack, player?.nextTrack].filter { $0 != nil}.map { $0! }
-        tracks.enumerate().forEach { i, track in
+        tracks.enumerated().forEach { i, track in
             var pvc: PlayerViewController = PVC(player: player)
             self.addChildViewController(pvc)
             pvc.view.frame = CGRect(x:  w * CGFloat(i), y: 0, width: w, height: h)
             pvc.updateViewWithTrack(track, animated: false)
             pvc.addObserver(self.playerViewObserver)
             scrollView.addSubview(pvc.view)
-            pvc.didMoveToParentViewController(self)
+            pvc.didMove(toParentViewController: self)
             playerViews.append(pvc)
         }
         scrollView.contentSize = CGSize(width: CGFloat(tracks.count) * w, height: h)
@@ -212,19 +212,19 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         }
     }
 
-    public func open() {
+    open func open() {
         coverViewController?.toggleScreen()
     }
 
-    public func close() {
+    open func close() {
         coverViewController?.toggleScreen()
     }
 
-    public func toggle() {
+    open func toggle() {
         player?.toggle()
     }
 
-    public func next() {
+    open func next() {
         let w = scrollView.frame.width
         let h = scrollView.frame.height
         if let _  = player?.previousTrack {
@@ -234,42 +234,42 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         }
     }
 
-    public func previous() {
+    open func previous() {
         let w = scrollView.frame.width
         let h = scrollView.frame.height
         scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: w, height: h), animated: true)
     }
     
-    public var thumbnailView: UIView {
+    open var thumbnailView: UIView {
         return imageView
     }
 
-    public func didMinimizedCoverView() {
+    open func didMinimizedCoverView() {
         updateViews()
     }
 
-    public func didMaximizedCoverView() {
+    open func didMaximizedCoverView() {
         updateViews()
     }
 
-    public func didResizeCoverView(rate: CGFloat) {
+    open func didResizeCoverView(_ rate: CGFloat) {
         updateViewWithRate(rate)
     }
 
-    public func updateViewWithRate(rate: CGFloat) {
+    open func updateViewWithRate(_ rate: CGFloat) {
         miniPlayerView.updateViewWithRate(rate)
         let alpha = 0.75 * (1 - rate) + 0.25
         imageView.alpha = alpha
         videoView.alpha = alpha
     }
 
-    public func timeUpdated() {
+    open func timeUpdated() {
         guard let view   = currentPlayerView else { return }
         view.timeUpdated()
         miniPlayerView.updateViewWithPlayer(player)
     }
     
-    public func updateViews(animated: Bool = false) {
+    open func updateViews(_ animated: Bool = false) {
         guard let track = player?.currentTrack else {
             imageView.image  = self.defaultThumbImage
             videoView.player = nil
@@ -285,7 +285,7 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         }
         if track.isVideo {
             let state = player.currentState
-            if state == .Play || state == .Pause {
+            if state == .play || state == .pause {
                 videoView.player = player.avPlayer
                 imageView.image = videoBackgroundImage
                 return
@@ -293,33 +293,33 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
         }
         if let url = track.thumbnailUrl {
             videoView.player = nil
-            imageView.sd_setImageWithURL(url)
+            imageView.sd_setImage(with: url as URL!)
         } else {
             videoView.player = nil
             imageView.image  = defaultThumbImage
         }
     }
 
-    public func changeTime(time: CMTime) {
+    open func changeTime(_ time: CMTime) {
         player?.seekToTime(time)
     }
 
-    public func onMessage(message: String) {
+    open func onMessage(_ message: String) {
     }
     
-    public func enablePlayerView() {
+    open func enablePlayerView() {
         currentPlayerView?.enablePlayerView()
         guard let avPlayer = player.avPlayer else { return }
         if videoView.player != avPlayer {
             videoView.player = avPlayer
         }
     }
-    public func disablePlayerView() {
+    open func disablePlayerView() {
         currentPlayerView?.disablePlayerView()
         videoView.player = nil
     }
 
-    private func didScrollEnd() {
+    fileprivate func didScrollEnd() {
         let dst = scrollView.currentPage
         let current = player?.previousTrack == nil ? 0 : 1
         if dst < current {
@@ -331,29 +331,29 @@ public class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerV
     
     // MARK: UIScrollViewDelegate
 
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         didScrollEnd()
     }
 
-    public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         didScrollEnd()
     }
 
     // MARK: - MiniPlayerViewDelegate -
 
-    public func miniPlayerViewPlayButtonTouched() {
+    open func miniPlayerViewPlayButtonTouched() {
         player?.toggle()
     }
 
-    public func miniPlayerViewPreviousButtonTouched() {
+    open func miniPlayerViewPreviousButtonTouched() {
         player?.previous()
     }
 
-    public func miniPlayerViewNextButtonTouched() {
+    open func miniPlayerViewNextButtonTouched() {
         player?.next()
     }
 
-    public func miniPlayerViewUpdate() {
+    open func miniPlayerViewUpdate() {
         updateViews()
     }
 }
