@@ -13,6 +13,32 @@
 		673672C91D1FC81F006259F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
 		673672CB1D1FC82B006259F9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
 		673672CD1D1FC85E006259F9 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
+		67725EE71DCA191200D852E4 /* PlayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725EDE1DCA191200D852E4 /* PlayerKit.framework */; };
+		67725EF51DCA195400D852E4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
+		67725EF61DCA195400D852E4 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
+		67725EF71DCA195400D852E4 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
+		67725EF81DCA195400D852E4 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* Player.swift */; };
+		67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
+		67725F031DCA195800D852E4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
+		67725F0F1DCA272000D852E4 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; };
+		67725F1E1DCA278A00D852E4 /* PlayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F151DCA278A00D852E4 /* PlayerKit.framework */; };
+		67725F301DCA27C300D852E4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
+		67725F311DCA27C300D852E4 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
+		67725F321DCA27C300D852E4 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
+		67725F331DCA27C300D852E4 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* Player.swift */; };
+		67725F341DCA27C300D852E4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
+		67725F351DCA27C900D852E4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
+		67725F481DCA29BF00D852E4 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D571BAE8C36004419B0 /* PlayerSpec.swift */; };
+		67725F491DCA29BF00D852E4 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
+		67725F4A1DCA29C600D852E4 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D571BAE8C36004419B0 /* PlayerSpec.swift */; };
+		67725F4B1DCA29C600D852E4 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
+		67725F4E1DCA2A4500D852E4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F4C1DCA2A4500D852E4 /* Nimble.framework */; };
+		67725F4F1DCA2A4500D852E4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F4D1DCA2A4500D852E4 /* Quick.framework */; };
+		67725F541DCA2A9D00D852E4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F501DCA2A5A00D852E4 /* Nimble.framework */; };
+		67725F551DCA2A9D00D852E4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F511DCA2A5A00D852E4 /* Quick.framework */; };
+		67725F5C1DCA41C400D852E4 /* PlayerKit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 67725F5B1DCA417900D852E4 /* PlayerKit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		67725F5D1DCA41D000D852E4 /* PlayerKit-macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 67725F571DCA416900D852E4 /* PlayerKit-macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		67725F5E1DCA41D800D852E4 /* PlayerKit-tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 67725F581DCA416900D852E4 /* PlayerKit-tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67916D581BAE8C36004419B0 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D571BAE8C36004419B0 /* PlayerSpec.swift */; };
 		67916D821BAE90A2004419B0 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D591BAE8D1D004419B0 /* Nimble.framework */; };
 		67916D831BAE90A2004419B0 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D5A1BAE8D1D004419B0 /* Quick.framework */; };
@@ -27,11 +53,8 @@
 		67916D991BAE9308004419B0 /* PlayerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D901BAE9308004419B0 /* PlayerPageViewController.swift */; };
 		67916D9A1BAE9308004419B0 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
 		67916D9B1BAE9482004419B0 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D601BAE8DF2004419B0 /* SnapKit.framework */; };
-		67916D9C1BAE9482004419B0 /* WebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D611BAE8DF2004419B0 /* WebImage.framework */; };
 		67916D9D1BAE949B004419B0 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D601BAE8DF2004419B0 /* SnapKit.framework */; };
-		67916D9E1BAE949B004419B0 /* WebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D611BAE8DF2004419B0 /* WebImage.framework */; };
 		67916D9F1BAE95CF004419B0 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D601BAE8DF2004419B0 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		67916DA01BAE95CF004419B0 /* WebImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D611BAE8DF2004419B0 /* WebImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67916DA11BAE95D3004419B0 /* PlayerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D3D1BAE8A87004419B0 /* PlayerKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67916DA31BAE9759004419B0 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
 		67916DC11BAEFAEF004419B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67916DC01BAEFAEF004419B0 /* Images.xcassets */; };
@@ -40,6 +63,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		67725EE81DCA191200D852E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67916D341BAE8A87004419B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67725EDD1DCA191200D852E4;
+			remoteInfo = "PlayerKit-macOS";
+		};
+		67725F1F1DCA278A00D852E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67916D341BAE8A87004419B0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67725F141DCA278A00D852E4;
+			remoteInfo = "PlayerKit-tvOS";
+		};
 		67916D491BAE8A87004419B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 67916D341BAE8A87004419B0 /* Project object */;
@@ -58,7 +95,6 @@
 			files = (
 				67916DA11BAE95D3004419B0 /* PlayerKit.framework in CopyFiles */,
 				67916D9F1BAE95CF004419B0 /* SnapKit.framework in CopyFiles */,
-				67916DA01BAE95CF004419B0 /* WebImage.framework in CopyFiles */,
 				67916D871BAE9282004419B0 /* Nimble.framework in CopyFiles */,
 				67916D881BAE9282004419B0 /* Quick.framework in CopyFiles */,
 			);
@@ -73,6 +109,20 @@
 		673672C81D1FC81F006259F9 /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Playlist.swift; path = Source/Playlist.swift; sourceTree = SOURCE_ROOT; };
 		673672CA1D1FC82B006259F9 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Track.swift; path = Source/Track.swift; sourceTree = SOURCE_ROOT; };
 		673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaylistQueue.swift; path = Source/PlaylistQueue.swift; sourceTree = SOURCE_ROOT; };
+		67725EDE1DCA191200D852E4 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		67725EE61DCA191200D852E4 /* PlayerKit-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayerKit-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67725F061DCA257600D852E4 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/Mac/SDWebImage.framework; sourceTree = "<group>"; };
+		67725F071DCA257600D852E4 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
+		67725F0E1DCA272000D852E4 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
+		67725F151DCA278A00D852E4 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		67725F1D1DCA278A00D852E4 /* PlayerKit-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayerKit-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67725F4C1DCA2A4500D852E4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
+		67725F4D1DCA2A4500D852E4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/tvOS/Quick.framework; sourceTree = "<group>"; };
+		67725F501DCA2A5A00D852E4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/Mac/Nimble.framework; sourceTree = "<group>"; };
+		67725F511DCA2A5A00D852E4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/Mac/Quick.framework; sourceTree = "<group>"; };
+		67725F571DCA416900D852E4 /* PlayerKit-macOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PlayerKit-macOS.h"; path = "Header/PlayerKit-macOS.h"; sourceTree = SOURCE_ROOT; };
+		67725F581DCA416900D852E4 /* PlayerKit-tvOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PlayerKit-tvOS.h"; path = "Header/PlayerKit-tvOS.h"; sourceTree = SOURCE_ROOT; };
+		67725F5B1DCA417900D852E4 /* PlayerKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PlayerKit-iOS.h"; path = "Header/PlayerKit-iOS.h"; sourceTree = SOURCE_ROOT; };
 		67916D3D1BAE8A87004419B0 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67916D421BAE8A87004419B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		67916D471BAE8A87004419B0 /* PlayerKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayerKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,7 +131,6 @@
 		67916D591BAE8D1D004419B0 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		67916D5A1BAE8D1D004419B0 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		67916D601BAE8DF2004419B0 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
-		67916D611BAE8DF2004419B0 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
 		67916D8A1BAE9308004419B0 /* CoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoverViewController.swift; path = Source/CoverViewController.swift; sourceTree = SOURCE_ROOT; };
 		67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerView.swift; path = Source/MiniPlayerView.swift; sourceTree = SOURCE_ROOT; };
 		67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewController.swift; path = Source/MiniPlayerViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -97,12 +146,46 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		67725EDA1DCA191200D852E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725EE31DCA191200D852E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725EE71DCA191200D852E4 /* PlayerKit.framework in Frameworks */,
+				67725F541DCA2A9D00D852E4 /* Nimble.framework in Frameworks */,
+				67725F551DCA2A9D00D852E4 /* Quick.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F111DCA278A00D852E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F1A1DCA278A00D852E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F1E1DCA278A00D852E4 /* PlayerKit.framework in Frameworks */,
+				67725F4E1DCA2A4500D852E4 /* Nimble.framework in Frameworks */,
+				67725F4F1DCA2A4500D852E4 /* Quick.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67916D391BAE8A87004419B0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				67916D9D1BAE949B004419B0 /* SnapKit.framework in Frameworks */,
-				67916D9E1BAE949B004419B0 /* WebImage.framework in Frameworks */,
+				67725F0F1DCA272000D852E4 /* SDWebImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +194,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				67916D9B1BAE9482004419B0 /* SnapKit.framework in Frameworks */,
-				67916D9C1BAE9482004419B0 /* WebImage.framework in Frameworks */,
 				67916D821BAE90A2004419B0 /* Nimble.framework in Frameworks */,
 				67916D831BAE90A2004419B0 /* Quick.framework in Frameworks */,
 			);
@@ -120,9 +202,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		67725F0A1DCA258200D852E4 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				67725F0E1DCA272000D852E4 /* SDWebImage.framework */,
+				67916D591BAE8D1D004419B0 /* Nimble.framework */,
+				67916D5A1BAE8D1D004419B0 /* Quick.framework */,
+				67916D601BAE8DF2004419B0 /* SnapKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		67725F0B1DCA258800D852E4 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				67725F501DCA2A5A00D852E4 /* Nimble.framework */,
+				67725F511DCA2A5A00D852E4 /* Quick.framework */,
+				67725F061DCA257600D852E4 /* SDWebImage.framework */,
+				67725F071DCA257600D852E4 /* SnapKit.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		67725F0C1DCA259200D852E4 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				67725F4C1DCA2A4500D852E4 /* Nimble.framework */,
+				67725F4D1DCA2A4500D852E4 /* Quick.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		67725F0D1DCA259900D852E4 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = watchOS;
+			sourceTree = "<group>";
+		};
+		67725F561DCA2CCF00D852E4 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				67725F571DCA416900D852E4 /* PlayerKit-macOS.h */,
+				67725F581DCA416900D852E4 /* PlayerKit-tvOS.h */,
+				67725F5B1DCA417900D852E4 /* PlayerKit-iOS.h */,
+			);
+			name = Header;
+			path = PlayerKit;
+			sourceTree = "<group>";
+		};
 		67916D331BAE8A87004419B0 = {
 			isa = PBXGroup;
 			children = (
+				67725F561DCA2CCF00D852E4 /* Header */,
 				67916D3F1BAE8A87004419B0 /* Source */,
 				67916DC21BAEFB04004419B0 /* Resource */,
 				67916D4B1BAE8A87004419B0 /* Spec */,
@@ -136,6 +268,10 @@
 			children = (
 				67916D3D1BAE8A87004419B0 /* PlayerKit.framework */,
 				67916D471BAE8A87004419B0 /* PlayerKitTests.xctest */,
+				67725EDE1DCA191200D852E4 /* PlayerKit.framework */,
+				67725EE61DCA191200D852E4 /* PlayerKit-macOSTests.xctest */,
+				67725F151DCA278A00D852E4 /* PlayerKit.framework */,
+				67725F1D1DCA278A00D852E4 /* PlayerKit-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,10 +315,10 @@
 		67916D5F1BAE8DD2004419B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67916D601BAE8DF2004419B0 /* SnapKit.framework */,
-				67916D611BAE8DF2004419B0 /* WebImage.framework */,
-				67916D591BAE8D1D004419B0 /* Nimble.framework */,
-				67916D5A1BAE8D1D004419B0 /* Quick.framework */,
+				67725F0D1DCA259900D852E4 /* watchOS */,
+				67725F0C1DCA259200D852E4 /* tvOS */,
+				67725F0B1DCA258800D852E4 /* macOS */,
+				67725F0A1DCA258200D852E4 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,16 +334,105 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		67725EDB1DCA191200D852E4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F5D1DCA41D000D852E4 /* PlayerKit-macOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F121DCA278A00D852E4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F5E1DCA41D800D852E4 /* PlayerKit-tvOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67916D3A1BAE8A87004419B0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67725F5C1DCA41C400D852E4 /* PlayerKit-iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		67725EDD1DCA191200D852E4 /* PlayerKit-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67725EEF1DCA191200D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-macOS" */;
+			buildPhases = (
+				67725ED91DCA191200D852E4 /* Sources */,
+				67725EDA1DCA191200D852E4 /* Frameworks */,
+				67725EDB1DCA191200D852E4 /* Headers */,
+				67725EDC1DCA191200D852E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PlayerKit-macOS";
+			productName = "PlayerKit-macOS";
+			productReference = 67725EDE1DCA191200D852E4 /* PlayerKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		67725EE51DCA191200D852E4 /* PlayerKit-macOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67725EF21DCA191200D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-macOSTests" */;
+			buildPhases = (
+				67725EE21DCA191200D852E4 /* Sources */,
+				67725EE31DCA191200D852E4 /* Frameworks */,
+				67725EE41DCA191200D852E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				67725EE91DCA191200D852E4 /* PBXTargetDependency */,
+			);
+			name = "PlayerKit-macOSTests";
+			productName = "PlayerKit-macOSTests";
+			productReference = 67725EE61DCA191200D852E4 /* PlayerKit-macOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		67725F141DCA278A00D852E4 /* PlayerKit-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67725F261DCA278A00D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-tvOS" */;
+			buildPhases = (
+				67725F101DCA278A00D852E4 /* Sources */,
+				67725F111DCA278A00D852E4 /* Frameworks */,
+				67725F121DCA278A00D852E4 /* Headers */,
+				67725F131DCA278A00D852E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PlayerKit-tvOS";
+			productName = "PlayerKit-tvOS";
+			productReference = 67725F151DCA278A00D852E4 /* PlayerKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		67725F1C1DCA278A00D852E4 /* PlayerKit-tvOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67725F291DCA278A00D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-tvOSTests" */;
+			buildPhases = (
+				67725F191DCA278A00D852E4 /* Sources */,
+				67725F1A1DCA278A00D852E4 /* Frameworks */,
+				67725F1B1DCA278A00D852E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				67725F201DCA278A00D852E4 /* PBXTargetDependency */,
+			);
+			name = "PlayerKit-tvOSTests";
+			productName = "PlayerKit-tvOSTests";
+			productReference = 67725F1D1DCA278A00D852E4 /* PlayerKit-tvOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		67916D3C1BAE8A87004419B0 /* PlayerKit-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 67916D511BAE8A87004419B0 /* Build configuration list for PBXNativeTarget "PlayerKit-iOS" */;
@@ -251,10 +476,26 @@
 		67916D341BAE8A87004419B0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = kumabook;
 				TargetAttributes = {
+					67725EDD1DCA191200D852E4 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+					67725EE51DCA191200D852E4 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+					67725F141DCA278A00D852E4 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+					67725F1C1DCA278A00D852E4 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
 					67916D3C1BAE8A87004419B0 = {
 						CreatedOnToolsVersion = 7.0;
 						LastSwiftMigration = 0810;
@@ -279,11 +520,43 @@
 			targets = (
 				67916D3C1BAE8A87004419B0 /* PlayerKit-iOS */,
 				67916D461BAE8A87004419B0 /* PlayerKitTests */,
+				67725EDD1DCA191200D852E4 /* PlayerKit-macOS */,
+				67725EE51DCA191200D852E4 /* PlayerKit-macOSTests */,
+				67725F141DCA278A00D852E4 /* PlayerKit-tvOS */,
+				67725F1C1DCA278A00D852E4 /* PlayerKit-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		67725EDC1DCA191200D852E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725EE41DCA191200D852E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F131DCA278A00D852E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F1B1DCA278A00D852E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67916D3B1BAE8A87004419B0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,6 +575,50 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		67725ED91DCA191200D852E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F031DCA195800D852E4 /* Observable.swift in Sources */,
+				67725EF51DCA195400D852E4 /* Track.swift in Sources */,
+				67725EF61DCA195400D852E4 /* Playlist.swift in Sources */,
+				67725EF71DCA195400D852E4 /* PlaylistQueue.swift in Sources */,
+				67725EF81DCA195400D852E4 /* Player.swift in Sources */,
+				67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725EE21DCA191200D852E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F481DCA29BF00D852E4 /* PlayerSpec.swift in Sources */,
+				67725F491DCA29BF00D852E4 /* SpecHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F101DCA278A00D852E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F351DCA27C900D852E4 /* Observable.swift in Sources */,
+				67725F301DCA27C300D852E4 /* Track.swift in Sources */,
+				67725F311DCA27C300D852E4 /* Playlist.swift in Sources */,
+				67725F321DCA27C300D852E4 /* PlaylistQueue.swift in Sources */,
+				67725F331DCA27C300D852E4 /* Player.swift in Sources */,
+				67725F341DCA27C300D852E4 /* TimeHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67725F191DCA278A00D852E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67725F4A1DCA29C600D852E4 /* PlayerSpec.swift in Sources */,
+				67725F4B1DCA29C600D852E4 /* SpecHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67916D381BAE8A87004419B0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,6 +654,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		67725EE91DCA191200D852E4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67725EDD1DCA191200D852E4 /* PlayerKit-macOS */;
+			targetProxy = 67725EE81DCA191200D852E4 /* PBXContainerItemProxy */;
+		};
+		67725F201DCA278A00D852E4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67725F141DCA278A00D852E4 /* PlayerKit-tvOS */;
+			targetProxy = 67725F1F1DCA278A00D852E4 /* PBXContainerItemProxy */;
+		};
 		67916D4A1BAE8A87004419B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 67916D3C1BAE8A87004419B0 /* PlayerKit-iOS */;
@@ -345,6 +672,212 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		67725EF01DCA191200D852E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-macOS";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		67725EF11DCA191200D852E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-macOS";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		67725EF31DCA191200D852E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = Spec/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		67725EF41DCA191200D852E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				INFOPLIST_FILE = Spec/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-macOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		67725F271DCA278A00D852E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-tvOS";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		67725F281DCA278A00D852E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-tvOS";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		67725F2A1DCA278A00D852E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Spec/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		67725F2B1DCA278A00D852E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
+				INFOPLIST_FILE = Spec/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.kumabook.PlayerKit-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 3.0;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 		67916D4F1BAE8A87004419B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -522,6 +1055,38 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		67725EEF1DCA191200D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67725EF01DCA191200D852E4 /* Debug */,
+				67725EF11DCA191200D852E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		67725EF21DCA191200D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-macOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67725EF31DCA191200D852E4 /* Debug */,
+				67725EF41DCA191200D852E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		67725F261DCA278A00D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67725F271DCA278A00D852E4 /* Debug */,
+				67725F281DCA278A00D852E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		67725F291DCA278A00D852E4 /* Build configuration list for PBXNativeTarget "PlayerKit-tvOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67725F2A1DCA278A00D852E4 /* Debug */,
+				67725F2B1DCA278A00D852E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		67916D371BAE8A87004419B0 /* Build configuration list for PBXProject "PlayerKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

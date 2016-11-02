@@ -6,7 +6,7 @@
 //  Copyright © 2015 kumabook. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import PlayerKit
 
 class SpecHelper {
