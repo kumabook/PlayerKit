@@ -49,7 +49,8 @@ open class NowPlayingInfoCenter: PlayerObserver {
                 with: url as URL!,
                 options: SDWebImageDownloaderOptions.highPriority,
                 progress: {receivedSize, expectedSize, url in }) { (image, data, error, finished) -> Void in
-                    let albumArt                     = MPMediaItemArtwork(image: image!)
+                    guard let img = image else { return }
+                    let albumArt                     = MPMediaItemArtwork(image: img)
                     info[MPMediaItemPropertyArtwork] = albumArt
                     infoCenter.nowPlayingInfo        = info
             }
