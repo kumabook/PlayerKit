@@ -43,7 +43,7 @@ open class NowPlayingInfoCenter: PlayerObserver {
         info[MPMediaItemPropertyTitle]                    = track.title as AnyObject?
         info[MPMediaItemPropertyPlaybackDuration]         = CMTimeGetSeconds(duration) as AnyObject?
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = CMTimeGetSeconds(elapsedTime) as AnyObject?
-        if let url = track.artworkUrl {
+        if let url = track.artworkURL {
             let imageManager = SDWebImageManager()
             let _ = imageManager.imageDownloader?.downloadImage(
                 with: url as URL!,

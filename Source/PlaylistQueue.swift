@@ -30,7 +30,7 @@ open class PlaylistQueue: NSObject {
     open func trackUpdated(_ track: Track) {
         guard let playlistQueue = player?.playlistQueue, playlistQueue == self else { return }
         guard let nextTrack = player?.nextTrack else { return }
-        if nextTrack.streamUrl == track.streamUrl {
+        if nextTrack.streamURL == track.streamURL {
             player?.nextTrackAdded()
         }
     }

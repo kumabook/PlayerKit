@@ -291,7 +291,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
                 return
             }
         }
-        if let url = track.thumbnailUrl {
+        if let url = track.thumbnailURL {
             videoView.player = nil
             imageView.sd_setImage(with: url as URL!)
         } else {

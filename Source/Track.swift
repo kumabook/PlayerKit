@@ -11,13 +11,13 @@ import Foundation
 public protocol Track {
     var title:        String? { get }
     var subtitle:     String? { get }
-    var streamUrl:    URL?  { get }
-    var thumbnailUrl: URL?  { get }
-    var artworkUrl:   URL?  { get }
+    var streamURL:    URL?  { get }
+    var thumbnailURL: URL?  { get }
+    var artworkURL:   URL?  { get }
     var isVideo:      Bool    { get }
     var isValid:      Bool    { get }
 }
 
 extension Track {
-    public var isValid: Bool { return streamUrl != nil }
+    public var isValid: Bool { return streamURL != nil }
 }

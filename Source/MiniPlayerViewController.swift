@@ -56,8 +56,8 @@ open class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniP
         super.viewDidLoad()
         let w = view.frame.width
         let h = view.frame.height - miniPlayerHeight
-        mainViewContainer    = UIView(frame: CGRect(x: 0, y: 0, width: w, height: h))
-        miniPlayerView       = MV(frame: CGRect(x: 0, y: h, width: w, height: miniPlayerHeight))
+        mainViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: w, height: h))
+        miniPlayerView    = MV(frame: CGRect(x: 0, y: h, width: w, height: miniPlayerHeight))
         view.addSubview(mainViewContainer)
         view.addSubview(miniPlayerView)
 

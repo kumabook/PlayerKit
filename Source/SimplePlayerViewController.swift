@@ -253,13 +253,13 @@ open class SimplePlayerViewController: PlayerViewController {
         titleLabel.text    = track.title
         subTitleLabel.text = track.subtitle
         guard let currentTrack = player.currentTrack else { return }
-        let isCurrentTrack = currentTrack.streamUrl == track.streamUrl
+        let isCurrentTrack = currentTrack.streamURL == track.streamURL
         if isCurrentTrack && track.isVideo {
             videoView.player = player.avPlayer
-            imageView.sd_setImage(with: track.artworkUrl as URL?? ?? track.thumbnailUrl as URL!)
+            imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
         } else {
             videoView.player = nil
-            imageView.sd_setImage(with: track.artworkUrl as URL?? ?? track.thumbnailUrl as URL!)
+            imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
         }
         if !slider.isTracking {
             timeUpdated()

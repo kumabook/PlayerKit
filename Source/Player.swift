@@ -209,7 +209,7 @@ open class Player: Observable {
         itemCount = 0
         itemIndex = 0
         for i in 0..<playlist.tracks.count {
-            if let url = playlist.tracks[i].streamUrl {
+            if let url = playlist.tracks[i].streamURL {
                 itemCount += 1
                 if i >= trackIndex {
                     _playerItems.append(AVPlayerItem(url:url as URL))
