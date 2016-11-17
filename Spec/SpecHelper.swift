@@ -15,9 +15,9 @@ class SpecHelper {
 class TestTrack: PlayerKit.Track {
     public var title:        String? { return "test track" }
     public var subtitle:     String?
-    public var artworkUrl:   URL?
-    public var streamUrl:    URL?  { return URL(string: "http://logical-oscillator.github.io/trial_tracks/1.mp3") }
-    public var thumbnailUrl: URL?  { return nil }
+    public var artworkURL:   URL?
+    public var streamURL:    URL?  { return URL(string: "http://logical-oscillator.github.io/trial_tracks/1.mp3") }
+    public var thumbnailURL: URL?  { return nil }
     public var isVideo:      Bool    { return false }
 }
 
