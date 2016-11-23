@@ -147,9 +147,9 @@ open class SimplePlayerViewController: PlayerViewController {
         slider.addTarget(        self, action: #selector(SimplePlayerViewController.previewSeek),  for: UIControlEvents.valueChanged)
         slider.addTarget(        self, action: #selector(SimplePlayerViewController.stopSeek),     for: UIControlEvents.touchUpInside)
         slider.addTarget(        self, action: #selector(SimplePlayerViewController.cancelSeek),   for: UIControlEvents.touchUpOutside)
-        nextButton.addTarget(    self, action: #selector(getter: SimplePlayerViewController.next),         for: UIControlEvents.touchUpInside)
+        nextButton.addTarget(    self, action: #selector(SimplePlayerViewController.forward),      for: UIControlEvents.touchUpInside)
         playButton.addTarget(    self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
-        previousButton.addTarget(self, action: #selector(SimplePlayerViewController.previous),     for: UIControlEvents.touchUpInside)
+        previousButton.addTarget(self, action: #selector(SimplePlayerViewController.back),         for: UIControlEvents.touchUpInside)
         closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        for: UIControlEvents.touchUpInside)
         videoView.addTarget(     self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(SimplePlayerViewController.sliderDragged(_:)))
@@ -333,8 +333,8 @@ open class SimplePlayerViewController: PlayerViewController {
     }
 
     func toggle()   { notify(.toggle) }
-    func previous() { notify(.previous) }
-    func next()     { notify(.next) }
+    func back()     { notify(.previous) }
+    func forward()  { notify(.next) }
     func close()    { notify(.close) }
     func previewSeek() {
         if slider.isTracking {
