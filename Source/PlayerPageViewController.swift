@@ -158,7 +158,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
 
     open var currentPlayerView: PVC? {
         if let _  = player?.previousTrack {
-            return playerViews[1] as? PVC
+            return playerViews.get(1) as? PVC
         } else if playerViews.count > 0 {
             return playerViews[0] as? PVC
         }
