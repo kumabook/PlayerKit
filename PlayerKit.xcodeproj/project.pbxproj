@@ -58,6 +58,9 @@
 		67916DA31BAE9759004419B0 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
 		67916DC11BAEFAEF004419B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67916DC01BAEFAEF004419B0 /* Images.xcassets */; };
 		67BC7F041D355FBE00606D8A /* NowPlayingInfoCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BC7F031D355FBE00606D8A /* NowPlayingInfoCenter.swift */; };
+		67D828AD1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D828AC1E6DBD3F00A62E95 /* ArrayExtension.swift */; };
+		67D828AE1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D828AC1E6DBD3F00A62E95 /* ArrayExtension.swift */; };
+		67D828AF1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D828AC1E6DBD3F00A62E95 /* ArrayExtension.swift */; };
 		67E5E9F51DCA4957001CF873 /* PlayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D3D1BAE8A87004419B0 /* PlayerKit.framework */; };
 		67E5E9F61DCA4962001CF873 /* PlayerKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D3D1BAE8A87004419B0 /* PlayerKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67E5E9F81DCA49A2001CF873 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67725F501DCA2A5A00D852E4 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -173,6 +176,7 @@
 		67916DA21BAE9759004419B0 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecHelper.swift; path = Spec/SpecHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DC01BAEFAEF004419B0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		67BC7F031D355FBE00606D8A /* NowPlayingInfoCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NowPlayingInfoCenter.swift; path = Source/NowPlayingInfoCenter.swift; sourceTree = SOURCE_ROOT; };
+		67D828AC1E6DBD3F00A62E95 /* ArrayExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayExtension.swift; path = Source/ArrayExtension.swift; sourceTree = SOURCE_ROOT; };
 		67FDBA931D157C51003F6DFD /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Observable.swift; path = Source/Observable.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -311,6 +315,7 @@
 		67916D3F1BAE8A87004419B0 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				67D828AC1E6DBD3F00A62E95 /* ArrayExtension.swift */,
 				673672CA1D1FC82B006259F9 /* Track.swift */,
 				673672C81D1FC81F006259F9 /* Playlist.swift */,
 				673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */,
@@ -618,6 +623,7 @@
 				67725EF51DCA195400D852E4 /* Track.swift in Sources */,
 				67725EF61DCA195400D852E4 /* Playlist.swift in Sources */,
 				67725EF71DCA195400D852E4 /* PlaylistQueue.swift in Sources */,
+				67D828AE1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */,
 				67725EF81DCA195400D852E4 /* Player.swift in Sources */,
 				67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */,
 			);
@@ -640,6 +646,7 @@
 				67725F301DCA27C300D852E4 /* Track.swift in Sources */,
 				67725F311DCA27C300D852E4 /* Playlist.swift in Sources */,
 				67725F321DCA27C300D852E4 /* PlaylistQueue.swift in Sources */,
+				67D828AF1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */,
 				67725F331DCA27C300D852E4 /* Player.swift in Sources */,
 				67725F341DCA27C300D852E4 /* TimeHelper.swift in Sources */,
 			);
@@ -659,6 +666,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67916D941BAE9308004419B0 /* MiniPlayerView.swift in Sources */,
+				67D828AD1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */,
 				673672C91D1FC81F006259F9 /* Playlist.swift in Sources */,
 				67916D991BAE9308004419B0 /* PlayerPageViewController.swift in Sources */,
 				67916D9A1BAE9308004419B0 /* TimeHelper.swift in Sources */,
