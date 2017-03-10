@@ -16,6 +16,7 @@ public protocol Track {
     var artworkURL:   URL?  { get }
     var isVideo:      Bool    { get }
     var isValid:      Bool    { get }
+    var playerType:   PlayerType { get }
 }
 
 extension Track {

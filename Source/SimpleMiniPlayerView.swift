@@ -127,12 +127,12 @@ open class SimpleMiniPlayerView: MiniPlayerView {
             return
         }
         titleLabel.text = track.title
-        if let (current, _) = player.secondPair {
-            durationLabel.text = TimeHelper.timeStr(Float(current))
+        if let info = player.playingInfo {
+            durationLabel.text = TimeHelper.timeStr(Float(info.elapsedTime))
         } else {
             durationLabel.text = "00:00"
         }
-        state = player.currentState
+        state = player.state
     }
 
     open override func updateViewWithRate(_ rate: CGFloat) {

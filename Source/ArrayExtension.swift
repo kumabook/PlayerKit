@@ -8,8 +8,8 @@
 
 import Foundation
 
-extension Array {
-    public func get(_ index: Int) -> Element? {
+internal extension Array {
+    internal func get(_ index: Int) -> Element? {
         if 0 <= index && index < self.count {
             return self[index]
         } else {

@@ -20,7 +20,7 @@ public enum PlayerViewEvent {
     case next
     case toggle
     case close
-    case timeChanged(CMTime)
+    case timeChanged(TimeInterval)
     case message(String)
 }
 

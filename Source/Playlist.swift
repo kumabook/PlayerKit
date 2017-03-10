@@ -13,3 +13,17 @@ public protocol Playlist {
     var tracks:           [Track] { get }
     var validTracksCount: Int { get }
 }
+
+extension Playlist {
+    func createTrackListFrom(_ index: Int) -> TrackList {
+        var items: [Track] = []
+        let type = tracks[index].playerType
+        for track in tracks[index..<tracks.count] {
+            if track.playerType == type {
+                items.append(track)
+            }
+            break
+        }
+        return TrackList(id: "\(id)-from-\(index)-\(type)", tracks: items)
+    }
+}

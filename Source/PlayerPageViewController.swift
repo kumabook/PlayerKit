@@ -66,7 +66,7 @@ protocol PlayerPageViewControllerType {
     func next()
     func previous()
     func toggle()
-    func changeTime(_ time: CMTime)
+    func changeTime(_ time: TimeInterval)
     func onMessage(_ message: String)
 }
 
@@ -221,7 +221,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     }
 
     open func toggle() {
-        player?.toggle()
+        let _ = player?.toggle()
     }
 
     open func next() {
@@ -284,7 +284,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
             nextPlayerView?.updateViewWithTrack(nextTrack, animated: false)
         }
         if track.isVideo {
-            let state = player.currentState
+            let state = player.state
             if state == .play || state == .pause {
                 videoView.player = player.avPlayer
                 imageView.image = videoBackgroundImage
@@ -300,7 +300,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         }
     }
 
-    open func changeTime(_ time: CMTime) {
+    open func changeTime(_ time: TimeInterval) {
         player?.seekToTime(time)
     }
 
@@ -342,7 +342,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     // MARK: - MiniPlayerViewDelegate -
 
     open func miniPlayerViewPlayButtonTouched() {
-        player?.toggle()
+        let _ = player?.toggle()
     }
 
     open func miniPlayerViewPreviousButtonTouched() {

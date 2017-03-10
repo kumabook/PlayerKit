@@ -36,13 +36,12 @@ open class NowPlayingInfoCenter: PlayerObserver {
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
             return
         }
-        guard let duration = player.avPlayer?.currentItem?.duration else { return }
-        guard let elapsedTime = player.avPlayer?.currentTime() else { return }
+        guard let i = player.playingInfo else { return }
         let infoCenter = MPNowPlayingInfoCenter.default()
         var info: [String:AnyObject]                      = [:]
         info[MPMediaItemPropertyTitle]                    = track.title as AnyObject?
-        info[MPMediaItemPropertyPlaybackDuration]         = CMTimeGetSeconds(duration) as AnyObject?
-        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = CMTimeGetSeconds(elapsedTime) as AnyObject?
+        info[MPMediaItemPropertyPlaybackDuration]         = i.duration as AnyObject?
+        info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = i.elapsedTime as AnyObject?
         if let url = track.artworkURL {
             let imageManager = SDWebImageManager()
             let _ = imageManager.imageDownloader?.downloadImage(
