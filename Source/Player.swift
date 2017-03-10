@@ -41,11 +41,6 @@ public enum PlayerState {
     }
 }
 
-enum CurrentPlayer {
-    case normal(NormalPlayer)
-    case none
-}
-
 open class Player: QueuePlayerObserver, Observable {
     public typealias ObserverType = PlayerObserver
     public typealias EventType    = PlayerEvent
@@ -61,20 +56,39 @@ open class Player: QueuePlayerObserver, Observable {
         }
     }
     fileprivate var normalPlayer:     NormalPlayer
-//    fileprivate var appleMusicPlayer: AppleMusicPlayer
+    fileprivate var appleMusicPlayer: AppleMusicPlayer
 //    fileprivate var spotifyPlayer:    Spotifylayer
 
     fileprivate var playlistIndex: Int?
     fileprivate var trackIndex:    Int?
 
-//    fileprivate var timeObserver:  AnyObject?
-    public private(set) var state: PlayerState {
-        didSet { notify(.statusChanged) }
+    public var state: PlayerState {
+        if let type = currentTrack?.playerType {
+            switch type {
+            case .normal: return normalPlayer.state
+            default:      return appleMusicPlayer.state
+            }
+        }
+        return .init
     }
 
-    open var avPlayer: AVPlayer?  { return normalPlayer.queuePlayer }
-
+    open var avPlayer: AVPlayer?  {
+        if let type = currentTrack?.playerType {
+            switch type {
+            case .normal: return normalPlayer.queuePlayer
+            default:      return nil
+            }
+        }
+        return nil
+    }
     open var playingInfo: PlayingInfo? {
+        if let type = currentTrack?.playerType {
+            switch type {
+            case .normal:     return normalPlayer.playingInfo
+            case .appleMusic: return appleMusicPlayer.playingInfo
+            default:      return nil
+            }
+        }
         return nil
     }
     open var currentPlaylist: Playlist?  {
@@ -103,11 +117,12 @@ open class Player: QueuePlayerObserver, Observable {
 
 
     public override init() {
-        state         = .init
-        playlistQueue = PlaylistQueue(playlists: [])
-        normalPlayer  = NormalPlayer()
+        playlistQueue    = PlaylistQueue(playlists: [])
+        normalPlayer     = NormalPlayer()
+        appleMusicPlayer = AppleMusicPlayer()
         super.init()
         normalPlayer.addObserver(self)
+        appleMusicPlayer.addObserver(self)
     }
 
     deinit {
@@ -121,20 +136,21 @@ open class Player: QueuePlayerObserver, Observable {
             notify(.didPlayToEndTime)
         case .statusChanged:
             notify(.statusChanged)
-        case .trackSelected(let track, let index):
-            notify(.trackSelected(track, index, currentPlaylist!))
-        case .trackUnselected(let track, let index):
-            notify(.trackUnselected(track, index, currentPlaylist!))
+        case .trackSelected(let track, _):
+            notify(.trackSelected(track, currentTrackIndex!, currentPlaylist!))
+        case .trackUnselected(let track, _):
+            notify(.trackUnselected(track, currentTrackIndex!, currentPlaylist!))
         case .previousRequested:
-            if let indexPath = previousTrackIndexPath() {
-                prepare(indexPath[1], playlistIndex: indexPath[0])
+            if let _ = previousTrackIndexPath() {
+                previous()
+                play()
             } else {
                 notify(.previousPlaylistRequested)
             }
-            notify(.previousPlaylistRequested)
         case .nextRequested:
-            if let indexPath = nextTrackIndexPath() {
-                prepare(indexPath[1], playlistIndex: indexPath[0])
+            if let _ = nextTrackIndexPath() {
+                next()
+                play()
             } else {
                 notify(.nextPlaylistRequested)
             }
@@ -156,13 +172,14 @@ open class Player: QueuePlayerObserver, Observable {
 //        }
 
         let playlist = playlistQueue.playlists[playlistIndex]
-        let tracks = playlist.createTrackListFrom(trackIndex)
-
+        let tracks = playlist.createTrackList(with: trackIndex)
+        normalPlayer.clearPlayer()
+        appleMusicPlayer.clearPlayer()
         switch playerType {
         case .normal:
             normalPlayer.prepare(0, of: tracks)
         case .appleMusic:
-            break
+            appleMusicPlayer.prepare(0, of: tracks)
         case .spotify:
             break
         }
@@ -225,7 +242,7 @@ open class Player: QueuePlayerObserver, Observable {
         case .normal:
             normalPlayer.play()
         case .appleMusic:
-            break
+            appleMusicPlayer.play()
         case .spotify:
             break
         }
@@ -237,7 +254,7 @@ open class Player: QueuePlayerObserver, Observable {
         case .normal:
             normalPlayer.pause()
         case .appleMusic:
-            break
+            appleMusicPlayer.pause()
         case .spotify:
             break
         }
@@ -249,7 +266,7 @@ open class Player: QueuePlayerObserver, Observable {
         case .normal:
             normalPlayer.toggle()
         case .appleMusic:
-            break
+            appleMusicPlayer.toggle()
         case .spotify:
             break
         }
@@ -266,49 +283,72 @@ open class Player: QueuePlayerObserver, Observable {
     }
 
     fileprivate func previousTrackIndexPath() -> IndexPath? {
-        guard let playlistIndex = playlistIndex else { return nil }
-        guard let trackIndex    = trackIndex else { return nil }
-        if trackIndex - 1 >= 0 {
-            return IndexPath(indexes: [playlistIndex, trackIndex - 1])
-        }
-        for i in (0..<playlistIndex).reversed() {
-            if let playlist = playlistQueue.playlists.get(i), playlist.validTracksCount > 0 {
-                return IndexPath(indexes: [i, 0])
+        guard var playlistIndex = playlistIndex else { return nil }
+        guard var trackIndex    = trackIndex    else { return nil }
+        guard var playlist      = currentPlaylist else { return nil }
+        while (true) {
+            trackIndex -= 1
+            if trackIndex >= 0 {
+                let track = playlist.tracks[trackIndex]
+                if track.isValid {
+                    return IndexPath(indexes: [playlistIndex, trackIndex])
+                }
+            } else {
+                playlistIndex -= 1
+                if playlistIndex < 0 {
+                    return nil
+                } else {
+                    playlist   = playlistQueue.playlists[playlistIndex]
+                    trackIndex = playlist.tracks.count
+                }
             }
         }
-        return nil
     }
 
     fileprivate func nextTrackIndexPath() -> IndexPath? {
-        guard let playlistIndex = playlistIndex else { return nil }
-        guard let trackIndex    = trackIndex else { return nil }
-        guard let playlist = currentPlaylist else { return nil }
-        if trackIndex + 1 < playlist.tracks.count {
-            return IndexPath(indexes: [playlistIndex, trackIndex])
-        }
-        for i in playlistIndex+1..<playlistQueue.playlists.count {
-            if let playlist = playlistQueue.playlists.get(i), playlist.validTracksCount > 0 {
-                return IndexPath(indexes: [i, 0])
+        guard var playlistIndex = playlistIndex else { return nil }
+        guard var trackIndex    = trackIndex else { return nil }
+        guard var playlist = currentPlaylist else { return nil }
+        while (true) {
+            trackIndex += 1
+            if trackIndex < playlist.tracks.count {
+                let track = playlist.tracks[trackIndex]
+                if track.isValid {
+                    return IndexPath(indexes: [playlistIndex, trackIndex])
+                }
+            } else {
+                playlistIndex += 1
+                trackIndex     = -1
+                if playlistIndex >= playlistQueue.playlists.count {
+                    return nil
+                } else {
+                    playlist = playlistQueue.playlists[playlistIndex]
+                }
             }
         }
-        return nil
     }
 
     open func previous() {
-        guard let playerType = currentTrack?.playerType else { return }
-        switch playerType {
-        case .normal:     return normalPlayer.previous()
-        case .appleMusic: break
-        case .spotify:    break
+        guard let _ = currentTrack?.playerType else { return }
+        guard let indexPath = previousTrackIndexPath() else { return }
+        let isPlaying = state.isPlaying
+        prepare(indexPath[1], playlistIndex: indexPath[0])
+        if isPlaying {
+            play()
+        } else {
+            pause()
         }
     }
 
     open func next() {
-        guard let playerType = currentTrack?.playerType else { return }
-        switch playerType {
-        case .normal:     return normalPlayer.next()
-        case .appleMusic: break
-        case .spotify:    break
+        guard let _ = currentTrack?.playerType else { return }
+        guard let indexPath = nextTrackIndexPath() else { return }
+        let isPlaying = state.isPlaying
+        prepare(indexPath[1], playlistIndex: indexPath[0])
+        if isPlaying {
+            play()
+        } else {
+            pause()
         }
     }
 
@@ -319,8 +359,8 @@ open class Player: QueuePlayerObserver, Observable {
     open func seekToTime(_ time: TimeInterval) {
         guard let playerType = currentTrack?.playerType else { return }
         switch playerType {
-        case .normal:     return normalPlayer.seekToTime(time)
-        case .appleMusic: break
+        case .normal:     normalPlayer.seekToTime(time)
+        case .appleMusic: appleMusicPlayer.seekToTime(time)
         case .spotify:    break
         }
         notify(.timeUpdated)

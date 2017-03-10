@@ -35,9 +35,9 @@ class NormalPlayer: QueuePlayer {
     internal var tracks:       TrackList
     internal var trackIndex:   Int = -1
     internal var itemIndex:    Int = -1
-    internal var state:        PlayerState
+    internal var state:        PlayerState { didSet { notify(.statusChanged) } }
     fileprivate var itemCount:    Int = 0
-    fileprivate var timeObserver: AnyObject?
+    fileprivate var timeObserver: Any?
     
     fileprivate var proxy:       AVQueuePlayerNotificationProxy
     fileprivate var statusProxy: ObserverProxy?
@@ -47,8 +47,10 @@ class NormalPlayer: QueuePlayer {
         state         = .init
         proxy         = AVQueuePlayerNotificationProxy()
         tracks        = TrackList(id: "",  tracks: [])
-        statusProxy   = ObserverProxy(name: AVQueuePlayerDidChangeStatusNotification, closure: self.playerDidChangeStatus);
-        endProxy      = ObserverProxy(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, closure: self.playerDidPlayToEndTime);
+        statusProxy   = ObserverProxy(name: NSNotification.Name(rawValue: AVQueuePlayerDidChangeStatusNotification),
+                                   closure: self.playerDidChangeStatus)
+        endProxy      = ObserverProxy(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                   closure: self.playerDidPlayToEndTime)
     }
     
     // MARK: Notification handler
@@ -58,11 +60,12 @@ class NormalPlayer: QueuePlayer {
         }
         notify(.trackUnselected(currentTrack!, currentIndex!))
         itemIndex = (itemIndex + 1) % itemCount
-        if itemIndex == 0 {
+        notify(.nextRequested)
+/*        if itemIndex == 0 {
             notify(.nextRequested)
         } else {
             notify(.trackSelected(currentTrack!, currentIndex!))
-        }
+        }*/
     }
     
     func playerDidChangeStatus(_ notification: Notification) {
@@ -94,9 +97,10 @@ class NormalPlayer: QueuePlayer {
 
     // MARK: QueuePlayer protocol
     var playerType:        PlayerType     { return PlayerType.normal }
-    var currentTime:       TimeInterval?  {
-        if let time = queuePlayer?.currentTime() {
-            return Float64(time.value * 1000) / Float64(time.timescale)
+    var playingInfo: PlayingInfo? {
+        if let item = queuePlayer?.currentItem {
+            return PlayingInfo(duration: CMTimeGetSeconds(item.duration),
+                            elapsedTime: CMTimeGetSeconds(item.currentTime()))
         }
         return nil
     }
@@ -132,8 +136,8 @@ class NormalPlayer: QueuePlayer {
           state = .pause
         }
     }
-
-    func preparePlayer() {
+    
+    func clearPlayer() {
         if let player = queuePlayer {
             player.pause()
             if let observer = timeObserver {
@@ -142,15 +146,20 @@ class NormalPlayer: QueuePlayer {
             player.removeAllItems()
             player.removeObserver(proxy, forKeyPath: "status")
         }
-        var _playerItems: [AVPlayerItem] = []
+        timeObserver = nil
+        queuePlayer  = nil
+    }
+
+    func preparePlayer() {
+        var items: [AVPlayerItem] = []
         itemCount = 0
         itemIndex = 0
         for i in 0..<tracks.count {
-            print("\(i) \(tracks[i].title) \(tracks[i].isValid)")
+            print("\(i) \(tracks[i].title) is valid? \(tracks[i].isValid)")
             if let url = tracks[i].streamURL, tracks[i].isValid {
                 itemCount += 1
                 if i >= trackIndex {
-                    _playerItems.append(AVPlayerItem(url:url as URL))
+                    items.append(AVPlayerItem(url:url as URL))
                 } else {
                     itemIndex += 1
                 }
@@ -159,10 +168,10 @@ class NormalPlayer: QueuePlayer {
         if itemIndex >= itemCount {
             itemIndex = itemCount - 1
         }
-        queuePlayer = AVQueuePlayer(items: _playerItems)
+        queuePlayer = AVQueuePlayer(items: items)
         queuePlayer?.seek(to: kCMTimeZero)
         let time = CMTimeMakeWithSeconds(1.0, 1)
-        timeObserver = queuePlayer?.addPeriodicTimeObserver(forInterval: time, queue: nil, using:self.updateTime) as AnyObject?
+        timeObserver = queuePlayer?.addPeriodicTimeObserver(forInterval: time, queue: nil, using:self.updateTime)
         queuePlayer?.addObserver(proxy, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil)
     }
 }

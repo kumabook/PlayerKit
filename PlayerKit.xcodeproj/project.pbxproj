@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		671207CC1E726BC7008BD75A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671207CB1E726BC7008BD75A /* MediaPlayer.framework */; };
 		6718E36E1D14EFD700CECC08 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6718E36D1D14EFD700CECC08 /* VideoView.swift */; };
 		6723D8541D1E11DB00D60C3F /* SimplePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */; };
 		6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */; };
@@ -153,6 +154,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		671207CB1E726BC7008BD75A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		6718E36D1D14EFD700CECC08 /* VideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoView.swift; path = Source/VideoView.swift; sourceTree = SOURCE_ROOT; };
 		6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimplePlayerViewController.swift; path = Source/SimplePlayerViewController.swift; sourceTree = SOURCE_ROOT; };
 		6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleMiniPlayerView.swift; path = Source/SimpleMiniPlayerView.swift; sourceTree = SOURCE_ROOT; };
@@ -243,6 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				671207CC1E726BC7008BD75A /* MediaPlayer.framework in Frameworks */,
 				67916D9D1BAE949B004419B0 /* SnapKit.framework in Frameworks */,
 				67725F0F1DCA272000D852E4 /* SDWebImage.framework in Frameworks */,
 			);
@@ -378,6 +381,7 @@
 		67916D5F1BAE8DD2004419B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				671207CB1E726BC7008BD75A /* MediaPlayer.framework */,
 				67725F0D1DCA259900D852E4 /* watchOS */,
 				67725F0C1DCA259200D852E4 /* tvOS */,
 				67725F0B1DCA258800D852E4 /* macOS */,

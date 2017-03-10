@@ -12,10 +12,9 @@ public protocol QueuePlayer: class, Observable {
     typealias ObserverType = QueuePlayerObserver
     typealias EventType    = QueuePlayerEvent
     var itemIndex:         Int { get }
-    var state:             PlayerState { get set }
+    var state:             PlayerState { get }
     var tracks:            TrackList { get set }
     var trackIndex:        Int { get set }
-    var currentTime:       TimeInterval?  { get }
     var currentIndex:      Int?   { get }
     var currentTrack:      Track? { get }
     var previousTrack:     Track? { get }
@@ -29,9 +28,11 @@ public protocol QueuePlayer: class, Observable {
     func prepare(_ index: Int, of: TrackList)
     func toggle()
     // should be implement
+    var playingInfo: PlayingInfo? { get }
     var playerType: PlayerType { get }
     func pause()
     func play()
+    func clearPlayer()
     func preparePlayer()
 }
 
@@ -92,22 +93,22 @@ extension QueuePlayer {
             return
         }
         if state.isPlaying {
-            let _ = play(trackIndex: i)
+            play(trackIndex: i)
         } else {
+            clearPlayer()
             prepare(i, of: tracks)
-            state = .pause
         }
     }
     func next() {
-        guard let i = trackIndex(itemIndex+1) else {
+        guard let i = trackIndex(itemIndex + 1) else {
             notify(.nextRequested)
             return
         }
         if state.isPlaying {
-            let _ = play(trackIndex: i)
+            play(trackIndex: i)
         } else {
+            clearPlayer()
             prepare(i, of: tracks)
-            state = .pause
         }
     }
     func nextTrackAdded() {
@@ -142,6 +143,7 @@ extension QueuePlayer {
             return false
         }
         self.tracks = tracks
+        clearPlayer()
         prepare(trackIndex, of: tracks)
         return true
     }
@@ -158,6 +160,7 @@ extension QueuePlayer {
     }
     public func play(trackIndex: Int, tracks: TrackList) {
         if self.tracks != tracks || !isSelected(trackIndex) {
+            clearPlayer()
             prepare(trackIndex, of: tracks)
         }
         return play()

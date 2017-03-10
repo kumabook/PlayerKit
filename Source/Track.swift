@@ -17,8 +17,10 @@ public protocol Track {
     var isVideo:      Bool    { get }
     var isValid:      Bool    { get }
     var playerType:   PlayerType { get }
+    var appleMusicID: String? { get }
 }
 
 extension Track {
     public var isValid: Bool { return streamURL != nil }
+    public var appleMusicID: String? { return nil }
 }

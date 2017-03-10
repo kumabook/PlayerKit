@@ -15,14 +15,16 @@ public protocol Playlist {
 }
 
 extension Playlist {
-    func createTrackListFrom(_ index: Int) -> TrackList {
+    func createTrackList(with index: Int) -> TrackList {
+        let track = tracks[index]
+        return TrackList(id: "\(id)-from-\(index)-\(track.playerType)", tracks: [track])
+    }
+    func createTrackList(from index: Int) -> TrackList {
         var items: [Track] = []
         let type = tracks[index].playerType
         for track in tracks[index..<tracks.count] {
-            if track.playerType == type {
-                items.append(track)
-            }
-            break
+            if track.playerType != type { break }
+            items.append(track)
         }
         return TrackList(id: "\(id)-from-\(index)-\(type)", tracks: items)
     }
