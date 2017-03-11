@@ -9,7 +9,7 @@
 import Foundation
 import MediaPlayer
 
-class AppleMusicPlayer: QueuePlayer {
+class AppleMusicPlayer: ConcreteQueuePlayer {
     typealias ObserverType = QueuePlayerObserver
     typealias EventType    = QueuePlayerEvent
     fileprivate var _observers: [ObserverType] = []

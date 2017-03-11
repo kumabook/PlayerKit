@@ -22,7 +22,7 @@ class AVQueuePlayerNotificationProxy: NSObject {
     }
 }
 
-class NormalPlayer: QueuePlayer {
+class NormalPlayer: ConcreteQueuePlayer {
     typealias ObserverType = QueuePlayerObserver
     typealias EventType    = QueuePlayerEvent
     fileprivate var _observers: [ObserverType] = []
@@ -155,7 +155,7 @@ class NormalPlayer: QueuePlayer {
         itemCount = 0
         itemIndex = 0
         for i in 0..<tracks.count {
-            print("\(i) \(tracks[i].title) is valid? \(tracks[i].isValid)")
+            print("\(i) \(tracks[i].title) is valid? \(tracks[i].isValid) \(tracks[i].streamURL)")
             if let url = tracks[i].streamURL, tracks[i].isValid {
                 itemCount += 1
                 if i >= trackIndex {

@@ -11,7 +11,7 @@ import Foundation
 public struct TrackList: Equatable {
     public var id:     String
     public var tracks: [Track]
-    subscript(index: Int) -> Track {
+    public subscript(index: Int) -> Track {
         get {
             return tracks[index]
         }
@@ -20,6 +20,10 @@ public struct TrackList: Equatable {
         }
     }
     public var count: Int { return tracks.count }
+    public init(id: String, tracks: [Track]) {
+        self.id     = id
+        self.tracks = tracks
+    }
 }
 
 public func ==(lhs: TrackList, rhs: TrackList) -> Bool {

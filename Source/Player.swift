@@ -55,9 +55,35 @@ open class Player: QueuePlayerObserver, Observable {
             playlistQueue.player = self
         }
     }
-    fileprivate var normalPlayer:     NormalPlayer
-    fileprivate var appleMusicPlayer: AppleMusicPlayer
-//    fileprivate var spotifyPlayer:    Spotifylayer
+    fileprivate var queuePlayers: [QueuePlayer]
+
+    fileprivate var normalPlayer: NormalPlayer? {
+        for player in queuePlayers {
+            if let player = player as? NormalPlayer {
+                return player
+            }
+        }
+        return nil
+    }
+
+    fileprivate var appleMusicPlayer: AppleMusicPlayer? {
+        for player in queuePlayers {
+            if let player = player as? AppleMusicPlayer {
+                return player
+            }
+        }
+        return nil
+    }
+    
+    fileprivate var spotifyPlayer: SpotifyPlayer? {
+        for player in queuePlayers {
+            if let player = player as? SpotifyPlayer {
+                return player
+            }
+        }
+        return nil
+    }
+
 
     fileprivate var playlistIndex: Int?
     fileprivate var trackIndex:    Int?
@@ -65,8 +91,9 @@ open class Player: QueuePlayerObserver, Observable {
     public var state: PlayerState {
         if let type = currentTrack?.playerType {
             switch type {
-            case .normal: return normalPlayer.state
-            default:      return appleMusicPlayer.state
+            case .normal:     return normalPlayer?.state     ?? .init
+            case .appleMusic: return appleMusicPlayer?.state ?? .init
+            case .spotify:    return spotifyPlayer?.state    ?? .init
             }
         }
         return .init
@@ -75,8 +102,10 @@ open class Player: QueuePlayerObserver, Observable {
     open var avPlayer: AVPlayer?  {
         if let type = currentTrack?.playerType {
             switch type {
-            case .normal: return normalPlayer.queuePlayer
-            default:      return nil
+            case .normal:
+                return normalPlayer?.queuePlayer
+            default:
+                return nil
             }
         }
         return nil
@@ -84,9 +113,9 @@ open class Player: QueuePlayerObserver, Observable {
     open var playingInfo: PlayingInfo? {
         if let type = currentTrack?.playerType {
             switch type {
-            case .normal:     return normalPlayer.playingInfo
-            case .appleMusic: return appleMusicPlayer.playingInfo
-            default:      return nil
+            case .normal:     return normalPlayer?.playingInfo
+            case .appleMusic: return appleMusicPlayer?.playingInfo
+            case .spotify:    return spotifyPlayer?.playingInfo
             }
         }
         return nil
@@ -118,14 +147,26 @@ open class Player: QueuePlayerObserver, Observable {
 
     public override init() {
         playlistQueue    = PlaylistQueue(playlists: [])
-        normalPlayer     = NormalPlayer()
-        appleMusicPlayer = AppleMusicPlayer()
+        queuePlayers     = []
         super.init()
-        normalPlayer.addObserver(self)
-        appleMusicPlayer.addObserver(self)
+        addPlayer(NormalPlayer())
+        addPlayer(AppleMusicPlayer())
     }
 
     deinit {
+    }
+
+    open func addPlayer(_ player: QueuePlayer) {
+        if var player = player as? NormalPlayer {
+            player.addObserver(self)
+        }
+        if var player = player as? AppleMusicPlayer {
+            player.addObserver(self)
+        }
+        if var player = player as? SpotifyPlayer {
+            player.addObserver(self)
+        }
+        queuePlayers.append(player)
     }
 
     open override func listen(_ event: QueuePlayerObserver.Event) {
@@ -173,15 +214,13 @@ open class Player: QueuePlayerObserver, Observable {
 
         let playlist = playlistQueue.playlists[playlistIndex]
         let tracks = playlist.createTrackList(with: trackIndex)
-        normalPlayer.clearPlayer()
-        appleMusicPlayer.clearPlayer()
+        normalPlayer?.clearPlayer()
+        appleMusicPlayer?.clearPlayer()
+        spotifyPlayer?.clearPlayer()
         switch playerType {
-        case .normal:
-            normalPlayer.prepare(0, of: tracks)
-        case .appleMusic:
-            appleMusicPlayer.prepare(0, of: tracks)
-        case .spotify:
-            break
+        case .normal:     normalPlayer?.prepare(    0, of: tracks)
+        case .appleMusic: appleMusicPlayer?.prepare(0, of: tracks)
+        case .spotify:    spotifyPlayer?.prepare(   0, of: tracks)
         }
     }
 
@@ -239,36 +278,27 @@ open class Player: QueuePlayerObserver, Observable {
     open func play() {
         guard let playerType = currentTrack?.playerType else { return }
         switch playerType {
-        case .normal:
-            normalPlayer.play()
-        case .appleMusic:
-            appleMusicPlayer.play()
-        case .spotify:
-            break
+        case .normal:     normalPlayer?.play()
+        case .appleMusic: appleMusicPlayer?.play()
+        case .spotify:    spotifyPlayer?.play()
         }
     }
 
     open func pause() {
         guard let playerType = currentTrack?.playerType else { return }
         switch playerType {
-        case .normal:
-            normalPlayer.pause()
-        case .appleMusic:
-            appleMusicPlayer.pause()
-        case .spotify:
-            break
+        case .normal:     normalPlayer?.pause()
+        case .appleMusic: appleMusicPlayer?.pause()
+        case .spotify:    spotifyPlayer?.pause()
         }
     }
 
     open func toggle() {
         guard let playerType = currentTrack?.playerType else { return }
         switch playerType {
-        case .normal:
-            normalPlayer.toggle()
-        case .appleMusic:
-            appleMusicPlayer.toggle()
-        case .spotify:
-            break
+        case .normal:     normalPlayer?.toggle()
+        case .appleMusic: appleMusicPlayer?.toggle()
+        case .spotify:    spotifyPlayer?.toggle()
         }
     }
 
@@ -359,9 +389,9 @@ open class Player: QueuePlayerObserver, Observable {
     open func seekToTime(_ time: TimeInterval) {
         guard let playerType = currentTrack?.playerType else { return }
         switch playerType {
-        case .normal:     normalPlayer.seekToTime(time)
-        case .appleMusic: appleMusicPlayer.seekToTime(time)
-        case .spotify:    break
+        case .normal:     normalPlayer?.seekToTime(time)
+        case .appleMusic: appleMusicPlayer?.seekToTime(time)
+        case .spotify:    spotifyPlayer?.seekToTime(time)
         }
         notify(.timeUpdated)
     }

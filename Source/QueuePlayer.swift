@@ -8,11 +8,26 @@
 
 import Foundation
 
-public protocol QueuePlayer: class, Observable {
+public protocol QueuePlayer {
+    var playingInfo: PlayingInfo? { get }
+    var playerType:  PlayerType { get }
+    var state:       PlayerState { get }
+    func pause()
+    func play()
+    func clearPlayer()
+    func preparePlayer()
+    func play(trackIndex: Int, tracks: TrackList)
+    func prepare(_ index: Int, of: TrackList)
+    func previous()
+    func next()
+    func seekToTime(_ time: TimeInterval)
+    func toggle()
+}
+
+public protocol ConcreteQueuePlayer: class, QueuePlayer, Observable {
     typealias ObserverType = QueuePlayerObserver
     typealias EventType    = QueuePlayerEvent
     var itemIndex:         Int { get }
-    var state:             PlayerState { get }
     var tracks:            TrackList { get set }
     var trackIndex:        Int { get set }
     var currentIndex:      Int?   { get }
@@ -20,20 +35,7 @@ public protocol QueuePlayer: class, Observable {
     var previousTrack:     Track? { get }
     var nextTrack:         Track? { get }
     func isSelected(_ trackIndex: Int) -> Bool
-    func previous()
-    func next()
-    func seekToTime(_ time: TimeInterval)
     func nextTrackAdded()
-    func play(trackIndex: Int, tracks: TrackList)
-    func prepare(_ index: Int, of: TrackList)
-    func toggle()
-    // should be implement
-    var playingInfo: PlayingInfo? { get }
-    var playerType: PlayerType { get }
-    func pause()
-    func play()
-    func clearPlayer()
-    func preparePlayer()
 }
 
 open class QueuePlayerObserver: NSObject, Observer {
@@ -58,7 +60,7 @@ public enum QueuePlayerEvent {
     case nextTrackAdded
 }
 
-extension QueuePlayer {
+public extension ConcreteQueuePlayer {
     var currentIndex:      Int? { return trackIndex(itemIndex) }
     func trackIndex(_ index: Int) -> Int? {
         var _indexes: [Int:Int] = [:]

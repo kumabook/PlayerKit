@@ -343,18 +343,6 @@
 			isa = PBXGroup;
 			children = (
 				67D828AC1E6DBD3F00A62E95 /* ArrayExtension.swift */,
-				673672CA1D1FC82B006259F9 /* Track.swift */,
-				673672C81D1FC81F006259F9 /* Playlist.swift */,
-				673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */,
-				67916D8A1BAE9308004419B0 /* CoverViewController.swift */,
-				67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */,
-				67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */,
-				67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */,
-				6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */,
-				6718E36D1D14EFD700CECC08 /* VideoView.swift */,
-				67916D901BAE9308004419B0 /* PlayerPageViewController.swift */,
-				67916D8F1BAE9308004419B0 /* PlayerViewController.swift */,
-				6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */,
 				67B9F63F1E70E42C009210AD /* Model */,
 				67B9F63E1E70E3F8009210AD /* UI */,
 				67B9F63D1E70E3EC009210AD /* Player */,
@@ -402,7 +390,6 @@
 			isa = PBXGroup;
 			children = (
 				67916D8E1BAE9308004419B0 /* Player.swift */,
-				67B9F6401E70E4F3009210AD /* PlayerType.swift */,
 				67B9F63A1E70DE8F009210AD /* QueuePlayer.swift */,
 				67B9F6491E70EBF8009210AD /* NormalPlayer.swift */,
 				67B9F6431E70EB0E009210AD /* AppleMusicPlayer.swift */,
@@ -415,6 +402,15 @@
 		67B9F63E1E70E3F8009210AD /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				67916D8A1BAE9308004419B0 /* CoverViewController.swift */,
+				67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */,
+				67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */,
+				6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */,
+				67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */,
+				6718E36D1D14EFD700CECC08 /* VideoView.swift */,
+				67916D901BAE9308004419B0 /* PlayerPageViewController.swift */,
+				67916D8F1BAE9308004419B0 /* PlayerViewController.swift */,
+				6723D8531D1E11DB00D60C3F /* SimplePlayerViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -422,6 +418,10 @@
 		67B9F63F1E70E42C009210AD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				67B9F6401E70E4F3009210AD /* PlayerType.swift */,
+				673672CA1D1FC82B006259F9 /* Track.swift */,
+				673672C81D1FC81F006259F9 /* Playlist.swift */,
+				673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */,
 				67B9F64C1E7109F6009210AD /* TrackList.swift */,
 				67B9F6521E7139AA009210AD /* PlayingInfo.swift */,
 			);
