@@ -13,19 +13,3 @@ public protocol Playlist {
     var tracks:           [Track] { get }
     var validTracksCount: Int { get }
 }
-
-extension Playlist {
-    func createTrackList(with index: Int) -> TrackList {
-        let track = tracks[index]
-        return TrackList(id: "\(id)-from-\(index)-\(track.playerType)", tracks: [track])
-    }
-    func createTrackList(from index: Int) -> TrackList {
-        var items: [Track] = []
-        let type = tracks[index].playerType
-        for track in tracks[index..<tracks.count] {
-            if track.playerType != type { break }
-            items.append(track)
-        }
-        return TrackList(id: "\(id)-from-\(index)-\(type)", tracks: items)
-    }
-}

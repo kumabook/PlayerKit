@@ -175,52 +175,36 @@ open class Player: QueuePlayerObserver, Observable {
             notify(.timeUpdated)
         case .didPlayToEndTime:
             notify(.didPlayToEndTime)
-        case .statusChanged:
-            notify(.statusChanged)
-        case .trackSelected(let track, _):
-            notify(.trackSelected(track, currentTrackIndex!, currentPlaylist!))
-        case .trackUnselected(let track, _):
-            notify(.trackUnselected(track, currentTrackIndex!, currentPlaylist!))
-        case .previousRequested:
-            if let _ = previousTrackIndexPath() {
-                previous()
-                play()
-            } else {
-                notify(.previousPlaylistRequested)
-            }
-        case .nextRequested:
             if let _ = nextTrackIndexPath() {
                 next()
                 play()
             } else {
                 notify(.nextPlaylistRequested)
             }
+        case .statusChanged:
+            notify(.statusChanged)
         case .errorOccured:
             notify(.errorOccured)
-        case .nextTrackAdded:
-            notify(.nextTrackAdded)
         }
     }
 
     func prepare(_ trackIndex: Int, playlistIndex: Int) {
+        if let p = currentPlaylist, let i = currentTrackIndex, let t = currentTrack {
+            notify(.trackUnselected(t, i, p))
+        }
         self.playlistIndex = playlistIndex
         self.trackIndex    = trackIndex
-        guard let playerType = currentTrack?.playerType else { return }
-//        if let p = currentPlaylist {
-//            if let i = currentTrackIndex, let t = currentTrack {
-//                notify(.trackUnselected(t, i, p))
-//            }
-//        }
-
-        let playlist = playlistQueue.playlists[playlistIndex]
-        let tracks = playlist.createTrackList(with: trackIndex)
+        guard let track = currentTrack else { return }
         normalPlayer?.clearPlayer()
         appleMusicPlayer?.clearPlayer()
         spotifyPlayer?.clearPlayer()
-        switch playerType {
-        case .normal:     normalPlayer?.prepare(    0, of: tracks)
-        case .appleMusic: appleMusicPlayer?.prepare(0, of: tracks)
-        case .spotify:    spotifyPlayer?.prepare(   0, of: tracks)
+        switch track.playerType {
+        case .normal:     normalPlayer?.prepare(for: track)
+        case .appleMusic: appleMusicPlayer?.prepare(for: track)
+        case .spotify:    spotifyPlayer?.prepare(for: track)
+        }
+        if let p = currentPlaylist, let i = currentTrackIndex, let t = currentTrack {
+            notify(.trackSelected(t, i, p))
         }
     }
 

@@ -264,7 +264,7 @@ open class SimplePlayerViewController: PlayerViewController {
         }
         let action = {
             switch self.player.state {
-            case .pause:
+            case .init, .load, .pause:
                 self.videoEffectView.effect         = UIBlurEffect(style: .dark)
                 self.imageEffectView.effect         = UIBlurEffect(style: .dark)
                 self.imageCoverView.backgroundColor = UIColor.clear

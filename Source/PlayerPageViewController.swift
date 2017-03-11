@@ -264,7 +264,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     }
 
     open func timeUpdated() {
-        guard let view   = currentPlayerView else { return }
+        guard let view = currentPlayerView else { return }
         view.timeUpdated()
         miniPlayerView.updateViewWithPlayer(player)
     }
