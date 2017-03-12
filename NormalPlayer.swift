@@ -22,9 +22,9 @@ class AVQueuePlayerNotificationProxy: NSObject {
     }
 }
 
-class NormalPlayer: ConcreteQueuePlayer {
-    typealias ObserverType = QueuePlayerObserver
-    typealias EventType    = QueuePlayerEvent
+class NormalPlayer: ServicePlayer {
+    typealias ObserverType = ServicePlayerObserver
+    typealias EventType    = ServicePlayerEvent
     fileprivate var _observers: [ObserverType] = []
     open        var  observers: [ObserverType] {
         get { return _observers }

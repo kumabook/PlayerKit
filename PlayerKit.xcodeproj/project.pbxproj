@@ -58,8 +58,8 @@
 		67916D9F1BAE95CF004419B0 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67916D601BAE8DF2004419B0 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67916DA31BAE9759004419B0 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916DA21BAE9759004419B0 /* SpecHelper.swift */; };
 		67916DC11BAEFAEF004419B0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67916DC01BAEFAEF004419B0 /* Images.xcassets */; };
-		67B9F63B1E70DE8F009210AD /* QueuePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F63A1E70DE8F009210AD /* QueuePlayer.swift */; };
-		67B9F63C1E70DE8F009210AD /* QueuePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F63A1E70DE8F009210AD /* QueuePlayer.swift */; };
+		67B9F63B1E70DE8F009210AD /* ServicePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F63A1E70DE8F009210AD /* ServicePlayer.swift */; };
+		67B9F63C1E70DE8F009210AD /* ServicePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F63A1E70DE8F009210AD /* ServicePlayer.swift */; };
 		67B9F6411E70E4F3009210AD /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F6401E70E4F3009210AD /* PlayerType.swift */; };
 		67B9F6421E70E4F3009210AD /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F6401E70E4F3009210AD /* PlayerType.swift */; };
 		67B9F6441E70EB0E009210AD /* AppleMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B9F6431E70EB0E009210AD /* AppleMusicPlayer.swift */; };
@@ -193,7 +193,7 @@
 		67916D911BAE9308004419B0 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeHelper.swift; path = Source/TimeHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DA21BAE9759004419B0 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecHelper.swift; path = Spec/SpecHelper.swift; sourceTree = SOURCE_ROOT; };
 		67916DC01BAEFAEF004419B0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		67B9F63A1E70DE8F009210AD /* QueuePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QueuePlayer.swift; path = Source/QueuePlayer.swift; sourceTree = SOURCE_ROOT; };
+		67B9F63A1E70DE8F009210AD /* ServicePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServicePlayer.swift; path = Source/ServicePlayer.swift; sourceTree = SOURCE_ROOT; };
 		67B9F6401E70E4F3009210AD /* PlayerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = SOURCE_ROOT; };
 		67B9F6431E70EB0E009210AD /* AppleMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleMusicPlayer.swift; sourceTree = SOURCE_ROOT; };
 		67B9F6461E70EB18009210AD /* SpotifyPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyPlayer.swift; sourceTree = SOURCE_ROOT; };
@@ -390,7 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				67916D8E1BAE9308004419B0 /* Player.swift */,
-				67B9F63A1E70DE8F009210AD /* QueuePlayer.swift */,
+				67B9F63A1E70DE8F009210AD /* ServicePlayer.swift */,
 				67B9F6491E70EBF8009210AD /* NormalPlayer.swift */,
 				67B9F6431E70EB0E009210AD /* AppleMusicPlayer.swift */,
 				67B9F6461E70EB18009210AD /* SpotifyPlayer.swift */,
@@ -691,7 +691,7 @@
 				67B9F6481E70EB18009210AD /* SpotifyPlayer.swift in Sources */,
 				67B9F64E1E7109F6009210AD /* TrackList.swift in Sources */,
 				67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */,
-				67B9F63C1E70DE8F009210AD /* QueuePlayer.swift in Sources */,
+				67B9F63C1E70DE8F009210AD /* ServicePlayer.swift in Sources */,
 				67B9F6541E7139AA009210AD /* PlayingInfo.swift in Sources */,
 				67B9F6511E713233009210AD /* ObserverProxy.swift in Sources */,
 			);
@@ -736,7 +736,7 @@
 				67916D941BAE9308004419B0 /* MiniPlayerView.swift in Sources */,
 				67D828AD1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */,
 				673672C91D1FC81F006259F9 /* Playlist.swift in Sources */,
-				67B9F63B1E70DE8F009210AD /* QueuePlayer.swift in Sources */,
+				67B9F63B1E70DE8F009210AD /* ServicePlayer.swift in Sources */,
 				67916D991BAE9308004419B0 /* PlayerPageViewController.swift in Sources */,
 				67B9F6411E70E4F3009210AD /* PlayerType.swift in Sources */,
 				67916D9A1BAE9308004419B0 /* TimeHelper.swift in Sources */,

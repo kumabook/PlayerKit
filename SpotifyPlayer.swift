@@ -8,9 +8,9 @@
 
 import Foundation
 
-open class SpotifyPlayer: NSObject, ConcreteQueuePlayer {
-    public typealias ObserverType = QueuePlayerObserver
-    public typealias EventType    = QueuePlayerEvent
+open class SpotifyPlayer: NSObject, ServicePlayer {
+    public typealias ObserverType = ServicePlayerObserver
+    public typealias EventType    = ServicePlayerEvent
     fileprivate var _observers: [ObserverType] = []
     open  var  observers: [ObserverType] {
         get { return _observers }

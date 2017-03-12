@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol QueuePlayer {
+public protocol IPlayer {
     var playingInfo: PlayingInfo? { get }
     var playerType:  PlayerType { get }
     var state:       PlayerState { get }
@@ -22,30 +22,30 @@ public protocol QueuePlayer {
     func toggle()
 }
 
-public protocol ConcreteQueuePlayer: class, QueuePlayer, Observable {
-    typealias ObserverType = QueuePlayerObserver
-    typealias EventType    = QueuePlayerEvent
+public protocol ServicePlayer: class, IPlayer, Observable {
+    typealias ObserverType = ServicePlayerObserver
+    typealias EventType    = ServicePlayerEvent
     var track:             Track? { get set }
 }
 
-open class QueuePlayerObserver: NSObject, Observer {
-    public typealias Event = QueuePlayerEvent
+open class ServicePlayerObserver: NSObject, Observer {
+    public typealias Event = ServicePlayerEvent
     open func listen(_ event: Event) {
     }
 }
 
-public func ==(lhs: QueuePlayerObserver, rhs: QueuePlayerObserver) -> Bool {
+public func ==(lhs: ServicePlayerObserver, rhs: ServicePlayerObserver) -> Bool {
     return lhs.isEqual(rhs)
 }
 
-public enum QueuePlayerEvent {
+public enum ServicePlayerEvent {
     case timeUpdated
     case didPlayToEndTime
     case statusChanged
     case errorOccured
 }
 
-public extension ConcreteQueuePlayer {
+public extension ServicePlayer {
     func prepare(for track: Track) {
         self.track = track
         preparePlayer()

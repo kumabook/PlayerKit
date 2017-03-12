@@ -41,11 +41,11 @@ public enum PlayerState {
     }
 }
 
-open class Player: QueuePlayerObserver, Observable {
+open class Player: ServicePlayerObserver, Observable {
     public typealias ObserverType = PlayerObserver
     public typealias EventType    = PlayerEvent
     fileprivate var _observers: [ObserverType] = []
-    open  var  observers: [ObserverType] {
+    open        var  observers: [ObserverType] {
         get { return _observers }
         set { _observers = newValue }
     }
@@ -55,7 +55,7 @@ open class Player: QueuePlayerObserver, Observable {
             playlistQueue.player = self
         }
     }
-    fileprivate var queuePlayers: [QueuePlayer]
+    fileprivate var queuePlayers: [IPlayer]
 
     fileprivate var normalPlayer: NormalPlayer? {
         for player in queuePlayers {
@@ -83,7 +83,6 @@ open class Player: QueuePlayerObserver, Observable {
         }
         return nil
     }
-
 
     fileprivate var playlistIndex: Int?
     fileprivate var trackIndex:    Int?
@@ -125,14 +124,12 @@ open class Player: QueuePlayerObserver, Observable {
         return playlistQueue.playlists.get(i)
     }
     open var currentTrackIndex: Int? {
-        if currentPlaylist == nil { return nil }
+        guard let _ = currentPlaylist else { return nil }
         return trackIndex
     }
     open var currentTrack: Track? {
-        if let i = currentTrackIndex, let c = currentPlaylist?.tracks.count {
-            if i < c {
-                return currentPlaylist?.tracks[i]
-            }
+        if let i = currentTrackIndex, let c = currentPlaylist?.tracks.count, i < c {
+            return currentPlaylist?.tracks[i]
         }
         return nil
     }
@@ -146,8 +143,8 @@ open class Player: QueuePlayerObserver, Observable {
 
 
     public override init() {
-        playlistQueue    = PlaylistQueue(playlists: [])
-        queuePlayers     = []
+        playlistQueue = PlaylistQueue(playlists: [])
+        queuePlayers  = []
         super.init()
         addPlayer(NormalPlayer())
         addPlayer(AppleMusicPlayer())
@@ -156,7 +153,7 @@ open class Player: QueuePlayerObserver, Observable {
     deinit {
     }
 
-    open func addPlayer(_ player: QueuePlayer) {
+    open func addPlayer(_ player: IPlayer) {
         if var player = player as? NormalPlayer {
             player.addObserver(self)
         }
@@ -169,7 +166,7 @@ open class Player: QueuePlayerObserver, Observable {
         queuePlayers.append(player)
     }
 
-    open override func listen(_ event: QueuePlayerObserver.Event) {
+    open override func listen(_ event: ServicePlayerObserver.Event) {
         switch event {
         case .timeUpdated:
             notify(.timeUpdated)
@@ -188,7 +185,7 @@ open class Player: QueuePlayerObserver, Observable {
         }
     }
 
-    func prepare(_ trackIndex: Int, playlistIndex: Int) {
+    fileprivate func prepare(_ trackIndex: Int, playlistIndex: Int) {
         if let p = currentPlaylist, let i = currentTrackIndex, let t = currentTrack {
             notify(.trackUnselected(t, i, p))
         }
@@ -209,13 +206,7 @@ open class Player: QueuePlayerObserver, Observable {
     }
 
     open func select(_ trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) -> Bool {
-        if let index = playlistQueue.indexOf(playlist) {
-            return select(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
-        }
-        return false
-    }
-
-    fileprivate func select(trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) -> Bool {
+        guard let playlistIndex = playlistQueue.indexOf(playlist) else { return false }
         if self.playlistQueue == playlistQueue && isSelected(trackIndex, playlistIndex: playlistIndex) {
             return true
         }
@@ -228,30 +219,16 @@ open class Player: QueuePlayerObserver, Observable {
     }
 
     open func toggle(_ trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
-        if let index = playlistQueue.indexOf(playlist) {
-            toggle(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
-        }
-    }
-
-    fileprivate func toggle(trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        guard let playlistIndex = playlistQueue.indexOf(playlist) else { return }
         if self.playlistQueue == playlistQueue && isSelected(trackIndex, playlistIndex: playlistIndex) {
             toggle()
         } else {
-            play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
+            play(trackIndex: trackIndex, playlist: playlist, playlistQueue: playlistQueue)
         }
     }
 
     open func play(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
-        if let index = playlistQueue.indexOf(playlist) {
-            play(trackIndex: trackIndex, playlistIndex: index, playlistQueue: playlistQueue)
-        }
-    }
-
-    fileprivate func play(trackIndex: Int, playlistIndex: Int) {
-        play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
-    }
-
-    fileprivate func play(trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        guard let playlistIndex = playlistQueue.indexOf(playlist) else { return }
         if self.playlistQueue != playlistQueue || !isSelected(trackIndex, playlistIndex: playlistIndex) {
             self.playlistQueue = playlistQueue
             prepare(trackIndex, playlistIndex: playlistIndex)
@@ -366,7 +343,7 @@ open class Player: QueuePlayerObserver, Observable {
         }
     }
 
-    func updateTime(_ time: CMTime) {
+    fileprivate func updateTime(_ time: CMTime) {
         notify(.timeUpdated)
     }
 
