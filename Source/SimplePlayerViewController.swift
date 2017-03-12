@@ -13,10 +13,8 @@ open class SimplePlayerViewController: PlayerViewController {
     enum State {
         case normal
         case dragging(CGPoint, Float)
-        case changing(CMTime)
+        case changing(TimeInterval)
     }
-    let preferredTimeScale: Int32 = 1000
-    
     let priorityHigh                   = 750
 
     let paddingSide:           CGFloat = 16.0
@@ -228,7 +226,7 @@ open class SimplePlayerViewController: PlayerViewController {
             }
         case .ended:
             if let _ = sender.view {
-                let value = CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
+                let value = TimeInterval(slider.value)
                 notify(.timeChanged(value))
                 state = .changing(value)
             }
@@ -265,8 +263,8 @@ open class SimplePlayerViewController: PlayerViewController {
             timeUpdated()
         }
         let action = {
-            switch self.player.currentState {
-            case .pause:
+            switch self.player.state {
+            case .init, .load, .pause:
                 self.videoEffectView.effect         = UIBlurEffect(style: .dark)
                 self.imageEffectView.effect         = UIBlurEffect(style: .dark)
                 self.imageCoverView.backgroundColor = UIColor.clear
@@ -307,12 +305,12 @@ open class SimplePlayerViewController: PlayerViewController {
         switch state {
         case .dragging: break
         case .normal:
-            if let (current, total) = player.secondPair {
-                updateTime(current: Float(current), total: Float(total))
+            if let info = player.playingInfo {
+                updateTime(current: Float(info.elapsedTime), total: Float(info.duration))
             }
         case .changing(let time):
-            guard let currentTime = player.avPlayer?.currentTime() else { return }
-            if CMTimeGetSeconds(time) - CMTimeGetSeconds(currentTime) < 1.0 {
+            guard let info = player.playingInfo else { return }
+            if time - info.elapsedTime < 1.0 {
                 state = .normal
             }
         }
@@ -338,14 +336,13 @@ open class SimplePlayerViewController: PlayerViewController {
     func close()    { notify(.close) }
     func previewSeek() {
         if slider.isTracking {
-            CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)
             updateTime(current: slider.value, total: slider.maximumValue)
         }
-        notify(.timeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
+        notify(.timeChanged(TimeInterval(slider.value)))
     }
     
     func stopSeek() {
-        notify(.timeChanged(CMTimeMakeWithSeconds(Float64(slider.value), preferredTimeScale)))
+        notify(.timeChanged(TimeInterval(slider.value)))
     }
     
     func cancelSeek() {

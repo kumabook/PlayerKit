@@ -79,7 +79,7 @@ open class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniP
     
     open func updateViews() {
         guard let player = player else { return }
-        miniPlayerView.state = player.currentState
+        miniPlayerView.state = player.state
         miniPlayerView.updateViewWithPlayer(player)
     }
 
