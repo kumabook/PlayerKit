@@ -33,12 +33,12 @@ class MiniPlayerObserver: PlayerObserver {
 open class MiniPlayerViewController<MV: MiniPlayerView>: UIViewController, MiniPlayerViewDelegate {
     open var miniPlayerHeight: CGFloat { return 60.0 }
     open var mainViewController: UIViewController?
-    var miniPlayerObserver:        MiniPlayerObserver!
-    open var player:             Player?
+    var miniPlayerObserver:      MiniPlayerObserver!
+    open var player:             QueuePlayer?
     open var mainViewContainer:  UIView!
     open var miniPlayerView:     MV!
 
-    public init(player: Player) {
+    public init(player: QueuePlayer) {
         super.init(nibName: nil, bundle: nil)
         self.player = player
         miniPlayerObserver = MiniPlayerObserver(miniPlayerViewDelegate: self)

@@ -32,15 +32,15 @@ public protocol PlayerViewControllerType {
     mutating func addObserver(_ observer: PlayerViewObserver)
     mutating func removeObserver(_ observer: PlayerViewObserver)
     var view: UIView! { get }
-    init(player: Player)
+    init(player: QueuePlayer)
 }
 
 open class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
     public typealias ObserverType = PlayerViewObserver
     public typealias EventType    = PlayerViewEvent
-    open var player: Player!
+    open var player: QueuePlayer!
 
-    public required init(player: Player) {
+    public required init(player: QueuePlayer) {
         super.init(nibName: nil, bundle: nil)
         self.player = player
     }

@@ -120,7 +120,7 @@ open class SimpleMiniPlayerView: MiniPlayerView {
         state = .pause
     }
     
-    open override func updateViewWithPlayer(_ player: Player?) {
+    open override func updateViewWithPlayer(_ player: QueuePlayer?) {
         guard let player = player, let track = player.currentTrack else {
             titleLabel.text    = ""
             durationLabel.text = "00:00"

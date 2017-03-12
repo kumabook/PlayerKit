@@ -10,13 +10,13 @@ import MediaPlayer
 import SDWebImage
 
 open class NowPlayingInfoCenter: PlayerObserver {
-    var player: Player
+    var player: QueuePlayer
 
     open var defaultThumbImage: UIImage? {
         return UIImage(named: "default_thumb")
     }
 
-    public init(player: Player) {
+    public init(player: QueuePlayer) {
         self.player = player
     }
 
@@ -31,7 +31,7 @@ open class NowPlayingInfoCenter: PlayerObserver {
         }
     }
 
-    func updateMPNowPlaylingInfoCenter(_ player: Player) {
+    func updateMPNowPlaylingInfoCenter(_ player: QueuePlayer) {
         guard let track = player.currentTrack else {
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
             return

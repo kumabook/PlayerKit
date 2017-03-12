@@ -9,7 +9,7 @@
 import Foundation
 
 open class PlaylistQueue: NSObject {
-    open internal(set) var player: Player?
+    open internal(set) var player: QueuePlayer?
     open fileprivate(set) var playlists: [Playlist] = []
     public init(playlists: [Playlist]) {
         self.playlists = playlists
