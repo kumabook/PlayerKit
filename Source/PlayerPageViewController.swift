@@ -83,9 +83,9 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     open var imageView:      UIImageView!
     open var videoView:      VideoView!
 
-    var playerObserver:     PlayerPageViewPlayerObserver!
-    var playerViewObserver: PlayerPageViewPlayerViewObserver!
-    open var player: Player!
+    var playerObserver:      PlayerPageViewPlayerObserver!
+    var playerViewObserver:  PlayerPageViewPlayerViewObserver!
+    open var player:         QueuePlayer!
 
     open var coverViewController: CoverViewController?
 
@@ -105,7 +105,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         return videoBackgroundImage
     }
 
-    public init(player: Player) {
+    public init(player: QueuePlayer) {
         super.init(nibName: nil, bundle: nil)
         self.player             = player
         self.playerViews        = []

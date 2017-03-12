@@ -20,7 +20,7 @@ open class MiniPlayerView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    open func updateViewWithPlayer(_: Player?) {
+    open func updateViewWithPlayer(_: QueuePlayer?) {
     }
     open func updateViewWithRate(_ rate: CGFloat) {
     }

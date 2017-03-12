@@ -41,7 +41,7 @@ public enum PlayerState {
     }
 }
 
-open class Player: ServicePlayerObserver, Observable {
+open class QueuePlayer: ServicePlayerObserver, Observable {
     public typealias ObserverType = PlayerObserver
     public typealias EventType    = PlayerEvent
     fileprivate var _observers: [ObserverType] = []

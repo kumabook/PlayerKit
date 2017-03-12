@@ -55,7 +55,7 @@ open class SimplePlayerViewController: PlayerViewController {
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
-    public required init(player: Player) {
+    public required init(player: QueuePlayer) {
         super.init(player: player)
         initializeSubviews()
     }
