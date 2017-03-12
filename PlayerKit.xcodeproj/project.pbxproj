@@ -40,6 +40,7 @@
 		67725F5D1DCA41D000D852E4 /* PlayerKit-macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 67725F571DCA416900D852E4 /* PlayerKit-macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67725F5E1DCA41D800D852E4 /* PlayerKit-tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 67725F581DCA416900D852E4 /* PlayerKit-tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		67725F681DCA48F300D852E4 /* PlayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725EDE1DCA191200D852E4 /* PlayerKit.framework */; };
+		677792011E7533B100ACC53D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 677792001E7533B100ACC53D /* Player.swift */; };
 		67916D581BAE8C36004419B0 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D571BAE8C36004419B0 /* PlayerSpec.swift */; };
 		67916D821BAE90A2004419B0 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D591BAE8D1D004419B0 /* Nimble.framework */; };
 		67916D831BAE90A2004419B0 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67916D5A1BAE8D1D004419B0 /* Quick.framework */; };
@@ -175,6 +176,7 @@
 		67725F571DCA416900D852E4 /* PlayerKit-macOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PlayerKit-macOS.h"; path = "Header/PlayerKit-macOS.h"; sourceTree = SOURCE_ROOT; };
 		67725F581DCA416900D852E4 /* PlayerKit-tvOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PlayerKit-tvOS.h"; path = "Header/PlayerKit-tvOS.h"; sourceTree = SOURCE_ROOT; };
 		67725F5B1DCA417900D852E4 /* PlayerKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PlayerKit-iOS.h"; path = "Header/PlayerKit-iOS.h"; sourceTree = SOURCE_ROOT; };
+		677792001E7533B100ACC53D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Player.swift; path = Source/Player.swift; sourceTree = SOURCE_ROOT; };
 		67916D3D1BAE8A87004419B0 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67916D421BAE8A87004419B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
 		67916D471BAE8A87004419B0 /* PlayerKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayerKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,6 +391,7 @@
 		67B9F63D1E70E3EC009210AD /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				677792001E7533B100ACC53D /* Player.swift */,
 				67916D8E1BAE9308004419B0 /* QueuePlayer.swift */,
 				67B9F63A1E70DE8F009210AD /* ServicePlayer.swift */,
 				67B9F6491E70EBF8009210AD /* NormalPlayer.swift */,
@@ -751,6 +754,7 @@
 				67B9F64D1E7109F6009210AD /* TrackList.swift in Sources */,
 				67BC7F041D355FBE00606D8A /* NowPlayingInfoCenter.swift in Sources */,
 				6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */,
+				677792011E7533B100ACC53D /* Player.swift in Sources */,
 				6723D8541D1E11DB00D60C3F /* SimplePlayerViewController.swift in Sources */,
 				67916D951BAE9308004419B0 /* MiniPlayerViewController.swift in Sources */,
 				67916D971BAE9308004419B0 /* QueuePlayer.swift in Sources */,
