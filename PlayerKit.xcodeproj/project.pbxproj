@@ -17,7 +17,7 @@
 		67725EF51DCA195400D852E4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
 		67725EF61DCA195400D852E4 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
 		67725EF71DCA195400D852E4 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
-		67725EF81DCA195400D852E4 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* Player.swift */; };
+		67725EF81DCA195400D852E4 /* QueuePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* QueuePlayer.swift */; };
 		67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
 		67725F031DCA195800D852E4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
 		67725F0F1DCA272000D852E4 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; };
@@ -25,7 +25,7 @@
 		67725F301DCA27C300D852E4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
 		67725F311DCA27C300D852E4 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
 		67725F321DCA27C300D852E4 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
-		67725F331DCA27C300D852E4 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* Player.swift */; };
+		67725F331DCA27C300D852E4 /* QueuePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* QueuePlayer.swift */; };
 		67725F341DCA27C300D852E4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
 		67725F351DCA27C900D852E4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
 		67725F481DCA29BF00D852E4 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D571BAE8C36004419B0 /* PlayerSpec.swift */; };
@@ -49,7 +49,7 @@
 		67916D941BAE9308004419B0 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */; };
 		67916D951BAE9308004419B0 /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */; };
 		67916D961BAE9308004419B0 /* MiniPlayerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */; };
-		67916D971BAE9308004419B0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* Player.swift */; };
+		67916D971BAE9308004419B0 /* QueuePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8E1BAE9308004419B0 /* QueuePlayer.swift */; };
 		67916D981BAE9308004419B0 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D8F1BAE9308004419B0 /* PlayerViewController.swift */; };
 		67916D991BAE9308004419B0 /* PlayerPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D901BAE9308004419B0 /* PlayerPageViewController.swift */; };
 		67916D9A1BAE9308004419B0 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
@@ -187,7 +187,7 @@
 		67916D8B1BAE9308004419B0 /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerView.swift; path = Source/MiniPlayerView.swift; sourceTree = SOURCE_ROOT; };
 		67916D8C1BAE9308004419B0 /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewController.swift; path = Source/MiniPlayerViewController.swift; sourceTree = SOURCE_ROOT; };
 		67916D8D1BAE9308004419B0 /* MiniPlayerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniPlayerViewDelegate.swift; path = Source/MiniPlayerViewDelegate.swift; sourceTree = SOURCE_ROOT; };
-		67916D8E1BAE9308004419B0 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Player.swift; path = Source/Player.swift; sourceTree = SOURCE_ROOT; };
+		67916D8E1BAE9308004419B0 /* QueuePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QueuePlayer.swift; path = Source/QueuePlayer.swift; sourceTree = SOURCE_ROOT; };
 		67916D8F1BAE9308004419B0 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = Source/PlayerViewController.swift; sourceTree = SOURCE_ROOT; };
 		67916D901BAE9308004419B0 /* PlayerPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerPageViewController.swift; path = Source/PlayerPageViewController.swift; sourceTree = SOURCE_ROOT; };
 		67916D911BAE9308004419B0 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeHelper.swift; path = Source/TimeHelper.swift; sourceTree = SOURCE_ROOT; };
@@ -389,7 +389,7 @@
 		67B9F63D1E70E3EC009210AD /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				67916D8E1BAE9308004419B0 /* Player.swift */,
+				67916D8E1BAE9308004419B0 /* QueuePlayer.swift */,
 				67B9F63A1E70DE8F009210AD /* ServicePlayer.swift */,
 				67B9F6491E70EBF8009210AD /* NormalPlayer.swift */,
 				67B9F6431E70EB0E009210AD /* AppleMusicPlayer.swift */,
@@ -687,7 +687,7 @@
 				67725EF61DCA195400D852E4 /* Playlist.swift in Sources */,
 				67725EF71DCA195400D852E4 /* PlaylistQueue.swift in Sources */,
 				67D828AE1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */,
-				67725EF81DCA195400D852E4 /* Player.swift in Sources */,
+				67725EF81DCA195400D852E4 /* QueuePlayer.swift in Sources */,
 				67B9F6481E70EB18009210AD /* SpotifyPlayer.swift in Sources */,
 				67B9F64E1E7109F6009210AD /* TrackList.swift in Sources */,
 				67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */,
@@ -715,7 +715,7 @@
 				67725F311DCA27C300D852E4 /* Playlist.swift in Sources */,
 				67725F321DCA27C300D852E4 /* PlaylistQueue.swift in Sources */,
 				67D828AF1E6DBD3F00A62E95 /* ArrayExtension.swift in Sources */,
-				67725F331DCA27C300D852E4 /* Player.swift in Sources */,
+				67725F331DCA27C300D852E4 /* QueuePlayer.swift in Sources */,
 				67725F341DCA27C300D852E4 /* TimeHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -753,7 +753,7 @@
 				6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */,
 				6723D8541D1E11DB00D60C3F /* SimplePlayerViewController.swift in Sources */,
 				67916D951BAE9308004419B0 /* MiniPlayerViewController.swift in Sources */,
-				67916D971BAE9308004419B0 /* Player.swift in Sources */,
+				67916D971BAE9308004419B0 /* QueuePlayer.swift in Sources */,
 				67B9F6531E7139AA009210AD /* PlayingInfo.swift in Sources */,
 				67B9F6471E70EB18009210AD /* SpotifyPlayer.swift in Sources */,
 				67B9F6441E70EB0E009210AD /* AppleMusicPlayer.swift in Sources */,
