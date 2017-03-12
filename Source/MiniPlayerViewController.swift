@@ -12,7 +12,7 @@ import MediaPlayer
 import SnapKit
 import SDWebImage
 
-class MiniPlayerObserver: PlayerObserver {
+class MiniPlayerObserver: QueuePlayerObserver {
     let delegate: MiniPlayerViewDelegate
     init(miniPlayerViewDelegate: MiniPlayerViewDelegate) {
         delegate = miniPlayerViewDelegate

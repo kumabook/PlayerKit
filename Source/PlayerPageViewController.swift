@@ -17,7 +17,7 @@ extension UIScrollView {
     }
 }
 
-class PlayerPageViewPlayerObserver: PlayerObserver {
+class PlayerPageViewPlayerObserver: QueuePlayerObserver {
     var vc: PlayerPageViewControllerType?
     init(playerViewController: PlayerPageViewControllerType) {
         vc = playerViewController

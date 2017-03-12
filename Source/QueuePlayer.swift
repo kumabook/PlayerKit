@@ -7,17 +7,17 @@
 
 import AVFoundation
 
-open class PlayerObserver: NSObject, Observer {
-    public typealias Event = PlayerEvent
+open class QueuePlayerObserver: NSObject, Observer {
+    public typealias Event = QueuePlayerEvent
     open func listen(_ event: Event) {
     }
 }
 
-public func ==(lhs: PlayerObserver, rhs: PlayerObserver) -> Bool {
+public func ==(lhs: QueuePlayerObserver, rhs: QueuePlayerObserver) -> Bool {
     return lhs.isEqual(rhs)
 }
 
-public enum PlayerEvent {
+public enum QueuePlayerEvent {
     case timeUpdated
     case didPlayToEndTime
     case statusChanged
@@ -42,8 +42,8 @@ public enum PlayerState {
 }
 
 open class QueuePlayer: ServicePlayerObserver, Observable {
-    public typealias ObserverType = PlayerObserver
-    public typealias EventType    = PlayerEvent
+    public typealias ObserverType = QueuePlayerObserver
+    public typealias EventType    = QueuePlayerEvent
     fileprivate var _observers: [ObserverType] = []
     open        var  observers: [ObserverType] {
         get { return _observers }

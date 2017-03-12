@@ -9,7 +9,7 @@
 import MediaPlayer
 import SDWebImage
 
-open class NowPlayingInfoCenter: PlayerObserver {
+open class NowPlayingInfoCenter: QueuePlayerObserver {
     var player: QueuePlayer
 
     open var defaultThumbImage: UIImage? {
