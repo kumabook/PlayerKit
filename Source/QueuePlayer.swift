@@ -55,7 +55,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
             playlistQueue.player = self
         }
     }
-    fileprivate var queuePlayers: [IPlayer]
+    fileprivate var queuePlayers: [Player]
 
     fileprivate var normalPlayer: NormalPlayer? {
         for player in queuePlayers {
@@ -153,7 +153,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
     deinit {
     }
 
-    open func addPlayer(_ player: IPlayer) {
+    open func addPlayer(_ player: Player) {
         if var player = player as? NormalPlayer {
             player.addObserver(self)
         }

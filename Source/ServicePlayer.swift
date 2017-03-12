@@ -8,21 +8,7 @@
 
 import Foundation
 
-public protocol IPlayer {
-    var playingInfo: PlayingInfo? { get }
-    var playerType:  PlayerType { get }
-    var state:       PlayerState { get }
-    func clearPlayer()
-    func preparePlayer()
-    func pause()
-    func play()
-    func play(_ track: Track)
-    func prepare(for: Track)
-    func seekToTime(_ time: TimeInterval)
-    func toggle()
-}
-
-public protocol ServicePlayer: class, IPlayer, Observable {
+public protocol ServicePlayer: class, Player, Observable {
     typealias ObserverType = ServicePlayerObserver
     typealias EventType    = ServicePlayerEvent
     var track:             Track? { get set }
