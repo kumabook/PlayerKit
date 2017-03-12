@@ -65,7 +65,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         }
         return nil
     }
-
+    #if os(iOS)
     fileprivate var appleMusicPlayer: AppleMusicPlayer? {
         for player in queuePlayers {
             if let player = player as? AppleMusicPlayer {
@@ -74,7 +74,12 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         }
         return nil
     }
-    
+    #else
+    fileprivate var appleMusicPlayer: Player? {
+        return nil
+    }
+    #endif
+
     fileprivate var spotifyPlayer: SpotifyPlayer? {
         for player in queuePlayers {
             if let player = player as? SpotifyPlayer {
@@ -147,7 +152,9 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         queuePlayers  = []
         super.init()
         addPlayer(NormalPlayer())
+        #if os(iOS)
         addPlayer(AppleMusicPlayer())
+        #endif
     }
 
     deinit {
@@ -157,9 +164,11 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         if var player = player as? NormalPlayer {
             player.addObserver(self)
         }
+        #if os(iOS)
         if var player = player as? AppleMusicPlayer {
             player.addObserver(self)
         }
+        #endif
         if var player = player as? SpotifyPlayer {
             player.addObserver(self)
         }
