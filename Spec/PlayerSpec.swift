@@ -13,16 +13,16 @@ import Nimble
 
 class PlayerSpec: QuickSpec {
     override func spec() {
-        var player:   Player!
+        var player:   QueuePlayer!
         var observer: TestObserver!
         beforeEach {
-            player   = Player()
+            player   = QueuePlayer()
             observer = TestObserver()
             player.addObserver(observer)
         }
         func start() {
             let playlist = TestPlaylist()
-            let _ = player.play(trackIndex: 0, playlistIndex: 0, playlistQueue: PlaylistQueue(playlists: [playlist]))
+            player.play(trackIndex: 0, playlist: playlist, playlistQueue: PlaylistQueue(playlists: [playlist]))
         }
         func toggle() {
             player.toggle()
@@ -30,13 +30,13 @@ class PlayerSpec: QuickSpec {
         describe("Player") {
             it("should construct") {
                 expect(player).notTo(beNil())
-                expect(player.currentState).to(equal(PlayerState.init))
+                expect(player.state).to(equal(PlayerState.init))
             }
 
             it("should play a track") {
                 start()
                 expect(observer.statusChangedCount).toEventually(beGreaterThan(1))
-                expect(player.currentState).to(equal(PlayerState.play))
+                expect(player.state).to(equal(PlayerState.play))
             }
 
             it("should stop a track") {
@@ -44,7 +44,7 @@ class PlayerSpec: QuickSpec {
                 expect(observer.statusChangedCount).toEventually(beGreaterThan(1))
                 toggle()
                 expect(observer.statusChangedCount).toEventually(beGreaterThan(2))
-                expect(player.currentState).to(equal(PlayerState.pause))
+                expect(player.state).to(equal(PlayerState.pause))
             }
         }
     }

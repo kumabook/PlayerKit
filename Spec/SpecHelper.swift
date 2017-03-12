@@ -13,12 +13,16 @@ class SpecHelper {
 }
 
 class TestTrack: PlayerKit.Track {
+    public var playerType:   PlayerType = .normal
     public var title:        String? { return "test track" }
     public var subtitle:     String?
     public var artworkURL:   URL?
-    public var streamURL:    URL?  { return URL(string: "http://logical-oscillator.github.io/trial_tracks/1.mp3") }
+    public var streamURL:    URL?  { return URL(string: "http://6gical.github.io/trial_tracks/1.mp3") }
     public var thumbnailURL: URL?  { return nil }
     public var isVideo:      Bool    { return false }
+    public var isValid:      Bool = true
+    public var appleMusicID: String? { return nil }
+    public var spotifyURI:   String? { return nil }
 }
 
 class TestPlaylist: PlayerKit.Playlist {
@@ -27,7 +31,7 @@ class TestPlaylist: PlayerKit.Playlist {
     var validTracksCount: Int { return 1 }
 }
 
-class TestObserver: PlayerKit.PlayerObserver {
+class TestObserver: PlayerKit.QueuePlayerObserver {
     var timeUpdatedCount:               Int = 0
     var didPlayToEndTimeCount:          Int = 0
     var statusChangedCount:             Int = 0
