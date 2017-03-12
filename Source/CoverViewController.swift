@@ -1,6 +1,6 @@
 //
 //  CoverViewController.swift
-//  MusicFav
+//  PlayerKit
 //
 //  Created by Hiroki Kumamoto on 3/3/15.
 //  Copyright (c) 2015 Hiroki Kumamoto. All rights reserved.

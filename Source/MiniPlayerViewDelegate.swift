@@ -1,6 +1,6 @@
 //
 //  MiniPlayerViewDelegate.swift
-//  MusicFav
+//  PlayerKit
 //
 //  Created by Hiroki Kumamoto on 1/1/15.
 //  Copyright (c) 2015 Hiroki Kumamoto. All rights reserved.

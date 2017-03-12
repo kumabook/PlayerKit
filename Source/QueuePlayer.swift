@@ -1,4 +1,4 @@
-//  Player.swift
+//  QueuePlayer.swift
 //  PlayerKit
 //
 //  Created by Hiroki Kumamoto on 3/1/15.
