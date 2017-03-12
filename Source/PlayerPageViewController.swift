@@ -11,7 +11,7 @@ import AVFoundation
 import SnapKit
 import SDWebImage
 
-extension UIScrollView {
+internal extension UIScrollView {
     var currentPage: Int {
         return Int((contentOffset.x + (0.5 * frame.size.width)) / frame.width)
     }
