@@ -128,22 +128,24 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         guard let i = playlistIndex else { return nil }
         return playlistQueue.playlists.get(i)
     }
-    open var currentTrackIndex: Int? {
-        guard let _ = currentPlaylist else { return nil }
-        return trackIndex
-    }
     open var currentTrack: Track? {
-        if let i = currentTrackIndex, let c = currentPlaylist?.tracks.count, i < c {
+        guard let c = currentPlaylist?.tracks.count else { return nil }
+        guard let i = trackIndex                    else { return nil }
+        if i < c {
             return currentPlaylist?.tracks[i]
         }
         return nil
     }
 
-    open func isSelected(_ trackIndex: Int, playlistIndex: Int) -> Bool {
-        if let playlist = currentPlaylist, let index = currentTrackIndex, playlistIndex < playlistQueue.playlists.count {
-            return  playlist.id == playlistQueue.playlists[playlistIndex].id && index == trackIndex
-        }
-        return false
+    open func isSelected(trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) -> Bool {
+        return self.playlistQueue == playlistQueue && isSelected(trackIndex: trackIndex, playlistIndex: playlistIndex)
+    }
+
+    open func isSelected(trackIndex ti: Int, playlistIndex pi: Int) -> Bool {
+        guard let targetPlaylist  = playlistQueue.playlists.get(pi) else { return false }
+        guard let currentPlaylist = currentPlaylist                 else { return false }
+        guard let trackIndex      = trackIndex                      else { return false }
+        return  currentPlaylist.id == targetPlaylist.id && trackIndex == ti
     }
 
 
@@ -194,8 +196,8 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         }
     }
 
-    fileprivate func prepare(_ trackIndex: Int, playlistIndex: Int) {
-        if let p = currentPlaylist, let i = currentTrackIndex, let t = currentTrack {
+    fileprivate func prepare(trackIndex: Int, playlistIndex: Int) {
+        if let t = currentTrack, let i = self.trackIndex, let p = currentPlaylist {
             notify(.trackUnselected(t, i, p))
         }
         self.playlistIndex = playlistIndex
@@ -209,38 +211,41 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         case .appleMusic: appleMusicPlayer?.prepare(for: track)
         case .spotify:    spotifyPlayer?.prepare(for: track)
         }
-        if let p = currentPlaylist, let i = currentTrackIndex, let t = currentTrack {
+        if let t = currentTrack, let i = self.trackIndex, let p = currentPlaylist  {
             notify(.trackSelected(t, i, p))
         }
     }
 
-    open func select(_ trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) -> Bool {
-        guard let playlistIndex = playlistQueue.indexOf(playlist) else { return false }
-        if self.playlistQueue == playlistQueue && isSelected(trackIndex, playlistIndex: playlistIndex) {
+    open func select(trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) -> Bool {
+        guard let _ = playlistQueue.playlists.get(playlistIndex)                    else { return false }
+        guard let _ = playlistQueue.playlists[playlistIndex].tracks.get(trackIndex) else { return false }
+        if isSelected(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue) {
             return true
         }
         if !(playlistQueue.playlists.get(playlistIndex)?.tracks[trackIndex].isValid ?? true) {
             return false
         }
         self.playlistQueue = playlistQueue
-        prepare(trackIndex, playlistIndex: playlistIndex)
+        prepare(trackIndex: trackIndex, playlistIndex: playlistIndex)
         return true
     }
 
-    open func toggle(_ trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
-        guard let playlistIndex = playlistQueue.indexOf(playlist) else { return }
-        if self.playlistQueue == playlistQueue && isSelected(trackIndex, playlistIndex: playlistIndex) {
+    open func toggle(_ trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        guard let _ = playlistQueue.playlists.get(playlistIndex)                    else { return }
+        guard let _ = playlistQueue.playlists[playlistIndex].tracks.get(trackIndex) else { return }
+        if isSelected(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue) {
             toggle()
         } else {
-            play(trackIndex: trackIndex, playlist: playlist, playlistQueue: playlistQueue)
+            play(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue)
         }
     }
 
-    open func play(trackIndex: Int, playlist: Playlist, playlistQueue: PlaylistQueue) {
-        guard let playlistIndex = playlistQueue.indexOf(playlist) else { return }
-        if self.playlistQueue != playlistQueue || !isSelected(trackIndex, playlistIndex: playlistIndex) {
+    open func play(trackIndex: Int, playlistIndex: Int, playlistQueue: PlaylistQueue) {
+        guard let _ = playlistQueue.playlists.get(playlistIndex)                    else { return }
+        guard let _ = playlistQueue.playlists[playlistIndex].tracks.get(trackIndex) else { return }
+        if !isSelected(trackIndex: trackIndex, playlistIndex: playlistIndex, playlistQueue: playlistQueue) {
             self.playlistQueue = playlistQueue
-            prepare(trackIndex, playlistIndex: playlistIndex)
+            prepare(trackIndex: trackIndex, playlistIndex: playlistIndex)
         }
         play()
     }
@@ -332,7 +337,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         guard let _ = currentTrack?.playerType else { return }
         guard let indexPath = previousTrackIndexPath() else { return }
         let isPlaying = state.isPlaying
-        prepare(indexPath[1], playlistIndex: indexPath[0])
+        prepare(trackIndex: indexPath[1], playlistIndex: indexPath[0])
         if isPlaying {
             play()
         } else {
@@ -344,7 +349,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         guard let _ = currentTrack?.playerType else { return }
         guard let indexPath = nextTrackIndexPath() else { return }
         let isPlaying = state.isPlaying
-        prepare(indexPath[1], playlistIndex: indexPath[0])
+        prepare(trackIndex: indexPath[1], playlistIndex: indexPath[0])
         if isPlaying {
             play()
         } else {
