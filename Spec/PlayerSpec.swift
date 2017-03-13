@@ -22,7 +22,7 @@ class PlayerSpec: QuickSpec {
         }
         func start() {
             let playlist = TestPlaylist()
-            player.play(trackIndex: 0, playlistIndex: 0, playlistQueue: PlaylistQueue(playlists: [playlist]))
+            player.play(at: Index(track: 0, playlist: 0), in: PlaylistQueue(playlists: [playlist]))
         }
         func toggle() {
             player.toggle()
