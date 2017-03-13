@@ -98,7 +98,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         return nil
     }
 
-    fileprivate var index: Index?
+    public fileprivate(set) var index: Index?
 
     public var state: PlayerState {
         if let type = currentTrack?.playerType {
