@@ -9,9 +9,11 @@
 import Foundation
 import MediaPlayer
 
+
 class AppleMusicPlayer: ServicePlayer {
     typealias ObserverType = ServicePlayerObserver
     typealias EventType    = ServicePlayerEvent
+    fileprivate static let delayForPlaybackStateDidChange = 0.01
     fileprivate var _observers: [ObserverType] = []
     open        var  observers: [ObserverType] {
         get { return _observers }
@@ -43,6 +45,16 @@ class AppleMusicPlayer: ServicePlayer {
                                            closure: self.nowPlayingItemDidChange)
         musicPlayerController.beginGeneratingPlaybackNotifications()
     }
+
+    fileprivate func syncPlaybackState() {
+        switch self.musicPlayerController.playbackState {
+        case .playing:     self.state = .play
+        case .paused:      self.state = .pause
+        case .stopped:     self.state = .pause
+        case .interrupted: self.state = .pause
+        default:        break
+        }
+    }
     
     // MARK: Notification handler
     func nowPlayingItemDidChange(_ notification: Notification) {
@@ -50,24 +62,23 @@ class AppleMusicPlayer: ServicePlayer {
             return
         }
         switch state {
-        case .play, .pause: notify(.didPlayToEndTime)
+        case .play: notify(.didPlayToEndTime)
         default:            return
         }
     }
     
     func playbackStateDidChange(_ notification: Notification) {
-        switch musicPlayerController.playbackState {
-        case .playing:     state = .play
-        case .paused:      state = .pause
-        case .stopped:     state = .pause
-        case .interrupted: state = .pause
-        default:        break
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + AppleMusicPlayer.delayForPlaybackStateDidChange) {
+            self.syncPlaybackState()
         }
     }
     
     @objc func updateTime() {
         notify(.timeUpdated)
-        playbackStateDidChange(Notification(name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange))
+        switch self.musicPlayerController.playbackState {
+        case .playing: self.state = .play
+        default:       break
+        }
     }
     
     // MARK: QueuePlayer protocol
