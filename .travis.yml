@@ -8,4 +8,4 @@ before_script:
     - brew install carthage || true
     - carthage bootstrap --platform all
 script: make
-after_success: slather
+after_success: bundle exec slather
