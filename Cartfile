@@ -1,2 +1,3 @@
 github "SnapKit/SnapKit" ~> 3.0.2
 github "rs/SDWebImage" ~> 4.0.0
+github "youtube/youtube-ios-player-helper"
