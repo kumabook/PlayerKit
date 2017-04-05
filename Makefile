@@ -9,6 +9,8 @@ build:
 
 test:
 	$(XCODEBUILD) -scheme PlayerKit-macOS test
+coverage:
+	slather coverage --html --scheme PlayerKit-macOS ./PlayerKit.xcodeproj
 
 clean:
 	$(XCODEBUILD) -scheme PlayerKit-iOS clean
