@@ -6,6 +6,7 @@
 //  Copyright © 2017 kumabook. All rights reserved.
 //
 
+#if os(iOS)
 import Foundation
 import YouTubeiOSPlayerHelper
 
@@ -121,3 +122,6 @@ extension YouTubePlayer: YTPlayerViewDelegate {
     }
 }
 
+#else
+typealias YouTubePlayer = SpotifyPlayer
+#endif

@@ -12,4 +12,5 @@ public enum PlayerType {
     case normal
     case appleMusic
     case spotify
+    case youtube
 }

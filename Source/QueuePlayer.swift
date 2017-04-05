@@ -6,6 +6,8 @@
 //
 
 import AVFoundation
+import MediaPlayer
+import YouTubeiOSPlayerHelper
 
 open class QueuePlayerObserver: NSObject, Observer {
     public typealias Event = QueuePlayerEvent
@@ -98,6 +100,14 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         return nil
     }
 
+    fileprivate var youtubePlayer: YouTubePlayer? {
+        for player in queuePlayers {
+            if let player = player as? YouTubePlayer {
+                return player
+            }
+        }
+        return nil
+    }
     public fileprivate(set) var index: Index?
 
     public var state: PlayerState {
@@ -106,6 +116,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
             case .normal:     return normalPlayer?.state     ?? .init
             case .appleMusic: return appleMusicPlayer?.state ?? .init
             case .spotify:    return spotifyPlayer?.state    ?? .init
+            case .youtube:    return youtubePlayer?.state    ?? .init
             }
         }
         return .init
@@ -128,6 +139,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
             case .normal:     return normalPlayer?.playingInfo
             case .appleMusic: return appleMusicPlayer?.playingInfo
             case .spotify:    return spotifyPlayer?.playingInfo
+            case .youtube:    return youtubePlayer?.playingInfo
             }
         }
         return nil
@@ -182,6 +194,9 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         if var player = player as? SpotifyPlayer {
             player.addObserver(self)
         }
+        if var player = player as? YouTubePlayer {
+            player.addObserver(self)
+        }
         queuePlayers.append(player)
     }
 
@@ -213,10 +228,12 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         normalPlayer?.clearPlayer()
         appleMusicPlayer?.clearPlayer()
         spotifyPlayer?.clearPlayer()
+        youtubePlayer?.clearPlayer()
         switch track.playerType {
         case .normal:     normalPlayer?.prepare(for: track)
         case .appleMusic: appleMusicPlayer?.prepare(for: track)
         case .spotify:    spotifyPlayer?.prepare(for: track)
+        case .youtube:    youtubePlayer?.prepare(for: track)
         }
         if let t = currentTrack, let i = index?.track, let p = currentPlaylist  {
             notify(.trackSelected(t, i, p))
@@ -259,6 +276,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         case .normal:     normalPlayer?.play()
         case .appleMusic: appleMusicPlayer?.play()
         case .spotify:    spotifyPlayer?.play()
+        case .youtube:    youtubePlayer?.play()
         }
     }
 
@@ -268,6 +286,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         case .normal:     normalPlayer?.pause()
         case .appleMusic: appleMusicPlayer?.pause()
         case .spotify:    spotifyPlayer?.pause()
+        case .youtube:    youtubePlayer?.pause()
         }
     }
 
@@ -277,6 +296,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         case .normal:     normalPlayer?.toggle()
         case .appleMusic: appleMusicPlayer?.toggle()
         case .spotify:    spotifyPlayer?.toggle()
+        case .youtube:    youtubePlayer?.toggle()
         }
     }
 
@@ -368,6 +388,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         case .normal:     normalPlayer?.seekToTime(time)
         case .appleMusic: appleMusicPlayer?.seekToTime(time)
         case .spotify:    spotifyPlayer?.seekToTime(time)
+        case .youtube:    youtubePlayer?.seekToTime(time)
         }
         notify(.timeUpdated)
     }
