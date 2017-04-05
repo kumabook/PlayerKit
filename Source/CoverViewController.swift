@@ -254,11 +254,13 @@ open class CoverViewController: UIViewController {
             let d = CoverViewController.toggleAnimationDuration
             UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { _ in
                 self.state = .minimized
+                self.ceilingViewController.didMinimizedCoverView()
                 completion()
             })
         } else {
             action()
             self.state = .minimized
+            self.ceilingViewController.didMinimizedCoverView()
             completion()
         }
     }
