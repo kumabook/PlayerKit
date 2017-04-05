@@ -159,6 +159,13 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         }
         return nil
     }
+    open var playOnlyBackground: Bool {
+        #if os(iOS)
+            return UIApplication.shared.applicationState == UIApplicationState.background
+        #else
+            return false
+        #endif
+    }
     open func playlist(at i: Index, in queue: PlaylistQueue) -> Playlist? {
         return queue.playlists.get(i.playlist)
     }
@@ -331,7 +338,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
             trackIndex -= 1
             if trackIndex >= 0 {
                 let track = playlist.tracks[trackIndex]
-                if track.isValid {
+                if track.isValid && (track.canPlayBackground || !playOnlyBackground) {
                     return Index(track: trackIndex, playlist: playlistIndex)
                 }
             } else {
@@ -354,7 +361,7 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
             trackIndex += 1
             if trackIndex < playlist.tracks.count {
                 let track = playlist.tracks[trackIndex]
-                if track.isValid {
+                if track.isValid && (track.canPlayBackground || !playOnlyBackground) {
                     return Index(track: trackIndex, playlist: playlistIndex)
                 }
             } else {
