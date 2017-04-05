@@ -74,7 +74,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     open var minThumbnailWidth:  CGFloat { return self.view.frame.width }
     open var minThumbnailHeight: CGFloat { return 60.0 }
     open var thumbWidth:         CGFloat = 75.0
-    let controlPanelHeight:        CGFloat = 130.0
+    let controlPanelHeight:      CGFloat = 130.0
     open var playerViews:        [PlayerViewController] = []
 
     open var scrollView:     UIScrollView!
