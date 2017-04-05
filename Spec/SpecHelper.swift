@@ -23,6 +23,8 @@ class TestTrack: PlayerKit.Track {
     public var isValid:      Bool = true
     public var appleMusicID: String? { return nil }
     public var spotifyURI:   String? { return nil }
+    public var youtubeVideoID: String? { return nil }
+    public var canPlayBackground: Bool { return false }
 }
 
 class TestPlaylist: PlayerKit.Playlist {
