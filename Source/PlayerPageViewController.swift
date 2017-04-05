@@ -246,10 +246,20 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
 
     open func didMinimizedCoverView() {
         updateViews()
+        guard let track = player?.currentTrack else { return }
+        if let url = track.thumbnailURL, player.state == .pause {
+            videoView.playerView = nil
+            imageView.sd_setImage(with: url as URL!)
+        } else {
+            videoView.playerView = player.playerView
+        }
     }
 
     open func didMaximizedCoverView() {
         updateViews()
+        if let playerViewController = currentPlayerView {
+            playerViewController.videoView?.playerView = player.playerView
+        }
     }
 
     open func didResizeCoverView(_ rate: CGFloat) {
@@ -283,20 +293,41 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         if let nextTrack = player.nextTrack {
             nextPlayerView?.updateViewWithTrack(nextTrack, animated: false)
         }
-        if track.isVideo {
-            let state = player.state
-            if state == .play || state == .pause {
+        switch (track.playerType, track.isVideo) {
+        case (.normal, true):
+            switch player.state {
+            case .play, .pause:
                 videoView.player = player.avPlayer
                 imageView.image = videoBackgroundImage
-                return
+            default:
+                break
             }
-        }
-        if let url = track.thumbnailURL {
-            videoView.player = nil
-            imageView.sd_setImage(with: url as URL!)
-        } else {
-            videoView.player = nil
-            imageView.image  = defaultThumbImage
+        case (.youtube, _):
+            guard let state = coverViewController?.state else { return }
+            guard let playerViewController = currentPlayerView else { return }
+            switch state {
+            case .maximized:
+                playerViewController.videoView?.playerView = player.playerView
+            case .minimized:
+                if let url = track.thumbnailURL, player.state == .pause {
+                    videoView.playerView = nil
+                    imageView.sd_setImage(with: url as URL!)
+                } else if videoView.playerView == nil {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.35) {
+                        self.videoView.playerView = self.player.playerView
+                    }
+                }
+            default:
+                break
+            }
+        default:
+            if let url = track.thumbnailURL {
+                videoView.player = nil
+                imageView.sd_setImage(with: url as URL!)
+            } else {
+                videoView.player = nil
+                imageView.image  = defaultThumbImage
+            }
         }
     }
 
