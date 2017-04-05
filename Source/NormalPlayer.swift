@@ -143,6 +143,8 @@ class NormalPlayer: ServicePlayer {
         player.removeObserver(proxy, forKeyPath: "status")
         guard let observer = timeObserver else { return }
         player.removeTimeObserver(observer)
+        statusProxy?.stop()
+        endProxy?.stop()
     }
 
     func preparePlayer() {
@@ -152,5 +154,7 @@ class NormalPlayer: ServicePlayer {
         let time = CMTimeMakeWithSeconds(1.0, 1)
         timeObserver = queuePlayer?.addPeriodicTimeObserver(forInterval: time, queue: nil, using:self.updateTime)
         queuePlayer?.addObserver(proxy, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil)
+        statusProxy?.start()
+        endProxy?.start()
     }
 }
