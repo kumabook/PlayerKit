@@ -57,6 +57,9 @@ public struct Index {
 open class QueuePlayer: ServicePlayerObserver, Observable {
     public typealias ObserverType = QueuePlayerObserver
     public typealias EventType    = QueuePlayerEvent
+    fileprivate var playHandler:                   Any?
+    fileprivate var pauseHandler:                  Any?
+    fileprivate var changePlaybackPositionHandler: Any?
     fileprivate var _observers: [ObserverType] = []
     open        var  observers: [ObserverType] {
         get { return _observers }
@@ -202,6 +205,41 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
     }
 
     deinit {
+    }
+
+    @available(OSX 10.12.2, *)
+    open func observeCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.isEnabled = true
+        playHandler = commandCenter.playCommand.addTarget {_ in
+            self.play()
+            return .success
+        }
+        commandCenter.pauseCommand.isEnabled = true
+        pauseHandler = commandCenter.pauseCommand.addTarget {_ in
+            self.pause()
+            return .success
+        }
+        if #available(iOS 9.1, *) {
+            commandCenter.changePlaybackPositionCommand.isEnabled = true
+            changePlaybackPositionHandler = commandCenter.changePlaybackPositionCommand.addTarget {
+                if let event = $0 as? MPChangePlaybackPositionCommandEvent {
+                    self.seekToTime(event.positionTime)
+                    return .success
+                }
+                return .commandFailed
+            }
+        }
+    }
+
+    @available(OSX 10.12.2, *)
+    open func stopObservingCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.removeTarget(playHandler)
+        commandCenter.pauseCommand.removeTarget(pauseHandler)
+        if #available(iOS 9.1, *) {
+            commandCenter.changePlaybackPositionCommand.removeTarget(changePlaybackPositionHandler)
+        }
     }
 
     open func addPlayer(_ player: Player) {
