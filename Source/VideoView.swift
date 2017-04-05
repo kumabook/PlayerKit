@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import YouTubeiOSPlayerHelper
 
 open class VideoView: UIButton {
     open var player: AVPlayer? {
@@ -23,5 +24,17 @@ open class VideoView: UIButton {
     
     override open class var layerClass : AnyClass {
         return AVPlayerLayer.self
+    }
+
+    open var playerView: YTPlayerView? {
+        willSet {
+            if let playerView = playerView {
+                playerView.removeFromSuperview()
+            }
+            if let playerView = newValue {
+                addSubview(playerView)
+                playerView.frame = frame
+            }
+        }
     }
 }
