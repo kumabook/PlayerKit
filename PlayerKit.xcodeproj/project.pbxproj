@@ -13,6 +13,12 @@
 		6723D8561D1E121E00D60C3F /* SimpleMiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723D8551D1E121E00D60C3F /* SimpleMiniPlayerView.swift */; };
 		67319A1C1E94A37800F61E16 /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67842C671E92526300D5675F /* YouTubePlayer.swift */; };
 		67319A1D1E94A38700F61E16 /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67842C671E92526300D5675F /* YouTubePlayer.swift */; };
+		67328DBB1E94ABA000A06FE9 /* YouTubeiOSPlayerHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67842C6F1E931E5F00D5675F /* YouTubeiOSPlayerHelper.framework */; };
+		67328DBC1E94ABA300A06FE9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 671207CB1E726BC7008BD75A /* MediaPlayer.framework */; };
+		67328DBD1E94ABA600A06FE9 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; };
+		67328DC41E94AC1A00A06FE9 /* YouTubeiOSPlayerHelper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67842C6F1E931E5F00D5675F /* YouTubeiOSPlayerHelper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		67328DC51E94AC1A00A06FE9 /* MediaPlayer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 671207CB1E726BC7008BD75A /* MediaPlayer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		67328DC61E94AC1A00A06FE9 /* SDWebImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		673672C91D1FC81F006259F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
 		673672CB1D1FC82B006259F9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
 		673672CD1D1FC85E006259F9 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
@@ -130,6 +136,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				67328DC41E94AC1A00A06FE9 /* YouTubeiOSPlayerHelper.framework in CopyFiles */,
+				67328DC51E94AC1A00A06FE9 /* MediaPlayer.framework in CopyFiles */,
+				67328DC61E94AC1A00A06FE9 /* SDWebImage.framework in CopyFiles */,
 				67E5E9F61DCA4962001CF873 /* PlayerKit.framework in CopyFiles */,
 				67916D9F1BAE95CF004419B0 /* SnapKit.framework in CopyFiles */,
 				67916D871BAE9282004419B0 /* Nimble.framework in CopyFiles */,
@@ -268,6 +277,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67328DBB1E94ABA000A06FE9 /* YouTubeiOSPlayerHelper.framework in Frameworks */,
+				67328DBD1E94ABA600A06FE9 /* SDWebImage.framework in Frameworks */,
+				67328DBC1E94ABA300A06FE9 /* MediaPlayer.framework in Frameworks */,
 				67E5E9F51DCA4957001CF873 /* PlayerKit.framework in Frameworks */,
 				67916D9B1BAE9482004419B0 /* SnapKit.framework in Frameworks */,
 				67916D821BAE90A2004419B0 /* Nimble.framework in Frameworks */,
