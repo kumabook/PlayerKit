@@ -44,10 +44,7 @@ open class NowPlayingInfoCenter: QueuePlayerObserver {
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = i.elapsedTime as AnyObject?
         if let url = track.artworkURL {
             let imageManager = SDWebImageManager()
-            let _ = imageManager.imageDownloader?.downloadImage(
-                with: url as URL!,
-                options: SDWebImageDownloaderOptions.highPriority,
-                progress: {receivedSize, expectedSize, url in }) { (image, data, error, finished) -> Void in
+            let _ = imageManager.loadImage(with: url as URL!, options: .highPriority, progress: {receivedSize, expectedSize, url in }) { (image, data, error, cacheType, finished, url) -> Void in
                     guard let img = image else { return }
                     let albumArt                     = MPMediaItemArtwork(image: img)
                     info[MPMediaItemPropertyArtwork] = albumArt
