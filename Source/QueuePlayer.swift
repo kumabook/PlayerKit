@@ -7,7 +7,9 @@
 
 import AVFoundation
 import MediaPlayer
+#if os(iOS)
 import YouTubeiOSPlayerHelper
+#endif
 
 open class QueuePlayerObserver: NSObject, Observer {
     public typealias Event = QueuePlayerEvent
@@ -133,6 +135,19 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         }
         return nil
     }
+    #if os(iOS)
+    open var playerView: YTPlayerView? {
+        if let type = currentTrack?.playerType {
+            switch type {
+            case .youtube:
+                return youtubePlayer?.playerView
+            default:
+                return nil
+            }
+        }
+        return nil
+    }
+    #endif
     open var playingInfo: PlayingInfo? {
         if let type = currentTrack?.playerType {
             switch type {
