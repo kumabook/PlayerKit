@@ -30,7 +30,6 @@ open class SimplePlayerViewController: PlayerViewController {
     var toggleAnimationDuration: Double = 0.25
     var state: State = .normal
     
-    open var videoView:           VideoView!
     open var imageView:           UIImageView!
     
     open var slider:              UISlider!
@@ -120,7 +119,7 @@ open class SimplePlayerViewController: PlayerViewController {
         slider.setThumbImage(sliderThumbImage, for: UIControlState.highlighted)
         
         imageView.frame = view.bounds
-        videoView.frame = CGRect(x: 0, y: view.frame.height / 6, width: view.frame.width, height: view.frame.height / 2)
+        videoView?.frame = CGRect(x: 0, y: view.frame.height / 6, width: view.frame.width, height: view.frame.height / 2)
         imageEffectView.frame = view.bounds
         videoEffectView.frame = view.bounds
 
@@ -128,9 +127,11 @@ open class SimplePlayerViewController: PlayerViewController {
         view.addSubview(imageEffectView)
         view.addSubview(imageCoverView)
         imageEffectView.insertSubview(imageView, at: 0)
-        view.addSubview(videoEffectView)
-        videoEffectView.insertSubview(videoView, at: 0)
-        
+        if let videoView = videoView {
+            view.addSubview(videoEffectView)
+            videoEffectView.insertSubview(videoView, at: 0)
+        }
+
         view.addSubview(titleLabel)
         view.addSubview(subTitleLabel)
         view.addSubview(currentLabel)
@@ -149,7 +150,9 @@ open class SimplePlayerViewController: PlayerViewController {
         playButton.addTarget(    self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
         previousButton.addTarget(self, action: #selector(SimplePlayerViewController.back),         for: UIControlEvents.touchUpInside)
         closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        for: UIControlEvents.touchUpInside)
-        videoView.addTarget(     self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
+        if let videoView = videoView {
+            videoView.addTarget( self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
+        }
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(SimplePlayerViewController.sliderDragged(_:)))
         slider.addGestureRecognizer(panGesture)
     }
@@ -244,7 +247,7 @@ open class SimplePlayerViewController: PlayerViewController {
     open override func removeFromParentViewController() {
         super.removeFromParentViewController()
         observers = []
-        videoView.player = nil
+        videoView?.player = nil
     }
     
     open override func updateViewWithTrack(_ track: Track, animated: Bool) {
@@ -253,10 +256,10 @@ open class SimplePlayerViewController: PlayerViewController {
         guard let currentTrack = player.currentTrack else { return }
         let isCurrentTrack = currentTrack.streamURL == track.streamURL
         if isCurrentTrack && track.isVideo {
-            videoView.player = player.avPlayer
+            videoView?.player = player.avPlayer
             imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
         } else {
-            videoView.player = nil
+            videoView?.player = nil
             imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
         }
         if !slider.isTracking {
@@ -292,13 +295,13 @@ open class SimplePlayerViewController: PlayerViewController {
     
     open override func enablePlayerView() {
         guard let avPlayer = player.avPlayer else { return }
-        if videoView.player != avPlayer {
-            videoView.player = avPlayer
+        if videoView?.player != avPlayer {
+            videoView?.player = avPlayer
         }
     }
     
     open override func disablePlayerView() {
-        videoView.player = nil
+        videoView?.player = nil
     }
     
     open override func timeUpdated() {

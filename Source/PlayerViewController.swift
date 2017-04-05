@@ -38,7 +38,8 @@ public protocol PlayerViewControllerType {
 open class PlayerViewController: UIViewController, Observable, PlayerViewControllerType {
     public typealias ObserverType = PlayerViewObserver
     public typealias EventType    = PlayerViewEvent
-    open var player: QueuePlayer!
+    open var player:    QueuePlayer!
+    open var videoView: VideoView?
 
     public required init(player: QueuePlayer) {
         super.init(nibName: nil, bundle: nil)
