@@ -22,37 +22,6 @@ import SnapKit
     func didMaximizedCoverView()
 }
 
-private class TouchPointQueue {
-    fileprivate var points: [(CGPoint, Date)] = []
-    fileprivate let capacity: Int = 10
-    fileprivate func enqueue(_ point: CGPoint, date: Date) {
-        points.insert((point, date), at: 0)
-        if points.count >= capacity {
-            points.removeLast()
-        }
-    }
-    fileprivate var length: Int {
-        return points.count
-    }
-    fileprivate func clear() {
-        points.removeAll()
-    }
-    fileprivate func diff() -> (CGPoint, CGFloat) {
-        guard let f = points.first, let l = points.last else { return (CGPoint(x: 0, y: 0), 0) }
-        let dx = l.0.x - f.0.x
-        let dy = l.0.y - f.0.y
-        let t = CGFloat(l.1.timeIntervalSince(f.1))
-        return (CGPoint(x: dx, y: dy), t)
-    }
-    fileprivate func distance() -> CGPoint {
-        return diff().0
-    }
-    fileprivate func speed() -> CGPoint {
-        let d = diff()
-        return CGPoint(x: d.0.x / d.1, y: d.0.y / d.1)
-    }
-}
-
 open class CoverViewController: UIViewController {
     let duration = 0.35
     let maxSpeed: CGFloat = 500
@@ -129,7 +98,7 @@ open class CoverViewController: UIViewController {
                     rate = actualRate
                     let f                  = view.frame
                     resizeCoverView(CGRect(x: 0, y: f.height - h, width: w, height: h), actualRate: rate)
-                    sender.setTranslation(CGPoint.zero, in:targetView)
+                    sender.setTranslation(CGPoint.zero, in: targetView)
                     if point.x > 0 || point.y < 0 { state = .dragging }
                     else                          { state = .dragging }
                 }
