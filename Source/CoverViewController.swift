@@ -19,12 +19,12 @@ open class CoverViewController: UIViewController {
     }
     fileprivate var touchPointQueue: TouchPointQueue = TouchPointQueue()
     fileprivate var rate:       CGFloat = 0
-    open var state: State = .minimized
-    open var ceilingViewController: CoverViewControllerDelegate!
+    open var state: CeilingViewControllerState = .minimized
+    open var ceilingViewController: CeilingViewController!
     open var floorViewController: UIViewController!
     open var transitionMode: TransitionMode = TransitionMode.slide
 
-    public init(ceilingViewController: CoverViewControllerDelegate, floorViewController: UIViewController) {
+    public init(ceilingViewController: CeilingViewController, floorViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
         self.ceilingViewController = ceilingViewController
         self.floorViewController = floorViewController
@@ -46,7 +46,7 @@ open class CoverViewController: UIViewController {
         floorViewController.view.frame = view.frame
         ceilingViewController.view.clipsToBounds   = true
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action:#selector(CoverViewController.dragged(_:)))
-        ceilingViewController.view.addGestureRecognizer(panGestureRecognizer)
+        ceilingViewController.addGestureRecognizer(panGestureRecognizer)
     }
 
     func dragged(_ sender: UIPanGestureRecognizer) {
@@ -63,7 +63,7 @@ open class CoverViewController: UIViewController {
                 switch transitionMode {
                 case .slide:
                     touchPointQueue.enqueue(sender.location(in: view), date: Date())
-                    let h = ceilingViewController.minThumbnailHeight
+                    let h = ceilingViewController.tabHeight
                     let height = view.frame.height
                     let y = min(max(frame.minY + point.y, -h), height - h)
                     let rect = CGRect(x: 0, y: y, width: frame.width, height: height + h)
@@ -87,13 +87,13 @@ open class CoverViewController: UIViewController {
             if let _ = sender.view {
                 let speed = touchPointQueue.speed()
                 if speed.y > maxSpeed {
-                    minimizeCoverView(true)
+                    minimizeCeilingView(true)
                 } else if speed.y < -maxSpeed{
-                    maximizeCoverView(true)
+                    maximizeCeilingView(true)
                 } else if rate < 0.5 {
-                    minimizeCoverView(true)
+                    minimizeCeilingView(true)
                 } else {
-                    maximizeCoverView(true)
+                    maximizeCeilingView(true)
                 }
             }
         case .cancelled: break
@@ -102,7 +102,7 @@ open class CoverViewController: UIViewController {
         }
     }
 
-    open func minimizeCoverView(_ animated: Bool) {
+    open func minimizeCeilingView(_ animated: Bool) {
         let f = view.frame
         let w = ceilingViewController.minThumbnailWidth
         let h = ceilingViewController.minThumbnailHeight
@@ -114,21 +114,21 @@ open class CoverViewController: UIViewController {
             case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: y, width:  w, height: h)
             }
-            self.ceilingViewController.didResizeCoverView(0)
+            self.ceilingViewController.viewDidResize(0)
         }
         if animated {
             UIView.animate(withDuration: duration, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { finished in
                 self.state = .minimized
-                self.ceilingViewController.didMinimizedCoverView()
+                self.ceilingViewController.viewDidMinimize()
             })
         } else {
             action()
             self.state = .minimized
-            self.ceilingViewController.didMinimizedCoverView()
+            self.ceilingViewController.viewDidMinimize()
         }
     }
 
-    open func maximizeCoverView(_ animated: Bool) {
+    open func maximizeCeilingView(_ animated: Bool) {
         let f = view.frame
         let w = f.width
         let h = self.ceilingViewController.minThumbnailHeight
@@ -140,10 +140,10 @@ open class CoverViewController: UIViewController {
             case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: -h, width: w, height: h)
             }
-            self.ceilingViewController.didResizeCoverView(1)
+            self.ceilingViewController.viewDidResize(1)
         }, completion: { finished in
             self.state = .maximized
-            self.ceilingViewController.didMaximizedCoverView()
+            self.ceilingViewController.viewDidMaximize()
         })
     }
 
@@ -151,10 +151,10 @@ open class CoverViewController: UIViewController {
         switch state {
         case .maximized:
             state = .animating
-            minimizeCoverView(true)
+            minimizeCeilingView(true)
         case .minimized:
             state = .animating
-            maximizeCoverView(true)
+            maximizeCeilingView(true)
         case .hidden: break
         case .animating, .dragging: break
         }
@@ -180,7 +180,7 @@ open class CoverViewController: UIViewController {
 
     open func resizeCoverView(_ newRect: CGRect, actualRate: CGFloat) {
         ceilingViewController.view.frame = newRect
-        ceilingViewController.didResizeCoverView(actualRate)
+        ceilingViewController.viewDidResize(actualRate)
     }
 
     open func showCoverViewController(_ animated: Bool, completion: @escaping () -> () = {}) {
@@ -196,20 +196,20 @@ open class CoverViewController: UIViewController {
                 self.ceilingViewController.view.frame = rect
             case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
-                self.ceilingViewController.didResizeCoverView(0)
+                self.ceilingViewController.viewDidResize(0)
             }
         }
         if animated {
             let d = CoverViewController.toggleAnimationDuration
             UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: action, completion: { _ in
                 self.state = .minimized
-                self.ceilingViewController.didMinimizedCoverView()
+                self.ceilingViewController.viewDidMinimize()
                 completion()
             })
         } else {
             action()
             self.state = .minimized
-            self.ceilingViewController.didMinimizedCoverView()
+            self.ceilingViewController.viewDidMinimize()
             completion()
         }
     }
@@ -223,10 +223,10 @@ open class CoverViewController: UIViewController {
             case .slide:
                 let rect = CGRect(x: 0, y: f.height + h, width: frame.width, height: f.height + h)
                 self.ceilingViewController.view.frame = rect
-                self.ceilingViewController.didResizeCoverView(0)
+                self.ceilingViewController.viewDidResize(0)
             case .zoom:
                 self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
-                self.ceilingViewController.didResizeCoverView(0)
+                self.ceilingViewController.viewDidResize(0)
             }
         }
         if animated {
@@ -243,10 +243,25 @@ open class CoverViewController: UIViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-        minimizeCoverView(false)
+        minimizeCeilingView(false)
     }
 
     override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+}
+
+extension CoverViewController: CoverViewControllerType {
+    public func toggleCeilingView(_ animated: Bool) {
+        toggleScreen()
+    }
+    public func minimizeCeilingView() {
+        minimizeCeilingView(true)
+    }
+    public func maximizeCeilingView() {
+        maximizeCeilingView(true)
+    }
+    public var ceilingViewControllerState: CeilingViewControllerState {
+        return state
     }
 }

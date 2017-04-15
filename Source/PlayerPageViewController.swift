@@ -70,9 +70,13 @@ protocol PlayerPageViewControllerType {
     func onMessage(_ message: String)
 }
 
-open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, CoverViewControllerDelegate, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
+open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerView>: UIViewController, CeilingViewController, UIScrollViewDelegate, PlayerPageViewControllerType, MiniPlayerViewDelegate {
+
+    open var coverViewController: CoverViewControllerType?
+
     open var minThumbnailWidth:  CGFloat { return self.view.frame.width }
     open var minThumbnailHeight: CGFloat { return 60.0 }
+    open var tabHeight:          CGFloat { return minThumbnailHeight }
     open var thumbWidth:         CGFloat = 75.0
     let controlPanelHeight:      CGFloat = 130.0
     open var playerViews:        [PlayerViewController] = []
@@ -86,8 +90,6 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     var playerObserver:      PlayerPageViewPlayerObserver!
     var playerViewObserver:  PlayerPageViewPlayerViewObserver!
     open var player:         QueuePlayer!
-
-    open var coverViewController: CoverViewController?
 
     open var videoBackgroundImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 100, height: 100)
@@ -109,8 +111,8 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         super.init(nibName: nil, bundle: nil)
         self.player             = player
         self.playerViews        = []
-        playerObserver     = PlayerPageViewPlayerObserver(playerViewController: self)
-        playerViewObserver = PlayerPageViewPlayerViewObserver(playerViewController: self)
+        playerObserver      = PlayerPageViewPlayerObserver(playerViewController: self)
+        playerViewObserver  = PlayerPageViewPlayerViewObserver(playerViewController: self)
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -212,12 +214,8 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         }
     }
 
-    open func open() {
-        coverViewController?.toggleScreen()
-    }
-
     open func close() {
-        coverViewController?.toggleScreen()
+        coverViewController?.minimizeCeilingView(true)
     }
 
     open func toggle() {
@@ -303,7 +301,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
                 break
             }
         case (.youtube, _):
-            guard let state = coverViewController?.state else { return }
+            guard let state = coverViewController?.ceilingViewControllerState else { return }
             guard let playerViewController = currentPlayerView else { return }
             switch state {
             case .maximized:
@@ -386,5 +384,12 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
 
     open func miniPlayerViewUpdate() {
         updateViews()
+    }
+
+    public func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+    public func canSwipeCeilingView(touch: UITouch) -> Bool {
+        return true
     }
 }
