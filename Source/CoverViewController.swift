@@ -9,30 +9,10 @@
 import UIKit
 import SnapKit
 
-@objc public protocol CoverViewControllerDelegate {
-    var view:               UIView! { get }
-    var thumbnailView:      UIView  { get }
-    var minThumbnailWidth:  CGFloat { get }
-    var minThumbnailHeight: CGFloat { get }
-
-    var coverViewController: CoverViewController? { get set }
-
-    func didResizeCoverView(_ rate: CGFloat)
-    func didMinimizedCoverView()
-    func didMaximizedCoverView()
-}
-
 open class CoverViewController: UIViewController {
     let duration = 0.35
     let maxSpeed: CGFloat = 500
     open static var toggleAnimationDuration: Double = 0.25
-    public enum State {
-        case hidden
-        case maximized
-        case minimized
-        case dragging
-        case animating
-    }
     public enum TransitionMode {
         case slide
         case zoom
