@@ -139,6 +139,9 @@ class AppleMusicPlayer: ServicePlayer {
                 case MPError.Code.unknown:
                     print("AppleMusicPlayer#play: unknown")
                     self.notify(.errorOccured)
+                case MPError.Code.requestTimedOut:
+                    print("AppleMusicPlayer#play: unknown")
+                    self.notify(.errorOccured)
                 }
             }
         }
