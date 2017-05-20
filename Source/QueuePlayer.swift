@@ -59,6 +59,8 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
     public typealias EventType    = QueuePlayerEvent
     fileprivate var playHandler:                   Any?
     fileprivate var pauseHandler:                  Any?
+    fileprivate var previousTrackHandler:          Any?
+    fileprivate var nextTrackHandler:              Any?
     fileprivate var changePlaybackPositionHandler: Any?
     fileprivate var _observers: [ObserverType] = []
     open        var  observers: [ObserverType] {
@@ -218,6 +220,16 @@ open class QueuePlayer: ServicePlayerObserver, Observable {
         commandCenter.pauseCommand.isEnabled = true
         pauseHandler = commandCenter.pauseCommand.addTarget {_ in
             self.pause()
+            return .success
+        }
+        commandCenter.previousTrackCommand.isEnabled = true
+        previousTrackHandler = commandCenter.previousTrackCommand.addTarget {_ in
+            self.previous()
+            return .success
+        }
+        commandCenter.nextTrackCommand.isEnabled = true
+        nextTrackHandler = commandCenter.nextTrackCommand.addTarget {_ in
+            self.next()
             return .success
         }
         if #available(iOS 9.1, *) {
