@@ -149,15 +149,15 @@ open class SimpleMiniPlayerView: MiniPlayerView {
         }
     }
 
-    func playButtonTapped() {
+    @objc func playButtonTapped() {
         delegate?.miniPlayerViewPlayButtonTouched()
     }
 
-    func previousButtonTapped() {
+    @objc func previousButtonTapped() {
         delegate?.miniPlayerViewPreviousButtonTouched()
     }
 
-    func nextButtonTapped() {
+    @objc func nextButtonTapped() {
         delegate?.miniPlayerViewNextButtonTouched()
     }
 }

@@ -8,9 +8,7 @@
 
 import Foundation
 
-public protocol ServicePlayer: class, Player, Observable {
-    typealias ObserverType = ServicePlayerObserver
-    typealias EventType    = ServicePlayerEvent
+public protocol ServicePlayer: class, Player, Observable where EventType == ServicePlayerEvent, ObserverType == ServicePlayerObserver {
     var track:             Track? { get set }
 }
 

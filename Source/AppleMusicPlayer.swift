@@ -38,7 +38,7 @@ class AppleMusicPlayer: ServicePlayer {
     init() {
         state                = .init
         track                 = nil
-        musicPlayerController = MPMusicPlayerController.applicationMusicPlayer()
+        musicPlayerController = MPMusicPlayerController.applicationMusicPlayer
         playbackStateProxy    = ObserverProxy(name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
                                            closure: self.playbackStateDidChange)
         nowPlayingItemProxy   = ObserverProxy(name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange,
@@ -164,9 +164,9 @@ class AppleMusicPlayer: ServicePlayer {
         if #available(iOS 10.1, *) {
             let descriptor = MPMusicPlayerStoreQueueDescriptor(storeIDs: [id])
             descriptor.startItemID = id
-            musicPlayerController.setQueueWith(descriptor)
+            musicPlayerController.setQueue(with: descriptor)
         } else if #available(iOS 9.3, *) {
-            musicPlayerController.setQueueWithStoreIDs([id])
+            musicPlayerController.setQueue(with: [id])
         } else  {
             let predicate = MPMediaPropertyPredicate(value: id,
                                                forProperty: MPMediaItemPropertyPersistentID,

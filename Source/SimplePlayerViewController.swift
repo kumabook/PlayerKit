@@ -207,7 +207,7 @@ open class SimplePlayerViewController: PlayerViewController {
         }
     }
 
-    func sliderDragged(_ sender: UIPanGestureRecognizer) {
+    @objc func sliderDragged(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
             if let targetView = sender.view {
@@ -333,22 +333,22 @@ open class SimplePlayerViewController: PlayerViewController {
         }
     }
 
-    func toggle()   { notify(.toggle) }
-    func back()     { notify(.previous) }
-    func forward()  { notify(.next) }
-    func close()    { notify(.close) }
-    func previewSeek() {
+    @objc func toggle()   { notify(.toggle) }
+    @objc func back()     { notify(.previous) }
+    @objc func forward()  { notify(.next) }
+    @objc func close()    { notify(.close) }
+    @objc func previewSeek() {
         if slider.isTracking {
             updateTime(current: slider.value, total: slider.maximumValue)
         }
         notify(.timeChanged(TimeInterval(slider.value)))
     }
     
-    func stopSeek() {
+    @objc func stopSeek() {
         notify(.timeChanged(TimeInterval(slider.value)))
     }
     
-    func cancelSeek() {
+    @objc func cancelSeek() {
         timeUpdated()
     }
 }

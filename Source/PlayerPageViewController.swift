@@ -214,7 +214,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         }
     }
 
-    open func close() {
+    @objc open func close() {
         coverViewController?.minimizeCeilingView(true)
     }
 

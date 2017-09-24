@@ -49,7 +49,7 @@ open class CoverViewController: UIViewController {
         ceilingViewController.addGestureRecognizer(panGestureRecognizer)
     }
 
-    func dragged(_ sender: UIPanGestureRecognizer) {
+    @objc func dragged(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
             state = .dragging
