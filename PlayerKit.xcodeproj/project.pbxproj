@@ -607,7 +607,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = kumabook;
 				TargetAttributes = {
 					67725EDD1DCA191200D852E4 = {
@@ -1181,7 +1181,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.kumabook.PlayerKit;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
