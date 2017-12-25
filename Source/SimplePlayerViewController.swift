@@ -256,9 +256,11 @@ open class SimplePlayerViewController: PlayerViewController {
         let isCurrentTrack = currentTrack.streamURL == track.streamURL
         if isCurrentTrack && track.isVideo {
             videoView?.player = player.avPlayer
+            videoView?.isHidden = false
             imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
         } else {
             videoView?.player = nil
+            videoView?.isHidden = true
             imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
         }
         if !slider.isTracking {
