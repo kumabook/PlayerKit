@@ -124,12 +124,12 @@ open class SimplePlayerViewController: PlayerViewController {
         videoEffectView.frame = view.bounds
 
         view.clipsToBounds = true
-        view.addSubview(imageEffectView)
         view.addSubview(imageCoverView)
-        imageEffectView.insertSubview(imageView, at: 0)
+        imageView.addSubview(imageEffectView)
+        view.addSubview(imageView)
         if let videoView = videoView {
-            view.addSubview(videoEffectView)
-            videoEffectView.insertSubview(videoView, at: 0)
+            videoView.addSubview(videoEffectView)
+            view.addSubview(videoView)
         }
 
         view.addSubview(titleLabel)
