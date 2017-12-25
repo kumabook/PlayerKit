@@ -150,9 +150,8 @@ open class SimplePlayerViewController: PlayerViewController {
         playButton.addTarget(    self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
         previousButton.addTarget(self, action: #selector(SimplePlayerViewController.back),         for: UIControlEvents.touchUpInside)
         closeButton.addTarget(   self, action: #selector(SimplePlayerViewController.close),        for: UIControlEvents.touchUpInside)
-        if let videoView = videoView {
-            videoView.addTarget( self, action: #selector(SimplePlayerViewController.toggle),       for: UIControlEvents.touchUpInside)
-        }
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(SimplePlayerViewController.toggle)))
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(SimplePlayerViewController.sliderDragged(_:)))
         slider.addGestureRecognizer(panGesture)
     }
