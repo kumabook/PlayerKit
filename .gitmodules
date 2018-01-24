@@ -1,6 +1,3 @@
-[submodule "Carthage/Checkouts/SDWebImage"]
-	path = Carthage/Checkouts/SDWebImage
-	url = https://github.com/rs/SDWebImage.git
 [submodule "Carthage/Checkouts/SnapKit"]
 	path = Carthage/Checkouts/SnapKit
 	url = https://github.com/SnapKit/SnapKit.git

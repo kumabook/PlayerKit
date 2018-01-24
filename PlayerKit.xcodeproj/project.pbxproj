@@ -16,9 +16,7 @@
 		67319A1D1E94A38700F61E16 /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67842C671E92526300D5675F /* YouTubePlayer.swift */; };
 		6731A9641EA25EC200E240BB /* CeilingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6731A9631EA25EC200E240BB /* CeilingViewController.swift */; };
 		67328DBB1E94ABA000A06FE9 /* YouTubeiOSPlayerHelper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67842C6F1E931E5F00D5675F /* YouTubeiOSPlayerHelper.framework */; };
-		67328DBD1E94ABA600A06FE9 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; };
 		67328DC41E94AC1A00A06FE9 /* YouTubeiOSPlayerHelper.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67842C6F1E931E5F00D5675F /* YouTubeiOSPlayerHelper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		67328DC61E94AC1A00A06FE9 /* SDWebImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		673672C91D1FC81F006259F9 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
 		673672CB1D1FC82B006259F9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
 		673672CD1D1FC85E006259F9 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
@@ -28,7 +26,6 @@
 		67725EF71DCA195400D852E4 /* PlaylistQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */; };
 		67725F021DCA195400D852E4 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67916D911BAE9308004419B0 /* TimeHelper.swift */; };
 		67725F031DCA195800D852E4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FDBA931D157C51003F6DFD /* Observable.swift */; };
-		67725F0F1DCA272000D852E4 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F0E1DCA272000D852E4 /* SDWebImage.framework */; };
 		67725F1E1DCA278A00D852E4 /* PlayerKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67725F151DCA278A00D852E4 /* PlayerKit.framework */; };
 		67725F301DCA27C300D852E4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672CA1D1FC82B006259F9 /* Track.swift */; };
 		67725F311DCA27C300D852E4 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673672C81D1FC81F006259F9 /* Playlist.swift */; };
@@ -138,7 +135,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				67328DC41E94AC1A00A06FE9 /* YouTubeiOSPlayerHelper.framework in CopyFiles */,
-				67328DC61E94AC1A00A06FE9 /* SDWebImage.framework in CopyFiles */,
 				67E5E9F61DCA4962001CF873 /* PlayerKit.framework in CopyFiles */,
 				67916D9F1BAE95CF004419B0 /* SnapKit.framework in CopyFiles */,
 				67916D871BAE9282004419B0 /* Nimble.framework in CopyFiles */,
@@ -184,9 +180,7 @@
 		673672CC1D1FC85E006259F9 /* PlaylistQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaylistQueue.swift; path = Source/PlaylistQueue.swift; sourceTree = SOURCE_ROOT; };
 		67725EDE1DCA191200D852E4 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67725EE61DCA191200D852E4 /* PlayerKit-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayerKit-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		67725F061DCA257600D852E4 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/Mac/SDWebImage.framework; sourceTree = "<group>"; };
 		67725F071DCA257600D852E4 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/Mac/SnapKit.framework; sourceTree = "<group>"; };
-		67725F0E1DCA272000D852E4 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
 		67725F151DCA278A00D852E4 /* PlayerKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlayerKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		67725F1D1DCA278A00D852E4 /* PlayerKit-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlayerKit-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		67725F4C1DCA2A4500D852E4 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = "<group>"; };
@@ -271,7 +265,6 @@
 				671207CC1E726BC7008BD75A /* MediaPlayer.framework in Frameworks */,
 				67916D9D1BAE949B004419B0 /* SnapKit.framework in Frameworks */,
 				67842C701E931E5F00D5675F /* YouTubeiOSPlayerHelper.framework in Frameworks */,
-				67725F0F1DCA272000D852E4 /* SDWebImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +274,6 @@
 			files = (
 				675638E11F769347000A7FBF /* MediaPlayer.framework in Frameworks */,
 				67328DBB1E94ABA000A06FE9 /* YouTubeiOSPlayerHelper.framework in Frameworks */,
-				67328DBD1E94ABA600A06FE9 /* SDWebImage.framework in Frameworks */,
 				67E5E9F51DCA4957001CF873 /* PlayerKit.framework in Frameworks */,
 				67916D9B1BAE9482004419B0 /* SnapKit.framework in Frameworks */,
 				67916D821BAE90A2004419B0 /* Nimble.framework in Frameworks */,
@@ -297,7 +289,6 @@
 			children = (
 				67842C6F1E931E5F00D5675F /* YouTubeiOSPlayerHelper.framework */,
 				671207CB1E726BC7008BD75A /* MediaPlayer.framework */,
-				67725F0E1DCA272000D852E4 /* SDWebImage.framework */,
 				67916D591BAE8D1D004419B0 /* Nimble.framework */,
 				67916D5A1BAE8D1D004419B0 /* Quick.framework */,
 				67916D601BAE8DF2004419B0 /* SnapKit.framework */,
@@ -310,7 +301,6 @@
 			children = (
 				67725F501DCA2A5A00D852E4 /* Nimble.framework */,
 				67725F511DCA2A5A00D852E4 /* Quick.framework */,
-				67725F061DCA257600D852E4 /* SDWebImage.framework */,
 				67725F071DCA257600D852E4 /* SnapKit.framework */,
 			);
 			name = macOS;
