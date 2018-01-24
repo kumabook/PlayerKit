@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if os(iOS)
 import UIKit
+#endif
 
 public protocol Track {
     var title:             String?    { get }
@@ -20,8 +22,9 @@ public protocol Track {
     var appleMusicID:      String?    { get }
     var spotifyURI:        String?    { get }
     var youtubeVideoID:    String?    { get }
-
+    #if os(iOS)
     func loadThumbnailImage(completeHandler: (UIImage?) -> Void)
     func loadArtworkImage(completeHandler: (UIImage?) -> Void)
+    #endif
 }
 
