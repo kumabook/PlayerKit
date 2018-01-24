@@ -258,11 +258,15 @@ open class SimplePlayerViewController: PlayerViewController {
         if isCurrentTrack && track.isVideo {
             videoView?.player = player.avPlayer
             videoView?.isHidden = false
-            imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
+            track.loadArtworkImage() { image in
+                imageView.image = image
+            }
         } else {
             videoView?.player = nil
             videoView?.isHidden = true
-            imageView.sd_setImage(with: track.artworkURL as URL?? ?? track.thumbnailURL as URL!)
+            track.loadArtworkImage() { image in
+                imageView.image = image
+            }
         }
         if !slider.isTracking {
             timeUpdated()

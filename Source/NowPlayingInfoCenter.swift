@@ -7,7 +7,6 @@
 //
 
 import MediaPlayer
-import SDWebImage
 
 open class NowPlayingInfoCenter: QueuePlayerObserver {
     var player: QueuePlayer
@@ -42,19 +41,13 @@ open class NowPlayingInfoCenter: QueuePlayerObserver {
         info[MPMediaItemPropertyTitle]                    = track.title as AnyObject?
         info[MPMediaItemPropertyPlaybackDuration]         = i.duration as AnyObject?
         info[MPNowPlayingInfoPropertyElapsedPlaybackTime] = i.elapsedTime as AnyObject?
-        if let url = track.artworkURL {
-            let imageManager = SDWebImageManager()
-            let _ = imageManager.loadImage(with: url as URL!, options: .highPriority, progress: {receivedSize, expectedSize, url in }) { (image, data, error, cacheType, finished, url) -> Void in
-                    guard let img = image else { return }
-                    let albumArt                     = MPMediaItemArtwork(image: img)
-                    info[MPMediaItemPropertyArtwork] = albumArt
-                    infoCenter.nowPlayingInfo        = info
+        track.loadArtworkImage() { image in
+            if let image = image {
+                info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
+            } else if let image = defaultThumbImage {
+                info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
             }
-            return
-        }
-        if let image = defaultThumbImage {
-            let albumArt                     = MPMediaItemArtwork(image: image)
-            info[MPMediaItemPropertyArtwork] = albumArt
+            infoCenter.nowPlayingInfo = info
         }
         infoCenter.nowPlayingInfo = info
     }

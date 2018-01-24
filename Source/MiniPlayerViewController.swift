@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import SnapKit
-import SDWebImage
 
 class MiniPlayerObserver: QueuePlayerObserver {
     let delegate: MiniPlayerViewDelegate

@@ -7,12 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol Track {
     var title:             String?    { get }
     var subtitle:          String?    { get }
-    var thumbnailURL:      URL?       { get }
-    var artworkURL:        URL?       { get }
     var isVideo:           Bool       { get }
     var isValid:           Bool       { get }
     var canPlayBackground: Bool       { get }
@@ -21,5 +20,8 @@ public protocol Track {
     var appleMusicID:      String?    { get }
     var spotifyURI:        String?    { get }
     var youtubeVideoID:    String?    { get }
+
+    func loadThumbnailImage(completeHandler: (UIImage?) -> Void)
+    func loadArtworkImage(completeHandler: (UIImage?) -> Void)
 }
 

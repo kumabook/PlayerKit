@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import SnapKit
-import SDWebImage
 
 internal extension UIScrollView {
     var currentPage: Int {
@@ -245,11 +244,13 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
     open func didMinimizedCoverView() {
         updateViews()
         guard let track = player?.currentTrack else { return }
-        if let url = track.thumbnailURL, player.state == .pause {
-            videoView.playerView = nil
-            imageView.sd_setImage(with: url as URL!)
-        } else {
-            videoView.playerView = player.playerView
+        track.loadThumbnailImage() { image in
+            if let image = image, player.state == .pause {
+                videoView.playerView = nil
+                imageView.image = image
+            } else {
+                videoView.playerView = player.playerView
+            }
         }
     }
 
@@ -307,24 +308,28 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
             case .maximized:
                 playerViewController.videoView?.playerView = player.playerView
             case .minimized:
-                if let url = track.thumbnailURL, player.state == .pause {
-                    videoView.playerView = nil
-                    imageView.sd_setImage(with: url as URL!)
-                } else if videoView.playerView == nil {
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.35) {
-                        self.videoView.playerView = self.player.playerView
+                track.loadThumbnailImage() { image in
+                    if let image = image, player.state == .pause {
+                        videoView.playerView = nil
+                        imageView.image = image
+                    } else if videoView.playerView == nil {
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.35) {
+                            self.videoView.playerView = self.player.playerView
+                        }
                     }
                 }
             default:
                 break
             }
         default:
-            if let url = track.thumbnailURL {
-                videoView.player = nil
-                imageView.sd_setImage(with: url as URL!)
-            } else {
-                videoView.player = nil
-                imageView.image  = defaultThumbImage
+            track.loadThumbnailImage() { image in
+                if let image = image {
+                    videoView.player = nil
+                    imageView.image = image
+                } else {
+                    videoView.player = nil
+                    imageView.image  = defaultThumbImage
+                }
             }
         }
     }
