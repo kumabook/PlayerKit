@@ -139,6 +139,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         view.addSubview(miniPlayerView)
         videoView.isUserInteractionEnabled = false
         imageView.isUserInteractionEnabled = false
+        imageView.contentMode = .scaleAspectFill
         miniPlayerView.addSubview(imageView)
         miniPlayerView.addSubview(videoView)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PlayerPageViewController.close))
