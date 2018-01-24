@@ -23,8 +23,8 @@ public protocol Track {
     var spotifyURI:        String?    { get }
     var youtubeVideoID:    String?    { get }
     #if os(iOS)
-    func loadThumbnailImage(completeHandler: (UIImage?) -> Void)
-    func loadArtworkImage(completeHandler: (UIImage?) -> Void)
+    func loadThumbnailImage(completeHandler: @escaping(UIImage?) -> Void)
+    func loadArtworkImage(completeHandler: @escaping(UIImage?) -> Void)
     #endif
 }
 

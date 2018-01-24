@@ -245,11 +245,11 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         updateViews()
         guard let track = player?.currentTrack else { return }
         track.loadThumbnailImage() { image in
-            if let image = image, player.state == .pause {
-                videoView.playerView = nil
-                imageView.image = image
+            if let image = image, self.player.state == .pause {
+                self.videoView.playerView = nil
+                self.imageView.image = image
             } else {
-                videoView.playerView = player.playerView
+                self.videoView.playerView = self.player.playerView
             }
         }
     }
@@ -309,10 +309,10 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
                 playerViewController.videoView?.playerView = player.playerView
             case .minimized:
                 track.loadThumbnailImage() { image in
-                    if let image = image, player.state == .pause {
-                        videoView.playerView = nil
-                        imageView.image = image
-                    } else if videoView.playerView == nil {
+                    if let image = image, self.player.state == .pause {
+                        self.videoView.playerView = nil
+                        self.imageView.image = image
+                    } else if self.videoView.playerView == nil {
                         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.35) {
                             self.videoView.playerView = self.player.playerView
                         }
@@ -324,11 +324,11 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         default:
             track.loadThumbnailImage() { image in
                 if let image = image {
-                    videoView.player = nil
-                    imageView.image = image
+                    self.videoView.player = nil
+                    self.imageView.image = image
                 } else {
-                    videoView.player = nil
-                    imageView.image  = defaultThumbImage
+                    self.videoView.player = nil
+                    self.imageView.image  = self.defaultThumbImage
                 }
             }
         }

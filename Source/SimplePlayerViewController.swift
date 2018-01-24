@@ -259,13 +259,13 @@ open class SimplePlayerViewController: PlayerViewController {
             videoView?.player = player.avPlayer
             videoView?.isHidden = false
             track.loadArtworkImage() { image in
-                imageView.image = image
+                self.imageView.image = image
             }
         } else {
             videoView?.player = nil
             videoView?.isHidden = true
             track.loadArtworkImage() { image in
-                imageView.image = image
+                self.imageView.image = image
             }
         }
         if !slider.isTracking {

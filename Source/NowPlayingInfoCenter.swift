@@ -44,7 +44,7 @@ open class NowPlayingInfoCenter: QueuePlayerObserver {
         track.loadArtworkImage() { image in
             if let image = image {
                 info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
-            } else if let image = defaultThumbImage {
+            } else if let image = self.defaultThumbImage {
                 info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
             }
             infoCenter.nowPlayingInfo = info
