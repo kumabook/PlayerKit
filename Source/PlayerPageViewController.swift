@@ -242,7 +242,14 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         return imageView
     }
 
-    open func didMinimizedCoverView() {
+    public func viewDidMaximize() {
+        updateViews()
+        if let playerViewController = currentPlayerView {
+            playerViewController.videoView?.playerView = player.playerView
+        }
+    }
+
+    public func viewDidMinimize() {
         updateViews()
         guard let track = player?.currentTrack else { return }
         track.loadThumbnailImage() { image in
@@ -253,17 +260,6 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
                 self.videoView.playerView = self.player.playerView
             }
         }
-    }
-
-    open func didMaximizedCoverView() {
-        updateViews()
-        if let playerViewController = currentPlayerView {
-            playerViewController.videoView?.playerView = player.playerView
-        }
-    }
-
-    open func didResizeCoverView(_ rate: CGFloat) {
-        updateViewWithRate(rate)
     }
 
     open func updateViewWithRate(_ rate: CGFloat) {
