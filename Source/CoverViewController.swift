@@ -24,6 +24,10 @@ open class CoverViewController: UIViewController {
     open var floorViewController: UIViewController!
     open var transitionMode: TransitionMode = TransitionMode.slide
 
+    fileprivate var top: CGFloat {
+        return navigationController?.navigationBar.frame.maxY ?? 0
+    }
+
     public init(ceilingViewController: CeilingViewController, floorViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
         self.ceilingViewController = ceilingViewController
@@ -43,7 +47,7 @@ open class CoverViewController: UIViewController {
         super.loadView()
         view.addSubview(floorViewController.view)
         view.addSubview(ceilingViewController.view)
-        floorViewController.view.frame = view.frame
+        floorViewController.view.frame = CGRect(x: 0, y: top, width: view.frame.width, height: view.frame.height - top)
         ceilingViewController.view.clipsToBounds   = true
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action:#selector(CoverViewController.dragged(_:)))
         ceilingViewController.addGestureRecognizer(panGestureRecognizer)
@@ -65,7 +69,7 @@ open class CoverViewController: UIViewController {
                     touchPointQueue.enqueue(sender.location(in: view), date: Date())
                     let h = ceilingViewController.tabHeight
                     let height = view.frame.height
-                    let y = min(max(frame.minY + point.y, -h), height - h)
+                    let y = min(max(frame.minY + point.y, -h + top), height - h)
                     let rect = CGRect(x: 0, y: y, width: frame.width, height: height + h)
                     rate = 1 - abs(rect.minY) / frame.height
                     resizeCoverView(rect, actualRate: rate)
@@ -131,7 +135,7 @@ open class CoverViewController: UIViewController {
     open func maximizeCeilingView(_ animated: Bool) {
         let f = view.frame
         let w = f.width
-        let h = self.ceilingViewController.minThumbnailHeight
+        let h = self.ceilingViewController.minThumbnailHeight - top
         let d = animated ? duration : 0
         UIView.animate(withDuration: d, delay: 0, options:UIViewAnimationOptions(), animations: {
             switch self.transitionMode {
@@ -162,7 +166,7 @@ open class CoverViewController: UIViewController {
 
     func calculateCoverViewActualRate(_ newSize: CGSize) -> (CGFloat, CGFloat, CGFloat) {
         if  transitionMode == TransitionMode.slide {
-            let  rate = newSize.height / view.frame.height
+            let  rate = newSize.height / (view.frame.height - self.top)
             return (view.frame.width, rate * view.frame.height, rate)
         } else {
             let  rate = newSize.width / view.frame.width
@@ -173,7 +177,7 @@ open class CoverViewController: UIViewController {
                                                                     // width == thumbnail width and cover view width
             let actualRate = (width - mintw) / (f.width - mintw)
             let th         = width * minth / mintw                  // thumbnail height
-            let height     = th + actualRate*(f.height - th)        // cover view height
+            let height     = th + actualRate*(f.height - self.top - th)        // cover view height
             return (width, height, actualRate)
         }
     }
@@ -190,12 +194,12 @@ open class CoverViewController: UIViewController {
             let h     = self.ceilingViewController.minThumbnailHeight
             switch self.transitionMode {
             case .slide:
-                let rect = CGRect(x: 0, y: f.height - h, width: frame.width, height: f.height + h)
+                let rect = CGRect(x: 0, y: f.height - self.top - h, width: frame.width, height: f.height - self.top + h)
                 self.rate = 1 - abs(rect.minY) / frame.height
                 self.resizeCoverView(rect, actualRate: self.rate)
                 self.ceilingViewController.view.frame = rect
             case .zoom:
-                self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height - self.top)
                 self.ceilingViewController.viewDidResize(0)
             }
         }
@@ -221,11 +225,11 @@ open class CoverViewController: UIViewController {
             let h     = self.ceilingViewController.minThumbnailHeight
             switch self.transitionMode {
             case .slide:
-                let rect = CGRect(x: 0, y: f.height + h, width: frame.width, height: f.height + h)
+                let rect = CGRect(x: 0, y: f.height - self.top + h, width: frame.width, height: f.height - self.top + h)
                 self.ceilingViewController.view.frame = rect
                 self.ceilingViewController.viewDidResize(0)
             case .zoom:
-                self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height)
+                self.ceilingViewController.view.frame = CGRect(x: 0, y: h, width: frame.width, height: frame.height - self.top)
                 self.ceilingViewController.viewDidResize(0)
             }
         }
