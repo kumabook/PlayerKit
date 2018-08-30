@@ -119,7 +119,7 @@ open class SimplePlayerViewController: PlayerViewController {
         slider.setThumbImage(sliderThumbImage, for: UIControlState.highlighted)
         
         imageView.frame = view.bounds
-        videoView?.frame = CGRect(x: 0, y: view.frame.height / 6, width: view.frame.width, height: view.frame.height / 2)
+        videoView?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2)
         imageCoverView.frame = view.bounds
         imageEffectView.frame = view.bounds
         videoEffectView.frame = view.bounds
@@ -204,6 +204,12 @@ open class SimplePlayerViewController: PlayerViewController {
             make.left.equalTo(self.slider.snp.left)
             make.bottom.equalTo(self.slider.snp.top).offset(-self.paddingSubTitleBottom)
             make.width.equalTo(self.view.snp.width).offset(-paddingSide*2)
+        }
+        videoView?.snp.makeConstraints { make in
+            make.centerX.equalTo(self.view.snp.centerX)
+            make.centerY.equalTo(self.view.snp.centerY).offset(-self.buttonSize)
+            make.width.equalTo(view.snp.width)
+            make.height.equalTo(view.snp.height).dividedBy(2)
         }
     }
 

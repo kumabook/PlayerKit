@@ -33,7 +33,7 @@ open class VideoView: UIButton {
             }
             if let playerView = newValue {
                 addSubview(playerView)
-                playerView.frame = frame
+                playerView.frame = bounds
             }
         }
     }
