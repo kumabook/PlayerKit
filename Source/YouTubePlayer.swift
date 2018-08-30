@@ -35,7 +35,7 @@ open class YouTubePlayer: NSObject, ServicePlayer {
         playerView = YTPlayerView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         super.init()
         playerView.delegate = self
-        endProxy = ObserverProxy(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+        endProxy = ObserverProxy(name: Notification.Name.AVPlayerItemDidPlayToEndTime,
                                  closure: self.playerDidPlayToEndTime)
     }
     
