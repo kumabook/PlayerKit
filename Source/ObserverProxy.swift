@@ -10,14 +10,14 @@ import Foundation
 
 public class ObserverProxy {
     var closure: (Notification) -> ();
-    var name: NSNotification.Name;
+    var name: Notification.Name;
     var object: AnyObject?;
     var center: NotificationCenter { get { return NotificationCenter.default } }
-    public init(name: NSNotification.Name, closure: @escaping (Notification) -> ()) {
+    public init(name: Notification.Name, closure: @escaping (Notification) -> ()) {
         self.closure = closure;
         self.name = name;
     }
-    convenience init(name: NSNotification.Name, object: AnyObject, closure: @escaping (Notification) -> ()) {
+    convenience init(name: Notification.Name, object: AnyObject, closure: @escaping (Notification) -> ()) {
         self.init(name: name, closure: closure);
         self.object = object;
     }

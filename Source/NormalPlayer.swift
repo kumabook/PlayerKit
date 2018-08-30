@@ -50,9 +50,9 @@ class NormalPlayer: ServicePlayer {
         state         = .init
         proxy         = AVQueuePlayerNotificationProxy()
         track         = nil
-        statusProxy   = ObserverProxy(name: NSNotification.Name(rawValue: AVQueuePlayerDidChangeStatusNotification),
+        statusProxy   = ObserverProxy(name: Notification.Name(rawValue: AVQueuePlayerDidChangeStatusNotification),
                                    closure: self.playerDidChangeStatus)
-        endProxy      = ObserverProxy(name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+        endProxy      = ObserverProxy(name: Notification.Name.AVPlayerItemDidPlayToEndTime,
                                    closure: self.playerDidPlayToEndTime)
     }
     

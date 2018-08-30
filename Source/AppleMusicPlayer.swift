@@ -39,9 +39,9 @@ class AppleMusicPlayer: ServicePlayer {
         state                = .init
         track                 = nil
         musicPlayerController = MPMusicPlayerController.applicationMusicPlayer
-        playbackStateProxy    = ObserverProxy(name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
+        playbackStateProxy    = ObserverProxy(name: Notification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
                                            closure: self.playbackStateDidChange)
-        nowPlayingItemProxy   = ObserverProxy(name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange,
+        nowPlayingItemProxy   = ObserverProxy(name: Notification.Name.MPMusicPlayerControllerNowPlayingItemDidChange,
                                            closure: self.nowPlayingItemDidChange)
         musicPlayerController.beginGeneratingPlaybackNotifications()
     }
