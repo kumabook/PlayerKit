@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+// This class is a just a dummy implementation. Please refer to SpotifyPlayer class in Example project
 open class SpotifyPlayer: NSObject, ServicePlayer {
     public typealias ObserverType = ServicePlayerObserver
     public typealias EventType    = ServicePlayerEvent
