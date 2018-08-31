@@ -22,6 +22,7 @@
 		67DC037921360461001CB189 /* AVItemTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67DC037821360461001CB189 /* AVItemTrack.swift */; };
 		67DC037A2137644B001CB189 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DC034A21354703001CB189 /* MediaPlayer.framework */; };
 		67DC037D213764F7001CB189 /* YouTubeiOSPlayerHelper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 67DC034821354703001CB189 /* YouTubeiOSPlayerHelper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		67F015082138EE0700C7DC1E /* SpotifyPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F015072138EE0700C7DC1E /* SpotifyPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +58,7 @@
 		67DC0373213555B7001CB189 /* YouTubeTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeTrack.swift; sourceTree = "<group>"; };
 		67DC037621355DEA001CB189 /* MultiServicePlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiServicePlaylist.swift; sourceTree = "<group>"; };
 		67DC037821360461001CB189 /* AVItemTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVItemTrack.swift; sourceTree = "<group>"; };
+		67F015072138EE0700C7DC1E /* SpotifyPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		67DC030721353FC9001CB189 /* PlayerKitExample */ = {
 			isa = PBXGroup;
 			children = (
+				67F015062138EDF400C7DC1E /* Player */,
 				67DC0375213555C0001CB189 /* Model */,
 				67DC0336213541CF001CB189 /* ViewCoontroller */,
 				67DC030821353FC9001CB189 /* AppDelegate.swift */,
@@ -132,6 +135,14 @@
 				67DC037821360461001CB189 /* AVItemTrack.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		67F015062138EDF400C7DC1E /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				67F015072138EE0700C7DC1E /* SpotifyPlayer.swift */,
+			);
+			name = Player;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67DC036E21354B3B001CB189 /* ExampleTableViewController.swift in Sources */,
+				67F015082138EE0700C7DC1E /* SpotifyPlayer.swift in Sources */,
 				67DC0374213555B7001CB189 /* YouTubeTrack.swift in Sources */,
 				67DC037721355DEA001CB189 /* MultiServicePlaylist.swift in Sources */,
 				67DC030921353FC9001CB189 /* AppDelegate.swift in Sources */,
