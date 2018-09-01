@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 import PlayerKit
 
 extension UIViewController {
@@ -21,12 +22,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var player: QueuePlayer!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        let audioSession = AVAudioSession.sharedInstance()
+        try? audioSession.setCategory(AVAudioSessionCategoryPlayback)
+        try? audioSession.setActive(true)
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+
         player = QueuePlayer()
         SpotifyAPIClient.setup()
         AppleMusicClient.shared.connect(silent: true).start()
         player.addPlayer(YouTubePlayer())
         player.addPlayer(SpotifyPlayer())
+        player.observeCommandCenter()
         player.addObserver(NowPlayingInfoCenter(player: player))
+
         window?.rootViewController = UINavigationController(rootViewController: ExampleTableViewController(player: player))
         return true
     }
