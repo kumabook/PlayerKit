@@ -12,6 +12,7 @@
 		676B1A41213AC3EC008DB6CE /* AppleMusicClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676B1A40213AC3EC008DB6CE /* AppleMusicClient.swift */; };
 		676B1A43213AC448008DB6CE /* StoreFrontIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676B1A42213AC448008DB6CE /* StoreFrontIDs.swift */; };
 		676B1A45213ACBDD008DB6CE /* AppleMusicTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676B1A44213ACBDD008DB6CE /* AppleMusicTrack.swift */; };
+		67BC1D45213B00B80030815C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67BC1D44213B00B80030815C /* Images.xcassets */; };
 		67DC030921353FC9001CB189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67DC030821353FC9001CB189 /* AppDelegate.swift */; };
 		67DC031021353FCB001CB189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67DC030F21353FCB001CB189 /* Assets.xcassets */; };
 		67DC031321353FCB001CB189 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67DC031121353FCB001CB189 /* LaunchScreen.storyboard */; };
@@ -53,6 +54,7 @@
 		676B1A40213AC3EC008DB6CE /* AppleMusicClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicClient.swift; sourceTree = "<group>"; };
 		676B1A42213AC448008DB6CE /* StoreFrontIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFrontIDs.swift; sourceTree = "<group>"; };
 		676B1A44213ACBDD008DB6CE /* AppleMusicTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicTrack.swift; sourceTree = "<group>"; };
+		67BC1D44213B00B80030815C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		67DC030521353FC9001CB189 /* PlayerKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayerKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67DC030821353FC9001CB189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67DC030F21353FCB001CB189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		67DC02FC21353FC9001CB189 = {
 			isa = PBXGroup;
 			children = (
+				67BC1D44213B00B80030815C /* Images.xcassets */,
 				67DC030721353FC9001CB189 /* PlayerKitExample */,
 				67DC030621353FC9001CB189 /* Products */,
 				67DC033021354043001CB189 /* Frameworks */,
@@ -113,7 +116,7 @@
 				67F015092138F63F00C7DC1E /* Service */,
 				67F015062138EDF400C7DC1E /* Player */,
 				67DC0375213555C0001CB189 /* Model */,
-				67DC0336213541CF001CB189 /* ViewCoontroller */,
+				67DC0336213541CF001CB189 /* ViewController */,
 				67DC030821353FC9001CB189 /* AppDelegate.swift */,
 				67DC030F21353FCB001CB189 /* Assets.xcassets */,
 				67DC031121353FCB001CB189 /* LaunchScreen.storyboard */,
@@ -134,7 +137,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		67DC0336213541CF001CB189 /* ViewCoontroller */ = {
+		67DC0336213541CF001CB189 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				67DC036D21354B3B001CB189 /* ExampleTableViewController.swift */,
@@ -142,7 +145,7 @@
 				67DC036F21354D8A001CB189 /* CoverExampleViewController.swift */,
 				67DC037121355543001CB189 /* TrackTableViewController.swift */,
 			);
-			name = ViewCoontroller;
+			name = ViewController;
 			sourceTree = "<group>";
 		};
 		67DC0375213555C0001CB189 /* Model */ = {
@@ -250,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67DC031321353FCB001CB189 /* LaunchScreen.storyboard in Resources */,
+				67BC1D45213B00B80030815C /* Images.xcassets in Resources */,
 				67DC031021353FCB001CB189 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
