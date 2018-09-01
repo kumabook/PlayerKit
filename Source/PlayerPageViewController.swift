@@ -149,6 +149,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         scrollView.delegate = self
         view.addSubview(scrollView)
         updateViewWithRate(0.0)
+        updatePlayerViews()
         updateViews()
         player?.addObserver(playerObserver)
         miniPlayerView.delegate = self
