@@ -39,11 +39,10 @@ class AppleMusicPlayer: ServicePlayer {
         state                 = .init
         track                 = nil
         musicPlayerController = MPMusicPlayerController.applicationMusicPlayer
-        playbackStateProxy    = ObserverProxy(name: Notification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
-                                           closure: self.playbackStateDidChange)
-        nowPlayingItemProxy   = ObserverProxy(name: Notification.Name.MPMusicPlayerControllerNowPlayingItemDidChange,
-                                           closure: self.nowPlayingItemDidChange)
         musicPlayerController.beginGeneratingPlaybackNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(nowPlayingItemDidChange), name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(playbackStateDidChange), name: NSNotification.Name.MPMusicPlayerControllerPlaybackStateDidChange, object: nil)
+
     }
 
     fileprivate func syncPlaybackState() {
@@ -57,7 +56,7 @@ class AppleMusicPlayer: ServicePlayer {
     }
     
     // MARK: Notification handler
-    func nowPlayingItemDidChange(_ notification: Notification) {
+    @objc func nowPlayingItemDidChange(_ notification: Notification) {
         if let _ = musicPlayerController.nowPlayingItem {
             return
         }
@@ -67,7 +66,7 @@ class AppleMusicPlayer: ServicePlayer {
         }
     }
     
-    func playbackStateDidChange(_ notification: Notification) {
+    @objc func playbackStateDidChange(_ notification: Notification) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + AppleMusicPlayer.delayForPlaybackStateDidChange) {
             self.syncPlaybackState()
         }
