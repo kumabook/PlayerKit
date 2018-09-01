@@ -36,7 +36,7 @@ class AppleMusicPlayer: ServicePlayer {
     }
 
     init() {
-        state                = .init
+        state                 = .init
         track                 = nil
         musicPlayerController = MPMusicPlayerController.applicationMusicPlayer
         playbackStateProxy    = ObserverProxy(name: Notification.Name.MPMusicPlayerControllerPlaybackStateDidChange,
