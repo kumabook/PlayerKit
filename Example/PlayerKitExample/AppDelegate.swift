@@ -18,12 +18,21 @@ extension UIViewController {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let player: QueuePlayer = QueuePlayer()
+    var player: QueuePlayer!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        player = QueuePlayer()
+        SpotifyAPIClient.setup()
+        AppleMusicClient.shared.connect(silent: true).start()
         player.addPlayer(YouTubePlayer())
+        player.addPlayer(SpotifyPlayer())
+        player.addObserver(NowPlayingInfoCenter(player: player))
         window?.rootViewController = UINavigationController(rootViewController: ExampleTableViewController(player: player))
         return true
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return SpotifyAPIClient.shared.handleURL(url: url)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

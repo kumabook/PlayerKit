@@ -22,7 +22,6 @@ class CoverExampleViewController: CoverViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.yellow
     }
 
     override func didReceiveMemoryWarning() {
