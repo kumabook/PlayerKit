@@ -136,6 +136,7 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         imageView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
         videoView            = VideoView()
         videoView.frame      = CGRect(x: 0, y: 0,  width:  thumbWidth, height: minThumbnailHeight)
+        videoView.playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         view.addSubview(miniPlayerView)
         videoView.isUserInteractionEnabled = false
         imageView.isUserInteractionEnabled = false
