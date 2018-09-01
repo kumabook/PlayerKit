@@ -9,13 +9,43 @@ import UIKit
 import PlayerKit
 
 class TrackTableViewController: UITableViewController {
+    var spotifyUri = "spotify:track:0Cq2ATRupKEGuKoNXUB1tv"
+    var appleMusicSongID = "1355644460"
     var tracks: [Track] = [
-        YouTubeTrack(title: "SIRUP - SWIM / TOKYO SOUNDS（Music Bar Session）", channelName: "Spincoaster", identifier: "TmjGdJD8i5E"),
-        AVItemTrack(title: "トリコ", channelName: "Nissy", streamURL: URL(string: "https://p.scdn.co/mp3-preview/2a54146a9ca4ace1545d9d8f61d4cad6cc5e3c86?cid=7cadd9a921cd4b55bbce316055609e75")!)
+        YouTubeTrack(title: "SIRUP - SWIM / TOKYO SOUNDS（Music Bar Session）",
+                     channelName: "Spincoaster",
+                     identifier: "TmjGdJD8i5E"),
+        AVItemTrack(title: "トリコ",
+                    channelName: "Nissy",
+                    streamURL: URL(string: "https://p.scdn.co/mp3-preview/2a54146a9ca4ace1545d9d8f61d4cad6cc5e3c86?cid=7cadd9a921cd4b55bbce316055609e75")!)
     ]
+
+    func fetchSpotifyTrack() {
+        SpotifyAPIClient.shared.track(from: URL(string: spotifyUri)!).startWithResult { [weak self] in
+            if let e = $0.error {
+                print("\(e)")
+                return
+            }
+            self?.tracks.append($0.value!)
+            self?.tableView.reloadData()
+        }
+    }
+
+    func fetchAppleMusicSong() {
+        AppleMusicClient.shared.song(id: appleMusicSongID).startWithResult { [weak self] in
+            if let e = $0.error {
+                print("\(e)")
+                return
+            }
+            self?.tracks.append($0.value!)
+            self?.tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchSpotifyTrack()
+        fetchAppleMusicSong()
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,13 +59,13 @@ class TrackTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "reuseIdentifier")
         cell.textLabel?.text = tracks[indexPath.row].title
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playlist = MultiServicePlaylist.init(id: "example", tracks: tracks)
         appDelegate?.player.play(at: Index(track: indexPath.row, playlist: 0), in: PlaylistQueue(playlists: [playlist]))
