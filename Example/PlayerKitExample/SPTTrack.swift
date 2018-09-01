@@ -16,7 +16,7 @@ extension SPTTrack: Track {
     }
     
     public var subtitle: String? {
-        return (artists?.first as? SPTAlbum)?.name
+        return (artists?.first as? SPTPartialArtist)?.name
     }
     
     public var isVideo: Bool {
