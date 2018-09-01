@@ -10,15 +10,17 @@ import PlayerKit
 
 class TrackTableViewController: UITableViewController {
     var spotifyUri = "spotify:track:0Cq2ATRupKEGuKoNXUB1tv"
-    var appleMusicSongID = "1355644460"
+    var appleMusicSongID = "1320755082"
     var tracks: [Track] = [
         YouTubeTrack(title: "SIRUP - SWIM / TOKYO SOUNDS（Music Bar Session）",
                      channelName: "Spincoaster",
                      identifier: "TmjGdJD8i5E"),
-        AVItemTrack(title: "トリコ",
-                    channelName: "Nissy",
-                    streamURL: URL(string: "https://p.scdn.co/mp3-preview/2a54146a9ca4ace1545d9d8f61d4cad6cc5e3c86?cid=7cadd9a921cd4b55bbce316055609e75")!)
     ]
+
+    func loadLocalVideo() {
+        let url = Bundle.main.url(forResource: "vol-08", withExtension: "mp4")
+        tracks.append(AVItemTrack(title: "SPIN.DISCOVERY VOL.08", channelName: "Spincoaster", streamURL: url!))
+    }
 
     func fetchSpotifyTrack() {
         SpotifyAPIClient.shared.track(from: URL(string: spotifyUri)!).startWithResult { [weak self] in
@@ -44,6 +46,7 @@ class TrackTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadLocalVideo()
         fetchSpotifyTrack()
         fetchAppleMusicSong()
     }

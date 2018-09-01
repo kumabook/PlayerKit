@@ -14,18 +14,18 @@ struct AVItemTrack: PlayerKit.Track {
     var subtitle: String?
     var youtubeVideoID: String?
     var streamURL: URL?
-    var isVideo: Bool { return false }
+    var isVideo: Bool { return true }
     var isValid: Bool { return true }
     var canPlayBackground: Bool { return true }
     var playerType: PlayerType { return PlayerType.normal }
     var appleMusicID: String? { return nil }
     var spotifyURI: String? { return nil }
     func loadThumbnailImage(completeHandler: @escaping (UIImage?) -> Void) {
-        completeHandler(nil)
+        completeHandler(UIImage(named: "note")!)
     }
     
     func loadArtworkImage(completeHandler: @escaping (UIImage?) -> Void) {
-        completeHandler(nil)
+        completeHandler(UIImage(named: "note")!)
     }
     init(title: String, channelName: String, streamURL: URL) {
         self.title     = title

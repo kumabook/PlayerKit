@@ -21,11 +21,11 @@ struct YouTubeTrack: PlayerKit.Track {
     var appleMusicID: String? { return nil }
     var spotifyURI: String? { return nil }
     func loadThumbnailImage(completeHandler: @escaping (UIImage?) -> Void) {
-        completeHandler(nil)
+        completeHandler(UIImage(named: "youtube")!)
     }
     
     func loadArtworkImage(completeHandler: @escaping (UIImage?) -> Void) {
-        completeHandler(nil)
+        completeHandler(UIImage(named: "youtube")!)
     }
     init(title: String, channelName: String, identifier: String) {
         self.title          = title
