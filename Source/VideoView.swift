@@ -11,6 +11,9 @@ import AVFoundation
 import YouTubeiOSPlayerHelper
 
 open class VideoView: UIButton {
+    var playerLayer: AVPlayerLayer? {
+        return layer as? AVPlayerLayer
+    }
     open var player: AVPlayer? {
         get {
             guard let layer = self.layer as? AVPlayerLayer else { return nil }
