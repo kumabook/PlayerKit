@@ -1,4 +1,4 @@
-github "Quick/Nimble" "v7.0.3"
-github "Quick/Quick" "v1.2.0"
-github "SnapKit/SnapKit" "4.0.0"
+github "Quick/Nimble" "v7.3.1"
+github "Quick/Quick" "v1.3.2"
+github "SnapKit/SnapKit" "4.2.0"
 github "youtube/youtube-ios-player-helper" "0.1.6"
