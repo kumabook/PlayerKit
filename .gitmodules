@@ -7,3 +7,6 @@
 [submodule "Carthage/Checkouts/Quick"]
 	path = Carthage/Checkouts/Quick
 	url = https://github.com/Quick/Quick.git
+[submodule "Carthage/Checkouts/youtube-ios-player-helper"]
+	path = Carthage/Checkouts/youtube-ios-player-helper
+	url = https://github.com/youtube/youtube-ios-player-helper.git
