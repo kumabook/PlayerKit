@@ -9,8 +9,8 @@
 import Foundation
 
 public protocol Observer: Equatable {
-    associatedtype EventType
-    func listen(_ event: EventType)
+    associatedtype Event
+    func listen(_ event: Event)
 }
 
 public protocol Observable {
@@ -22,7 +22,7 @@ public protocol Observable {
     func notify(_ event: EventType)
 }
 
-extension Observable where EventType == ObserverType.EventType {
+extension Observable where EventType == ObserverType.Event {
     mutating public func addObserver(_ observer: ObserverType) {
         var os = observers
         os.append(observer)
