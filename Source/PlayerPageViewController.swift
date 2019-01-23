@@ -244,14 +244,14 @@ open class PlayerPageViewController<PVC: PlayerViewController, MV: MiniPlayerVie
         return imageView
     }
 
-    public func viewDidMaximize() {
+    open func viewDidMaximize() {
         updateViews()
         if let playerViewController = currentPlayerView {
             playerViewController.videoView?.playerView = player.playerView
         }
     }
 
-    public func viewDidMinimize() {
+    open func viewDidMinimize() {
         updateViews()
         guard let track = player?.currentTrack else { return }
         track.loadThumbnailImage() { image in
