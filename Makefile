@@ -3,9 +3,9 @@ XCODEBUILD:=xcodebuild
 default: build test
 
 build:
-	$(XCODEBUILD) -scheme PlayerKit-iOS
-	$(XCODEBUILD) -scheme PlayerKit-macOS
-	$(XCODEBUILD) -scheme PlayerKit-tvOS
+	$(XCODEBUILD) -target PlayerKit-iOS
+	$(XCODEBUILD) -target PlayerKit-macOS
+	$(XCODEBUILD) -target PlayerKit-tvOS
 
 test:
 	$(XCODEBUILD) -scheme PlayerKit-macOS test
